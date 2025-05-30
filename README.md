@@ -1,5 +1,5 @@
 # Sapu-Jagat
-Capstone Project CC25-CF145
+Capstone Project Tim CC25-CF145 Coding Camp 2025 Powered By DBS Foundation
 
 ## Daftar Anggota Tim
 - (ML) MC006D5X2400 - Nadia Alzena Zahrani - Universitas Brawijaya - [Aktif]
