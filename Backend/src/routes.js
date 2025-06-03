@@ -1,13 +1,19 @@
 // import necessary modules
-const { registerUser } = require('./handler');
+const { registerUser, loginUser } = require('./handler');
 
 // Define the routes for the application
 const routes = [
     // Route for user registration        
   {
     method: 'POST',
-    path: '/register',
+    path: '/users',
     handler: registerUser,
+  },
+  // Route for user login
+  {
+    method: 'POST',
+    path: '/login',
+    handler: loginUser,
   },
 ];
 
