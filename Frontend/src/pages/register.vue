@@ -12,10 +12,20 @@
           <input v-model="username" type="text" required autocomplete="username" class="w-full px-3 py-2 border border-secondary rounded focus:outline-none focus:ring-2 focus:ring-accent transition bg-bg text-primary placeholder:text-secondary" placeholder="Username" />
         </div>
         <div>
+          <label class="block mb-1 text-primary font-semibold">Email</label>
+          <input v-model="email" type="email" required autocomplete="email" class="w-full px-3 py-2 border border-secondary rounded focus:outline-none focus:ring-2 focus:ring-accent transition bg-bg text-primary placeholder:text-secondary" placeholder="Email" />
+        </div>
+        <div>
           <label class="block mb-1 text-primary font-semibold">Password</label>
           <input v-model="password" type="password" required autocomplete="new-password" class="w-full px-3 py-2 border border-secondary rounded focus:outline-none focus:ring-2 focus:ring-accent transition bg-bg text-primary placeholder:text-secondary" placeholder="Password" />
         </div>
-        <button type="submit" class="w-full py-2 rounded bg-primary text-bg font-bold hover:bg-secondary transition">Register</button>
+        <button type="submit" class="w-full py-2 rounded bg-primary text-bg font-bold hover:bg-secondary transition flex items-center justify-center" :disabled="loading">
+          <span v-if="loading">
+            <svg class="animate-spin h-5 w-5 mr-2 inline-block text-bg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg>
+            Loading...
+          </span>
+          <span v-else>Register</span>
+        </button>
         <p v-if="error" class="text-red-500 text-sm text-center">{{ error }}</p>
       </form>
       <div class="text-center text-sm">
@@ -31,14 +41,17 @@ import { useRouter } from 'vue-router'
 import { register } from '../services/api'
 
 const username = ref('')
+const email = ref('')
 const password = ref('')
 const error = ref('')
+const loading = ref(false)
 const router = useRouter()
 
 const handleRegister = async () => {
   error.value = ''
+  loading.value = true
   try {
-    const data = await register(username.value, password.value)
+    const data = await register(username.value, email.value, password.value)
     if (data.token) {
       localStorage.setItem('token', data.token)
     } else {
@@ -47,6 +60,8 @@ const handleRegister = async () => {
     router.push('/dashboard')
   } catch (err) {
     error.value = err
+  } finally {
+    loading.value = false
   }
 }
 </script>
