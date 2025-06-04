@@ -9,6 +9,7 @@ import Redeem from '../pages/redeem.vue'
 import Education from '../pages/education.vue'
 import About from '../pages/about.vue'
 import Profile from '../pages/profile.vue'
+import Checkin from '../pages/checkin.vue'
 
 const routes = [
   { path: '/', redirect: '/login' },
@@ -22,6 +23,7 @@ const routes = [
   { path: '/education', component: Education },
   { path: '/about', component: About },
   { path: '/profile', component: Profile },
+  { path: '/checkin', component: Checkin },
 ]
 
 const router = createRouter({

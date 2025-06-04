@@ -34,7 +34,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { login } from '../services/api'
+import loginPresenter from '../presenters/loginPresenter'
 
 const email = ref('')
 const password = ref('')
@@ -46,12 +46,11 @@ const handleLogin = async () => {
   error.value = ''
   loading.value = true
   try {
-    const data = await login(email.value, password.value)
-    // Simpan token jika ada, lalu redirect
+    const data = await loginPresenter.login(email.value, password.value)
     localStorage.setItem('token', data.token)
     router.push('/dashboard')
   } catch (err) {
-    error.value = err
+    error.value = err.message || err
   } finally {
     loading.value = false
   }
