@@ -110,5 +110,62 @@ const loginUser = async (request, h) => {
   }).code(200);
 };
 
-// Export the registerUser and loginUser functions for use in routes  
-module.exports = { registerUser, loginUser };
+// Function to handle user check-in
+const checkInUser = async (request, h) => {
+  const authHeader = request.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return h.response({
+      status: 'fail',
+      message: 'Token tidak ditemukan',
+    }).code(401);
+  }
+  const token = authHeader.split(' ')[1];
+  let payload;
+  try {
+    payload = jwt.verify(token, JWT_SECRET);
+  } catch {
+    return h.response({
+      status: 'fail',
+      message: 'Token tidak valid',
+    }).code(401);
+  }
+  const userId = payload.id;
+  const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+  // Cek apakah user sudah check-in hari ini
+  const { data: existingCheckin, error } = await supabase
+    .from('checkins')
+    .select('id')
+    .eq('user_id', userId)
+    .eq('date', today);
+  if (error) {
+    return h.response({
+      status: 'fail',
+      message: 'Gagal memeriksa check-in',
+    }).code(500);
+  }
+  if (existingCheckin && existingCheckin.length > 0) {
+    return h.response({
+      status: 'fail',
+      message: 'Kamu sudah check-in hari ini',
+    }).code(409);
+  }
+  // Simpan check-in baru
+  const { data, error: insertError } = await supabase
+    .from('checkins')
+    .insert([{ user_id: userId, date: today }])
+    .select();
+  if (insertError) {
+    return h.response({
+      status: 'fail',
+      message: 'Gagal melakukan check-in',
+    }).code(500);
+  }
+  return h.response({
+    status: 'success',
+    message: 'Check-in berhasil',
+    data: data[0],
+  }).code(201);
+};
+
+// Export the registerUser, loginUser, and checkInUser functions for use in routes  
+module.exports = { registerUser, loginUser, checkInUser };
