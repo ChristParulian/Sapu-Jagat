@@ -167,5 +167,102 @@ const checkInUser = async (request, h) => {
   }).code(201);
 };
 
-// Export the registerUser, loginUser, and checkInUser functions for use in routes  
-module.exports = { registerUser, loginUser, checkInUser };
+// Function to handle get check-in history
+const getCheckinHistory = async (request, h) => {
+  const authHeader = request.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return h.response({
+      status: 'fail',
+      message: 'Token tidak ditemukan',
+    }).code(401);
+  }
+  const token = authHeader.split(' ')[1];
+  let payload;
+  try {
+    payload = jwt.verify(token, JWT_SECRET);
+  } catch {
+    return h.response({
+      status: 'fail',
+      message: 'Token tidak valid',
+    }).code(401);
+  }
+  const userId = payload.id;
+  // Ambil riwayat check-in user, urut terbaru ke terlama
+  const { data, error } = await supabase
+    .from('checkins')
+    .select('date')
+    .eq('user_id', userId)
+    .order('date', { ascending: false });
+  if (error) {
+    return h.response({
+      status: 'fail',
+      message: 'Gagal mengambil riwayat check-in',
+    }).code(500);
+  }
+  // Kembalikan array tanggal check-in
+  const dates = data ? data.map(item => item.date) : [];
+  return h.response({
+    status: 'success',
+    data: { history: dates },
+  }).code(200);
+};
+
+// Function to handle get check-in history by month
+const getCheckinHistoryByMonth = async (request, h) => {
+  const authHeader = request.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return h.response({
+      status: 'fail',
+      message: 'Token tidak ditemukan',
+    }).code(401);
+  }
+  const token = authHeader.split(' ')[1];
+  let payload;
+  try {
+    payload = jwt.verify(token, JWT_SECRET);
+  } catch {
+    return h.response({
+      status: 'fail',
+      message: 'Token tidak valid',
+    }).code(401);
+  }
+  const userId = payload.id;
+  const { month } = request.query;
+  if (!month || !/^\d{4}-\d{2}$/.test(month)) {
+    return h.response({
+      status: 'fail',
+      message: 'Parameter month wajib diisi dengan format YYYY-MM',
+    }).code(400);
+  }
+  // Ambil tanggal awal dan akhir bulan
+  const startDate = `${month}-01`;
+  const endDate = new Date(Number(month.slice(0, 4)), Number(month.slice(5, 7)), 0)
+    .toISOString()
+    .slice(0, 10);
+  const { data, error } = await supabase
+    .from('checkins')
+    .select('date')
+    .eq('user_id', userId)
+    .gte('date', startDate)
+    .lte('date', endDate)
+    .order('date', { ascending: true });
+  if (error) {
+    return h.response({
+      status: 'fail',
+      message: 'Gagal mengambil riwayat check-in',
+    }).code(500);
+  }
+  const dates = data ? data.map(item => item.date) : [];
+  return h.response({
+    status: 'success',
+    data: { dates },
+  }).code(200);
+};
+
+// Export the registerUser, loginUser, checkInUser, and getCheckinHistory functions for use in routes  
+module.exports = { 
+  registerUser, 
+  loginUser, 
+  checkInUser, 
+  getCheckinHistory, 
+  getCheckinHistoryByMonth };
