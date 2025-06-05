@@ -1,57 +1,41 @@
 <template>
-  <div class="min-h-screen flex flex-col justify-between bg-bg" style="font-family: 'Poppins', 'Inter', sans-serif;">
-    <div class="p-8 flex flex-col items-center relative">
-      <button
-        @click="logout"
-        class="absolute right-0 top-0 px-4 py-2 bg-secondary text-white rounded-lg font-semibold hover:bg-primary transition"
-        style="margin: 8px;"
-      >
-        Logout
-      </button>
-      <h1 class="text-3xl font-bold mb-2 text-primary">Riwayat</h1>
-      <div v-if="loading" class="text-secondary text-lg">Loading...</div>
-      <div v-else-if="error" class="text-red-500 text-lg">{{ error }}</div>
-      <ul v-else-if="history.length > 0" class="mt-4 w-full max-w-md">
-        <li v-for="date in history" :key="date" class="py-2 px-4 border-b border-secondary text-primary font-semibold">{{ date }}</li>
-      </ul>
-      <p v-else class="text-secondary text-lg">Belum ada riwayat.</p>
+  <div class="min-h-screen flex flex-col justify-between bg-bg" style="font-family: 'Montserrat', 'Open Sans', sans-serif;">
+    <!-- Header Component -->
+    <Header />
+    
+    <!-- Main Content -->
+    <div class="flex-1 pt-24 lg:pt-28 xl:pt-32 p-4 sm:p-8">
+      <div class="text-center mb-6">
+        <h1 class="text-2xl sm:text-3xl font-bold mb-2 text-primary">Riwayat</h1>
+        <p class="text-secondary text-lg">Riwayat aktivitas sampah Anda</p>
+      </div>
+      
+      <!-- Content Placeholder -->
+      <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200 text-center">
+        <div class="text-gray-500 mb-4">
+          <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-600 mb-2">Belum Ada Riwayat</h3>
+        <p class="text-gray-500">Riwayat aktivitas pemilahan sampah Anda akan muncul di sini.</p>
+      </div>
     </div>
+    
+    <!-- Bottom Navigation -->
     <BottomNav active="history" />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import BottomNav from '../components/BottomNav.vue'
-import checkinPresenter from '../presenters/checkinPresenter'
+import Header from '../components/Header.vue'
 
 const router = useRouter()
-const history = ref([])
-const loading = ref(true)
-const error = ref('')
 
-function logout() {
-  localStorage.removeItem('token')
-  router.push('/login')
-}
+// TODO: Implement history API call when ready
+// This will fetch history data from a separate API endpoint
+// not from checkin history
 
-const fetchHistory = async () => {
-  loading.value = true
-  error.value = ''
-  try {
-    const token = localStorage.getItem('token')
-    if (!token) throw new Error('Token tidak ditemukan, silakan login ulang.')
-    const res = await checkinPresenter.getHistory(token)
-    history.value = res.data.history || []
-  } catch (err) {
-    error.value = err.message || err
-  } finally {
-    loading.value = false
-  }
-}
-
-onMounted(() => {
-  fetchHistory()
-})
 </script>
