@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex flex-col justify-between bg-bg" style="font-family: 'Montserrat', 'Open Sans', sans-serif;">
+  <div class="min-h-screen flex flex-col justify-between" style="background-color: #FEFAE0; font-family: 'Montserrat', 'Open Sans', sans-serif;">
     <Header />
     <div class="p-8 flex flex-col items-center relative mt-24">
       <h1 class="text-3xl font-bold mb-2 text-primary">Tentang Sapu Jagat</h1>

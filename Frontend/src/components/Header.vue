@@ -1,4 +1,4 @@
-<template>  <header class="bg-white shadow-md fixed top-0 left-0 right-0 z-50">
+<template>  <header class="shadow-md fixed top-0 left-0 right-0 z-50" style="background-color: #626F47;">
     <div class="container mx-auto px-4 py-1 flex items-center justify-between"><!-- Logo Section -->
       <div class="flex items-center">
         <img 
@@ -9,17 +9,16 @@
       </div>
 
       <!-- User Info & Logout Section -->
-      <div class="flex items-center space-x-4">
-        <!-- User Greeting -->
+      <div class="flex items-center space-x-4">        <!-- User Greeting -->
         <div class="hidden sm:block">
-          <span class="text-gray-600 font-opensans text-sm">
+          <span class="font-opensans text-sm" style="color: #FFCF50;">
             Hi, {{ userName || 'User' }}!
           </span>
-        </div>        <!-- Logout Button -->
-        <button
+        </div>        <!-- Logout Button -->        <button
           @click="handleLogout"
           :disabled="isLoggingOut"
-          class="flex items-center space-x-2 px-4 py-2 bg-primary hover:bg-secondary text-bg rounded-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed font-opensans"
+          class="flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed font-opensans"
+          style="background-color: #FFCF50; color: #626F47;"
         >
           <svg 
             v-if="!isLoggingOut"
