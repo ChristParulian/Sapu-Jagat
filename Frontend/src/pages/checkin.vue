@@ -1,5 +1,4 @@
-<template>
-  <div class="min-h-screen flex flex-col items-center bg-bg pt-28 lg:pt-32" style="font-family: 'Montserrat', 'Open Sans', sans-serif;">
+<template>  <div class="min-h-screen flex flex-col items-center pt-28 lg:pt-32" style="background-color: #FEFAE0; font-family: 'Montserrat', 'Open Sans', sans-serif;">
     <!-- Header Component -->
     <Header />
     <div class="w-full max-w-5xl p-2 sm:p-4 md:p-8 mt-2 sm:mt-4 mb-20 mx-1 sm:mx-4 bg-white rounded-2xl shadow-lg border-2 border-secondary">

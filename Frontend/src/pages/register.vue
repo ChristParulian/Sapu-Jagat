@@ -1,5 +1,4 @@
-<template>
-  <div class="min-h-screen flex items-center justify-center bg-bg" style="font-family: 'Montserrat', 'Open Sans', sans-serif;">
+<template>  <div class="min-h-screen flex items-center justify-center" style="background-color: #FEFAE0; font-family: 'Montserrat', 'Open Sans', sans-serif;">
     <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-2xl shadow-lg border-2 border-secondary">
       <div class="flex flex-col items-center mb-2 mt-2">
         <img src="/logo/logo.png" alt="Logo" class="object-contain" style="width:180px; height:180px; aspect-ratio:1/1; margin-bottom:12px; margin-top:0;" />
