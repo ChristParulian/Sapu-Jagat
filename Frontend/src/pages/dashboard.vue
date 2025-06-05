@@ -51,8 +51,8 @@
         </div>
       </div>
     </div>
-    <!-- Bottom Navigation -->
-    <BottomNav active="home" />
+    <!-- Bottom Navigation -->s
+    <BottomNav active="dashboard" />
   </div>
 </template>
 
