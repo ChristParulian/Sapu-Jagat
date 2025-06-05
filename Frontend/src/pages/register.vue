@@ -38,7 +38,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { register } from '../services/api'
+import registerPresenter from '../presenters/registerPresenter'
 
 const username = ref('')
 const email = ref('')
@@ -51,7 +51,8 @@ const handleRegister = async () => {
   error.value = ''
   loading.value = true
   try {
-    const data = await register(username.value, email.value, password.value)
+    const data = await registerPresenter.register(username.value, email.value, password.value)
+    // data di sini sudah { token, ... } langsung dari model
     if (data.token) {
       localStorage.setItem('token', data.token)
     } else {
@@ -59,7 +60,7 @@ const handleRegister = async () => {
     }
     router.push('/dashboard')
   } catch (err) {
-    error.value = err
+    error.value = err.message || err
   } finally {
     loading.value = false
   }

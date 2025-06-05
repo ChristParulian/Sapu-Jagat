@@ -1,5 +1,10 @@
 // import necessary modules
-const { registerUser, loginUser } = require('./handler');
+const { 
+  registerUser, 
+  loginUser, 
+  checkInUser, 
+  getCheckinHistoryByMonth 
+} = require('./handler');
 
 // Define the routes for the application
 const routes = [
@@ -14,6 +19,18 @@ const routes = [
     method: 'POST',
     path: '/login',
     handler: loginUser,
+  },
+  // Route for user daily check-in
+  {
+    method: 'POST',
+    path: '/checkin',
+    handler: checkInUser,
+  },
+  // Route for get check-in history by month
+  {
+    method: 'GET',
+    path: '/checkin/history/month',
+    handler: getCheckinHistoryByMonth,
   },
 ];
 
