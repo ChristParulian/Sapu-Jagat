@@ -67,3 +67,20 @@ export const getCheckinHistoryByMonth = async (token, month) => {
     throw error.response?.data?.message || error.message || 'Gagal mengambil riwayat check-in bulanan'
   }
 }
+
+export const editUser = async (payload, token) => {
+  try {
+    const response = await axios.put(
+      `${API_URL}/users`,
+      payload,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    if (response.data.status === 'success') {
+      return response.data.data;
+    } else {
+      throw response.data.message || 'Edit profil gagal';
+    }
+  } catch (error) {
+    throw error.response?.data?.message || error.message || 'Edit profil gagal';
+  }
+};
