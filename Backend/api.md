@@ -57,7 +57,52 @@ Dokumen ini menjelaskan cara penggunaan endpoint API backend Sapu Jagat untuk in
 
 ---
 
-## 3. Daily Check-in
+## 3. Edit User (Username/Password)
+- **Endpoint:** `PUT /users`
+- **Header:**
+  - `Authorization: Bearer <jwt_token>`
+- **Body (JSON):**
+  ```json
+  {
+    "username": "username_baru",
+    "password": "password_baru"
+  }
+  ```
+  > **Catatan:**
+  > - Bisa mengirim salah satu saja, misal hanya `"username"` atau hanya `"password"`.
+
+- **Response Sukses:**
+  ```json
+  {
+    "status": "success",
+    "message": "User berhasil diupdate",
+    "data": {
+      "id": "uuid",
+      "username": "username_baru",
+      "email": "emailkamu@example.com"
+    }
+  }
+  ```
+
+- **Error jika token tidak valid:**
+  ```json
+  {
+    "status": "fail",
+    "message": "Token tidak valid"
+  }
+  ```
+
+- **Error jika username sudah dipakai user lain:**
+  ```json
+  {
+    "status": "fail",
+    "message": "Username sudah digunakan user lain"
+  }
+  ```
+
+---
+
+## 4. Daily Check-in
 - **Endpoint:** `POST /checkin`
 - **Header:**
   - `Authorization: Bearer <jwt_token>`
@@ -83,7 +128,7 @@ Dokumen ini menjelaskan cara penggunaan endpoint API backend Sapu Jagat untuk in
 
 ---
 
-## 4. Riwayat Check-in (Semua)
+## 5. Riwayat Check-in (Semua)
 - **Endpoint:** `GET /checkin/history`
 - **Header:**
   - `Authorization: Bearer <jwt_token>`
@@ -103,7 +148,7 @@ Dokumen ini menjelaskan cara penggunaan endpoint API backend Sapu Jagat untuk in
 
 ---
 
-## 5. Riwayat Check-in per Bulan
+## 6. Riwayat Check-in per Bulan
 - **Endpoint:** `GET /checkin/history/month?month=YYYY-MM`
 - **Header:**
   - `Authorization: Bearer <jwt_token>`
@@ -135,7 +180,7 @@ Dokumen ini menjelaskan cara penggunaan endpoint API backend Sapu Jagat untuk in
 
 ---
 
-## 6. Cara Menggunakan JWT di Frontend
+## 7. Cara Menggunakan JWT di Frontend
 - Setelah login/register, simpan token JWT (misal di localStorage).
 - Untuk request yang butuh autentikasi, tambahkan header:
   - `Authorization: Bearer <jwt_token>`
@@ -143,7 +188,7 @@ Dokumen ini menjelaskan cara penggunaan endpoint API backend Sapu Jagat untuk in
 
 ---
 
-## 7. Contoh Penggunaan di Vue (axios)
+## 8. Contoh Penggunaan di Vue (axios)
 ```js
 // Simpan token setelah login/register
 localStorage.setItem('token', token);
@@ -158,14 +203,14 @@ axios.get('/checkin/history', {
 
 ---
 
-## 8. Testing dengan Postman
+## 9. Testing dengan Postman
 1. Register atau login untuk dapatkan token.
 2. Tambahkan header Authorization di setiap request yang butuh autentikasi.
 3. Gunakan endpoint sesuai dokumentasi di atas.
 
 ---
 
-## 9. Catatan Penting
+## 10. Catatan Penting
 - Semua tanggal format `YYYY-MM-DD` (UTC).
 - Token JWT tidak perlu disimpan di database.
 - Jika ingin fitur tambahan (reward, streak, dsb), diskusikan dengan tim backend.
