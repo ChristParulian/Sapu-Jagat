@@ -7,7 +7,7 @@
       <!-- Welcome Back Message -->
       <div class="text-center mb-6">
         <h1 class="text-2xl sm:text-3xl font-bold mb-2 text-primary">
-          Selamat datang kembali, <span class="text-primary">{{ userName || 'User' }}</span>!
+          Selamat datang kembali, <span class="text-primary">{{ username || 'User' }}</span>!
         </h1>
         <p class="text-secondary text-lg">Mulai perjalanan hijau Anda hari ini!</p>
         <!-- Mulai Scan Button -->
@@ -93,45 +93,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import BottomNav from '../components/BottomNav.vue'
 import Header from '../components/Header.vue'
+import { useUserStore } from '../models/userStore.js'
 
 const router = useRouter()
-const userName = ref('')
-
-// Get user name from localStorage or API
-onMounted(async () => {
-  // First try to get from localStorage
-  const user = localStorage.getItem('user')
-  if (user) {
-    try {
-      const userData = JSON.parse(user)
-      userName.value = userData.name || userData.username || userData.email
-    } catch (error) {
-      console.error('Error parsing user data:', error)
-    }
-  }
-
-  // If no user data in localStorage, try to get from token
-  const token = localStorage.getItem('token')
-  if (token && !userName.value) {
-    try {
-      // Decode JWT token to get user info
-      const payload = JSON.parse(atob(token.split('.')[1]))
-      userName.value = payload.username || payload.email || 'User'
-    } catch (error) {
-      console.error('Error decoding token:', error)
-      userName.value = 'User'
-    }
-  }
-
-  // If still no username, set default
-  if (!userName.value) {
-    userName.value = 'User'
-  }
-})
+const { username } = useUserStore()
 
 function goToCheckin() {
   router.push('/checkin')
