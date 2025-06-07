@@ -11,7 +11,7 @@
       <div class="flex items-center space-x-4">        <!-- User Greeting -->
         <div class="hidden sm:block">
           <span class="font-opensans text-sm" style="color: #FFCF50;">
-            Hi, {{ userName || 'User' }}!
+            Hi, {{ username || 'User' }}!
           </span>
         </div>        <!-- Logout Button -->        <button
           @click="handleLogout"
@@ -49,70 +49,27 @@
   </header>
 </template>
 
-<script>
-import { ref, onMounted } from 'vue'
+<script setup>
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '../models/userStore.js'
 
-export default {
-  name: 'Header',
-  setup() {
-    const router = useRouter()
-    const userName = ref('')
-    const isLoggingOut = ref(false)
+const router = useRouter()
+const { username } = useUserStore()
+const isLoggingOut = ref(false)
 
-    // Get user name from localStorage or fetch from API
-    onMounted(async () => {
-      // First try to get from localStorage
-      const user = localStorage.getItem('user')
-      if (user) {
-        try {
-          const userData = JSON.parse(user)
-          userName.value = userData.name || userData.username || userData.email
-        } catch (error) {
-          console.error('Error parsing user data:', error)
-        }
-      }
-
-      // If no user data in localStorage, try to get from token
-      const token = localStorage.getItem('token')
-      if (token && !userName.value) {
-        try {
-          // Decode JWT token to get user info
-          const payload = JSON.parse(atob(token.split('.')[1]))
-          userName.value = payload.username || payload.email || 'User'
-        } catch (error) {
-          console.error('Error decoding token:', error)
-          userName.value = 'User'
-        }
-      }
-    })
-
-    const handleLogout = async () => {
-      try {
-        isLoggingOut.value = true
-        
-        // Clear localStorage
-        localStorage.removeItem('user')
-        localStorage.removeItem('token')
-        localStorage.removeItem('isLoggedIn')
-        
-        // Small delay for better UX
-        await new Promise(resolve => setTimeout(resolve, 500))
-        
-        // Redirect to login page
-        router.push('/login')
-      } catch (error) {
-        console.error('Logout error:', error)
-      } finally {
-        isLoggingOut.value = false
-      }
-    }
-
-    return {
-      userName,
-      isLoggingOut,
-      handleLogout
-    }
+const handleLogout = async () => {
+  try {
+    isLoggingOut.value = true
+    localStorage.removeItem('user')
+    localStorage.removeItem('token')
+    localStorage.removeItem('isLoggedIn')
+    await new Promise(resolve => setTimeout(resolve, 500))
+    router.push('/login')
+  } catch (error) {
+    console.error('Logout error:', error)
+  } finally {
+    isLoggingOut.value = false
   }
 }
 </script>
