@@ -1,14 +1,10 @@
 // import necessary modules
-const { 
-  registerUser, 
-  loginUser, 
-  checkInUser, 
-  getCheckinHistoryByMonth 
-} = require('./handler');
+const { registerUser, loginUser, editUser } = require('./handlers/userHandler');
+const { checkInUser, getCheckinHistoryByMonth } = require('./handlers/checkinHandler');
 
 // Define the routes for the application
 const routes = [
-    // Route for user registration        
+  // Route for user registration        
   {
     method: 'POST',
     path: '/users',
@@ -19,6 +15,12 @@ const routes = [
     method: 'POST',
     path: '/login',
     handler: loginUser,
+  },
+  // Route for edit user
+  {
+    method: 'PUT',
+    path: '/users',
+    handler: editUser,
   },
   // Route for user daily check-in
   {

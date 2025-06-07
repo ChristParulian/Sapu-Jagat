@@ -426,6 +426,12 @@ input, button {
   font-weight: 500;
 }
 
+.password-error {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
