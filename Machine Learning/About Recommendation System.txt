@@ -1,0 +1,7 @@
+The recommendation system is designed to support waste management practices based on the 3R principles: Reduce, Reuse, and Recycle.
+
+It works by identifying the user's classification or condition—such as their resources, or level of access—and recommends waste handling methods accordingly.
+
+If the user's context allows for all three methods, the system will display a full range of recommended actions. However, if limitations exist, the system will selectively suggest only the applicable method(s) among the 3Rs. The recommendations are presented in the form of relevant articles, offering both practical steps and educational insights to help users make informed,
+
+environmentally responsible choices.
