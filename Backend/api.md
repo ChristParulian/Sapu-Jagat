@@ -110,11 +110,12 @@ Dokumen ini menjelaskan cara penggunaan endpoint API backend Sapu Jagat untuk in
   ```json
   {
     "status": "success",
-    "message": "Check-in berhasil",
+    "message": "Check-in berhasil, point bertambah",
     "data": {
       "id": "...",
       "user_id": "...",
-      "date": "YYYY-MM-DD"
+      "date": "YYYY-MM-DD",
+      "points": 150
     }
   }
   ```
