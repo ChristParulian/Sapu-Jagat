@@ -1,10 +1,9 @@
 <template>  <header class="shadow-md fixed top-0 left-0 right-0 z-50" style="background-color: #626F47;">
-    <div class="container mx-auto px-4 py-1 flex items-center justify-between"><!-- Logo Section -->
-      <div class="flex items-center">
+    <div class="container mx-auto px-4 py-0 flex items-center justify-between min-h-[5rem]"><!-- Logo Section --><div class="flex items-center">
         <img 
           src="/logo/logo.png" 
           alt="Sapu Jagat Logo" 
-          class="h-24 w-24 object-contain"
+          class="h-32 w-32 object-contain"
         >
       </div>
 
@@ -12,7 +11,7 @@
       <div class="flex items-center space-x-4">        <!-- User Greeting -->
         <div class="hidden sm:block">
           <span class="font-opensans text-sm" style="color: #FFCF50;">
-            Hi, {{ userName || 'User' }}!
+            Hi, {{ username || 'User' }}!
           </span>
         </div>        <!-- Logout Button -->        <button
           @click="handleLogout"
@@ -50,70 +49,27 @@
   </header>
 </template>
 
-<script>
-import { ref, onMounted } from 'vue'
+<script setup>
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '../models/userStore.js'
 
-export default {
-  name: 'Header',
-  setup() {
-    const router = useRouter()
-    const userName = ref('')
-    const isLoggingOut = ref(false)
+const router = useRouter()
+const { username } = useUserStore()
+const isLoggingOut = ref(false)
 
-    // Get user name from localStorage or fetch from API
-    onMounted(async () => {
-      // First try to get from localStorage
-      const user = localStorage.getItem('user')
-      if (user) {
-        try {
-          const userData = JSON.parse(user)
-          userName.value = userData.name || userData.username || userData.email
-        } catch (error) {
-          console.error('Error parsing user data:', error)
-        }
-      }
-
-      // If no user data in localStorage, try to get from token
-      const token = localStorage.getItem('token')
-      if (token && !userName.value) {
-        try {
-          // Decode JWT token to get user info
-          const payload = JSON.parse(atob(token.split('.')[1]))
-          userName.value = payload.username || payload.email || 'User'
-        } catch (error) {
-          console.error('Error decoding token:', error)
-          userName.value = 'User'
-        }
-      }
-    })
-
-    const handleLogout = async () => {
-      try {
-        isLoggingOut.value = true
-        
-        // Clear localStorage
-        localStorage.removeItem('user')
-        localStorage.removeItem('token')
-        localStorage.removeItem('isLoggedIn')
-        
-        // Small delay for better UX
-        await new Promise(resolve => setTimeout(resolve, 500))
-        
-        // Redirect to login page
-        router.push('/login')
-      } catch (error) {
-        console.error('Logout error:', error)
-      } finally {
-        isLoggingOut.value = false
-      }
-    }
-
-    return {
-      userName,
-      isLoggingOut,
-      handleLogout
-    }
+const handleLogout = async () => {
+  try {
+    isLoggingOut.value = true
+    localStorage.removeItem('user')
+    localStorage.removeItem('token')
+    localStorage.removeItem('isLoggedIn')
+    await new Promise(resolve => setTimeout(resolve, 500))
+    router.push('/login')
+  } catch (error) {
+    console.error('Logout error:', error)
+  } finally {
+    isLoggingOut.value = false
   }
 }
 </script>
@@ -122,6 +78,18 @@ export default {
 /* Additional custom styles if needed */
 .container {
   max-width: 1200px;
+}
+
+/* Enhanced logo styling */
+img[alt="Sapu Jagat Logo"] {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+  transition: all 0.3s ease;
+  margin: -1rem 0; /* Negative margin to reduce header height impact */
+}
+
+img[alt="Sapu Jagat Logo"]:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
 }
 
 /* Font utilities */
@@ -138,6 +106,12 @@ export default {
   .container {
     padding-left: 1rem;
     padding-right: 1rem;
+  }
+  
+  /* Responsive logo size on mobile */
+  img[alt="Sapu Jagat Logo"] {
+    height: 6rem;
+    width: 6rem;
   }
 }
 </style>

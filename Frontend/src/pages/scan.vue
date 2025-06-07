@@ -61,6 +61,9 @@
     
     <!-- Bottom Navigation -->
     <BottomNav active="scan" />
+    
+    <!-- Toast Notification -->
+    <Toast v-model="showToast" :message="toastMsg" type="success" icon="✔️" />
   </div>
 </template>
 
@@ -68,8 +71,17 @@
 import { useRouter } from 'vue-router'
 import BottomNav from '../components/BottomNav.vue'
 import Header from '../components/Header.vue'
+import Toast from '../components/Toast.vue'
+import { ref } from 'vue'
 
 const router = useRouter()
+const showToast = ref(false)
+const toastMsg = ref('')
+
+function handleScanSuccess() {
+  showToast.value = true
+  toastMsg.value = 'Scan berhasil!'
+}
 
 // TODO: Implement camera functionality when model API is ready
 // This will include:
