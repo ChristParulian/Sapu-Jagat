@@ -1,10 +1,9 @@
 <template>  <header class="shadow-md fixed top-0 left-0 right-0 z-50" style="background-color: #626F47;">
-    <div class="container mx-auto px-4 py-1 flex items-center justify-between"><!-- Logo Section -->
-      <div class="flex items-center">
+    <div class="container mx-auto px-4 py-0 flex items-center justify-between min-h-[5rem]"><!-- Logo Section --><div class="flex items-center">
         <img 
           src="/logo/logo.png" 
           alt="Sapu Jagat Logo" 
-          class="h-24 w-24 object-contain"
+          class="h-32 w-32 object-contain"
         >
       </div>
 
@@ -124,6 +123,18 @@ export default {
   max-width: 1200px;
 }
 
+/* Enhanced logo styling */
+img[alt="Sapu Jagat Logo"] {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+  transition: all 0.3s ease;
+  margin: -1rem 0; /* Negative margin to reduce header height impact */
+}
+
+img[alt="Sapu Jagat Logo"]:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
+}
+
 /* Font utilities */
 .font-montserrat {
   font-family: 'Montserrat', sans-serif;
@@ -138,6 +149,12 @@ export default {
   .container {
     padding-left: 1rem;
     padding-right: 1rem;
+  }
+  
+  /* Responsive logo size on mobile */
+  img[alt="Sapu Jagat Logo"] {
+    height: 6rem;
+    width: 6rem;
   }
 }
 </style>

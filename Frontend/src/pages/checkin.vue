@@ -74,6 +74,7 @@
       </div>
     </div>
     <BottomNav active="home" />
+    <Toast v-model="showToast" :message="toastMsg" type="success" icon="✔️" />
   </div>
 </template>
 
@@ -83,6 +84,7 @@ import { useRouter } from 'vue-router'
 import checkinPresenter from '../presenters/checkinPresenter'
 import BottomNav from '../components/BottomNav.vue'
 import Header from '../components/Header.vue'
+import Toast from '../components/Toast.vue'
 
 const router = useRouter()
 const today = new Date();
@@ -92,6 +94,8 @@ const loading = ref(false)
 const notif = ref('')
 const notifType = ref('success')
 const submittingDate = ref("");
+const showToast = ref(false)
+const toastMsg = ref('')
 
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
@@ -198,6 +202,8 @@ async function handleCheckInForDate(date) {
     const res = await checkinPresenter.checkin(token)
     notif.value = res.message || 'Check-in berhasil!'
     notifType.value = 'success'
+    showToast.value = true
+    toastMsg.value = 'Check-in berhasil!'
     await fetchHistory()
   } catch (err) {
     notif.value = err.message || err

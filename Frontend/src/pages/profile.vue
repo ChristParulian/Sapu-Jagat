@@ -62,87 +62,10 @@
       </div>
     </div>
     <BottomNav active="profile" />
-    <div v-if="notification.show" :class="['fixed top-6 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 rounded shadow-lg text-white', notification.type === 'success' ? 'bg-green-500' : 'bg-red-500']">
-      {{ notification.message }}
-    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import BottomNav from '../components/BottomNav.vue';
-import Header from '../components/Header.vue';
-import { editUser } from '../services/api';
-
-const router = useRouter();
-const userName = ref('');
-const password = ref('********');
-const newPassword = ref('');
-const confirmPassword = ref('');
-const editMode = ref(null);
-const newUsername = ref('');
-const isLoading = ref(false);
-const passwordError = ref('');
-const notification = ref({ show: false, message: '', type: '' });
-
-function showNotification(message, type = 'success') {
-  notification.value = { show: true, message, type };
-  setTimeout(() => {
-    notification.value.show = false;
-  }, 3000);
-}
-
-onMounted(() => {
-  const user = localStorage.getItem('user');
-  if (user) {
-    try {
-      const userData = JSON.parse(user);
-      userName.value = userData.name || userData.username || userData.email;
-    } catch (error) {
-      console.error('Error parsing user data:', error);
-    }
-  }
-
-  const token = localStorage.getItem('token');
-  if (token && !userName.value) {
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      userName.value = payload.username || payload.email || 'User';
-    } catch (error) {
-      console.error('Error decoding token:', error);
-      userName.value = 'User';
-    }
-  }
-
-  if (!userName.value) {
-    userName.value = 'User';
-  }
-});
-
-const toggleEditMode = (mode) => {
-  editMode.value = editMode.value === mode ? null : mode;
-};
-
-const handleEditUsername = async () => {
-  try {
-    isLoading.value = true;
-    const token = localStorage.getItem('token');
-    if (!token) {
-      throw new Error('Anda belum login');
-    }
-    const payload = { username: newUsername.value };
-    await editUser(payload, token);
-    userName.value = newUsername.value;
-    editMode.value = null;
-    showNotification('Username berhasil diperbarui', 'success');
-  } catch (error) {
-    showNotification(error.message || 'Gagal memperbarui username', 'error');
-  } finally {
-    isLoading.value = false;
-  }
-};
-
 const handleEditPassword = async () => {
   try {
     passwordError.value = null;
