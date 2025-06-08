@@ -1,6 +1,7 @@
 // import necessary modules
 const { registerUser, loginUser, editUser } = require('./handlers/userHandler');
 const { checkInUser, getCheckinHistoryByMonth } = require('./handlers/checkinHandler');
+const { redeemPoint } = require('./handlers/redeemsHandler');
 
 // Define the routes for the application
 const routes = [
@@ -33,6 +34,12 @@ const routes = [
     method: 'GET',
     path: '/checkin/history/month',
     handler: getCheckinHistoryByMonth,
+  },
+  // Route for redeem point
+  {
+    method: 'POST',
+    path: '/redeem',
+    handler: redeemPoint,
   },
 ];
 
