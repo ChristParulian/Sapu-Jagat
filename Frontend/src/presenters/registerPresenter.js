@@ -1,5 +1,5 @@
 // Presenter untuk register
-import { registerUser } from '../models/userModel';
+import { registerUser } from '../models/registerModel';
 
 export default {
   async register(username, email, password) {

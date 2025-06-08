@@ -129,6 +129,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import loginPresenter from '../presenters/loginPresenter'
 import Toast from '../components/Toast.vue'
+import { useUserModel } from '../models/userModel.js'
 
 const email = ref('')
 const password = ref('')
@@ -138,6 +139,7 @@ const showToast = ref(false)
 const toastMsg = ref('')
 const showPassword = ref(false)
 const router = useRouter()
+const { setUserFromApi } = useUserModel()
 
 const handleLogin = async () => {
   error.value = ''
@@ -145,6 +147,7 @@ const handleLogin = async () => {
   try {
     const data = await loginPresenter.login(email.value, password.value)
     localStorage.setItem('token', data.token)
+    setUserFromApi(data) // update user global & localStorage dari API
     toastMsg.value = 'Login berhasil!'
     showToast.value = true
     setTimeout(() => router.push('/dashboard'), 1200)

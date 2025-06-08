@@ -6,7 +6,7 @@
     <!-- Main Content -->
     <div class="flex-1 pt-24 lg:pt-28 xl:pt-32 p-4 sm:p-8 flex flex-col items-center">
       <h1 class="text-3xl font-bold mb-2 text-primary">Tukar Poin</h1>
-      <p class="text-secondary text-lg mb-6">Pilih metode penukaran poin Anda:</p>
+      <p class="text-secondary text-lg mb-6">Tukar poin Anda dengan hadiah menarik!</p>
       <!-- Total Poin -->
       <div class="mb-8 flex items-center justify-center">
         <div class="bg-white rounded-xl shadow px-6 py-3 flex items-center gap-2 border-2 border-[#a7c957]">
@@ -20,6 +20,102 @@
           </span>
           <span class="text-xl font-bold text-[#386641]">{{ totalPoin.toLocaleString('id-ID') }}</span>
           <span class="text-base font-semibold text-[#b7b7a4]">Total Poin</span>
+        </div>
+      </div>
+      <p class="text-secondary text-lg mb-6">Pilih metode penukaran poin Anda:</p>
+      <!-- Pilihan Redeem dengan Tombol -->
+      <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 mb-10 w-full max-w-2xl justify-center">
+        <button class="btn-redeem flex-1 min-w-[140px]" @click="openModal('ewallet')">E-Wallet</button>
+        <button class="btn-redeem flex-1 min-w-[140px]" @click="openModal('pulsa')">Pulsa</button>
+        <button class="btn-redeem flex-1 min-w-[140px]" @click="openModal('token')">Token Listrik</button>
+      </div>
+      <!-- Modal E-Wallet -->
+      <div v-if="showModal === 'ewallet'" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 px-1 sm:px-2">
+        <div class="bg-white rounded-xl shadow-lg p-3 sm:p-6 w-[95vw] max-w-xs sm:max-w-md relative overflow-y-auto max-h-[90vh]">
+          <button class="absolute top-2 right-2 sm:top-3 sm:right-3 text-gray-400 hover:text-gray-700 text-2xl w-9 h-9 flex items-center justify-center bg-gray-100 rounded-full" @click="closeModal" aria-label="Tutup">&times;</button>
+          <h2 class="text-lg sm:text-xl font-bold mb-4 text-primary text-center">Redeem E-Wallet</h2>
+          <div class="mb-4">
+            <label class="block text-gray-600 mb-2">Pilih E-Wallet</label>
+            <select v-model="selectedEwallet" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
+              <option disabled value="">-- Pilih E-Wallet --</option>
+              <option value="dana">DANA</option>
+              <option value="ovo">OVO</option>
+              <option value="gopay">GoPay</option>
+              <option value="shopeepay">ShopeePay</option>
+            </select>
+          </div>
+          <div v-if="selectedEwallet" class="mb-4">
+            <label class="block text-gray-600 mb-2">Nomor E-Wallet</label>
+            <input v-model="ewalletNumber" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="20" placeholder="Masukkan nomor e-wallet" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
+          </div>
+          <div v-if="selectedEwallet" class="mb-4">
+            <label class="block text-gray-600 mb-2">Nominal E-Wallet</label>
+            <select v-model="selectedEwalletNominal" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
+              <option disabled value="">-- Pilih Nominal --</option>
+              <option v-for="nom in ewalletNominals" :key="nom.value" :value="nom.value">
+                {{ nom.label }} ({{ nom.point }} poin)
+              </option>
+            </select>
+          </div>
+          <div v-if="selectedEwallet" class="flex items-center justify-center mt-2">
+            <img :src="ewalletLogos[selectedEwallet]" alt="Logo E-Wallet" class="w-14 h-14 sm:w-20 sm:h-20 object-contain" />
+          </div>
+          <button v-if="selectedEwallet && selectedEwalletNominal" @click.stop="handleRedeem('ewallet')" class="btn-redeem mt-6 w-full bg-[#626F47] hover:bg-[#4e593a] border-none">Tukar E-Wallet</button>
+        </div>
+      </div>
+      <!-- Modal Pulsa -->
+      <div v-if="showModal === 'pulsa'" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 px-1 sm:px-2">
+        <div class="bg-white rounded-xl shadow-lg p-3 sm:p-6 w-[95vw] max-w-xs sm:max-w-md relative overflow-y-auto max-h-[90vh]">
+          <button class="absolute top-2 right-2 sm:top-3 sm:right-3 text-gray-400 hover:text-gray-700 text-2xl w-9 h-9 flex items-center justify-center bg-gray-100 rounded-full" @click="closeModal" aria-label="Tutup">&times;</button>
+          <h2 class="text-lg sm:text-xl font-bold mb-4 text-primary text-center">Redeem Pulsa</h2>
+          <div class="mb-4">
+            <label class="block text-gray-600 mb-2">Pilih Provider</label>
+            <select v-model="selectedPulsaProvider" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
+              <option disabled value="">-- Pilih Provider --</option>
+              <option v-for="prov in pulsaProviders" :key="prov.value" :value="prov.value">{{ prov.label }}</option>
+            </select>
+          </div>
+          <div v-if="selectedPulsaProvider" class="mb-4">
+            <label class="block text-gray-600 mb-2">Nomor HP</label>
+            <input v-model="pulsaNumber" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="15" placeholder="Masukkan nomor HP" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
+          </div>
+          <div v-if="selectedPulsaProvider" class="mb-4">
+            <label class="block text-gray-600 mb-2">Nominal Pulsa</label>
+            <select v-model="selectedPulsaNominal" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
+              <option disabled value="">-- Pilih Nominal --</option>
+              <option v-for="nom in pulsaNominals" :key="nom.value" :value="nom.value">
+                {{ nom.label }} ({{ nom.point }} poin)
+              </option>
+            </select>
+          </div>
+          <div v-if="selectedPulsaProvider" class="flex items-center justify-center mt-2">
+            <img :src="pulsaProviderLogos[selectedPulsaProvider]" alt="Logo Provider" class="w-14 h-14 sm:w-20 sm:h-20 object-contain" />
+          </div>
+          <button v-if="selectedPulsaProvider && selectedPulsaNominal" @click.stop="handleRedeem('pulsa')" class="btn-redeem mt-6 w-full bg-[#626F47] hover:bg-[#4e593a] border-none">Tukar Pulsa</button>
+        </div>
+      </div>
+      <!-- Modal Token Listrik -->
+      <div v-if="showModal === 'token'" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 px-1 sm:px-2">
+        <div class="bg-white rounded-xl shadow-lg p-3 sm:p-6 w-[95vw] max-w-xs sm:max-w-md relative overflow-y-auto max-h-[90vh]">
+          <button class="absolute top-2 right-2 sm:top-3 sm:right-3 text-gray-400 hover:text-gray-700 text-2xl w-9 h-9 flex items-center justify-center bg-gray-100 rounded-full" @click="closeModal" aria-label="Tutup">&times;</button>
+          <h2 class="text-lg sm:text-xl font-bold mb-4 text-primary text-center">Redeem Token Listrik</h2>
+          <div class="mb-4">
+            <label class="block text-gray-600 mb-2">Nominal Token</label>
+            <select v-model="selectedTokenNominal" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
+              <option disabled value="">-- Pilih Nominal --</option>
+              <option v-for="nom in tokenNominals" :key="nom.value" :value="nom.value">
+                {{ nom.label }} ({{ nom.point }} poin)
+              </option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-600 mb-2">Nomor Meter/kWh</label>
+            <input v-model="tokenNumber" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="20" minlength="20" placeholder="Masukkan nomor meter/kWh (20 digit)" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
+          </div>
+          <div class="flex items-center justify-center mt-2">
+            <img src="/logo/token-listrik/pln.png" alt="Logo PLN" class="w-14 h-14 sm:w-20 sm:h-20 object-contain" />
+          </div>
+          <button v-if="selectedTokenNominal" @click.stop="handleRedeem('token')" class="btn-redeem mt-6 w-full bg-[#626F47] hover:bg-[#4e593a] border-none">Tukar Token Listrik</button>
         </div>
       </div>
       <!-- History Penukaran -->
@@ -37,98 +133,6 @@
             </li>
             <li v-if="dummyHistory.length === 0" class="text-gray-400 text-center py-4">Belum ada riwayat penukaran.</li>
           </ul>
-        </div>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl">
-        <!-- Card Redeem E-Wallet -->
-        <div
-          class="neumorphic-card p-6 flex flex-col items-center cursor-pointer"
-          :class="[{'opacity-100': activeRedeem === 'ewallet', 'opacity-60': activeRedeem && activeRedeem !== 'ewallet'}, activeRedeem === 'ewallet' ? 'selected' : '']"
-          @click.self="setActiveRedeem('ewallet')"
-        >
-          <h2 class="text-lg font-semibold mb-4 text-gray-800">Redeem E-Wallet</h2>
-          <div class="w-full mb-4">
-            <label class="block text-gray-600 mb-2">Pilih E-Wallet</label>
-            <select v-model="selectedEwallet"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              :disabled="activeRedeem !== 'ewallet'">
-              <option disabled value="">-- Pilih E-Wallet --</option>
-              <option value="dana">DANA</option>
-              <option value="ovo">OVO</option>
-              <option value="gopay">GoPay</option>
-              <option value="shopeepay">ShopeePay</option>
-            </select>
-          </div>
-          <div v-if="selectedEwallet" class="w-full mb-4">
-            <label class="block text-gray-600 mb-2">Nominal E-Wallet</label>
-            <select v-model="selectedEwalletNominal"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              :disabled="activeRedeem !== 'ewallet'">
-              <option disabled value="">-- Pilih Nominal --</option>
-              <option v-for="nom in ewalletNominals" :key="nom.value" :value="nom.value">
-                {{ nom.label }} ({{ nom.point }} poin)
-              </option>
-            </select>
-          </div>
-          <div v-if="selectedEwallet" class="flex items-center justify-center mt-2">
-            <img :src="ewalletLogos[selectedEwallet]" alt="Logo E-Wallet" class="w-24 h-24 object-contain" />
-          </div>
-          <button v-if="selectedEwallet && selectedEwalletNominal" @click.stop="handleRedeem('ewallet')" class="btn-redeem mt-4 w-full" :disabled="activeRedeem !== 'ewallet'">Tukar E-Wallet</button>
-        </div>
-        <!-- Card Redeem Pulsa -->
-        <div
-          class="neumorphic-card p-6 flex flex-col items-center cursor-pointer"
-          :class="[{'opacity-100': activeRedeem === 'pulsa', 'opacity-60': activeRedeem && activeRedeem !== 'pulsa'}, activeRedeem === 'pulsa' ? 'selected' : '']"
-          @click.self="setActiveRedeem('pulsa')"
-        >
-          <h2 class="text-lg font-semibold mb-4 text-gray-800">Redeem Pulsa</h2>
-          <div class="w-full mb-4">
-            <label class="block text-gray-600 mb-2">Pilih Provider</label>
-            <select v-model="selectedPulsaProvider"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              :disabled="activeRedeem && activeRedeem !== 'pulsa'">
-              <option disabled value="">-- Pilih Provider --</option>
-              <option v-for="prov in pulsaProviders" :key="prov.value" :value="prov.value">{{ prov.label }}</option>
-            </select>
-          </div>
-          <div v-if="selectedPulsaProvider" class="w-full mb-4">
-            <label class="block text-gray-600 mb-2">Nominal Pulsa</label>
-            <select v-model="selectedPulsaNominal"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              :disabled="activeRedeem && activeRedeem !== 'pulsa'">
-              <option disabled value="">-- Pilih Nominal --</option>
-              <option v-for="nom in pulsaNominals" :key="nom.value" :value="nom.value">
-                {{ nom.label }} ({{ nom.point }} poin)
-              </option>
-            </select>
-          </div>
-          <div v-if="selectedPulsaProvider" class="flex items-center justify-center mt-2">
-            <img :src="pulsaProviderLogos[selectedPulsaProvider]" alt="Logo Provider" class="w-24 h-24 object-contain" />
-          </div>
-          <button v-if="selectedPulsaProvider && selectedPulsaNominal" @click.stop="handleRedeem('pulsa')" class="btn-redeem mt-4 w-full" :disabled="activeRedeem !== 'pulsa'">Tukar Pulsa</button>
-        </div>
-        <!-- Card Redeem Token Listrik -->
-        <div
-          class="neumorphic-card p-6 flex flex-col items-center cursor-pointer"
-          :class="[{'opacity-100': activeRedeem === 'token', 'opacity-60': activeRedeem && activeRedeem !== 'token'}, activeRedeem === 'token' ? 'selected' : '']"
-          @click.self="setActiveRedeem('token')"
-        >
-          <h2 class="text-lg font-semibold mb-4 text-gray-800">Redeem Token Listrik</h2>
-          <div class="w-full mb-4">
-            <label class="block text-gray-600 mb-2">Nominal Token</label>
-            <select v-model="selectedTokenNominal"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              :disabled="activeRedeem && activeRedeem !== 'token'">
-              <option disabled value="">-- Pilih Nominal --</option>
-              <option v-for="nom in tokenNominals" :key="nom.value" :value="nom.value">
-                {{ nom.label }} ({{ nom.point }} poin)
-              </option>
-            </select>
-          </div>
-          <div class="flex items-center justify-center mt-2">
-            <img src="/logo/token-listrik/pln.png" alt="Logo PLN" class="w-24 h-24 object-contain" />
-          </div>
-          <button v-if="selectedTokenNominal" @click.stop="handleRedeem('token')" class="btn-redeem mt-4 w-full" :disabled="activeRedeem !== 'token'">Tukar Token Listrik</button>
         </div>
       </div>
     </div>
@@ -151,12 +155,26 @@ const selectedEwalletNominal = ref('')
 const selectedPulsaNominal = ref('')
 const selectedPulsaProvider = ref('')
 const selectedTokenNominal = ref('')
+const ewalletNumber = ref('')
+const pulsaNumber = ref('')
+const tokenNumber = ref('')
 
-// State untuk mengatur card yang aktif
-const activeRedeem = ref('')
-
-function setActiveRedeem(card) {
-  activeRedeem.value = activeRedeem.value === card ? '' : card
+// Modal logic
+const showModal = ref('')
+function openModal(type) {
+  showModal.value = type
+}
+function closeModal() {
+  showModal.value = ''
+  // Reset pilihan saat modal ditutup
+  selectedEwallet.value = ''
+  selectedEwalletNominal.value = ''
+  selectedPulsaProvider.value = ''
+  selectedPulsaNominal.value = ''
+  selectedTokenNominal.value = ''
+  ewalletNumber.value = ''
+  pulsaNumber.value = ''
+  tokenNumber.value = ''
 }
 
 const ewalletLogos = {
@@ -221,32 +239,48 @@ const dummyHistory = [
 ]
 
 function handleRedeem(type) {
-  // Validasi: hanya kartu aktif yang bisa redeem
-  if (activeRedeem.value !== type) {
-    showToast.value = true
-    toastMsg.value = 'Silakan pilih kartu yang ingin diredeem terlebih dahulu.'
-    toastType.value = 'error'
-    toastIcon.value = '❗'
-    return
-  }
   // Ambil point yang dibutuhkan sesuai pilihan
   let requiredPoint = 0;
   if (type === 'ewallet') {
     const nominal = ewalletNominals.find(n => n.value === selectedEwalletNominal.value);
     requiredPoint = nominal ? nominal.point : 0;
+    // Validasi nomor e-wallet
+    if (!ewalletNumber.value || ewalletNumber.value.length < 11 || ewalletNumber.value.length > 15) {
+      showToast.value = true;
+      toastMsg.value = 'Nomor e-wallet harus 11-15 digit!';
+      toastType.value = 'error';
+      toastIcon.value = '❗';
+      return;
+    }
   }
   if (type === 'pulsa') {
     const nominal = pulsaNominals.find(n => n.value === selectedPulsaNominal.value);
     requiredPoint = nominal ? nominal.point : 0;
+    // Validasi nomor pulsa
+    if (!pulsaNumber.value || pulsaNumber.value.length < 11 || pulsaNumber.value.length > 15) {
+      showToast.value = true;
+      toastMsg.value = 'Nomor HP harus 11-15 digit!';
+      toastType.value = 'error';
+      toastIcon.value = '❗';
+      return;
+    }
   }
   if (type === 'token') {
     const nominal = tokenNominals.find(n => n.value === selectedTokenNominal.value);
     requiredPoint = nominal ? nominal.point : 0;
+    // Validasi nomor token listrik
+    if (!tokenNumber.value || tokenNumber.value.length !== 20) {
+      showToast.value = true;
+      toastMsg.value = 'Nomor meter/kWh harus 20 digit!';
+      toastType.value = 'error';
+      toastIcon.value = '❗';
+      return;
+    }
   }
   // Validasi point cukup
   if (requiredPoint > totalPoin) {
     showToast.value = true;
-    toastMsg.value = 'Point kurang, ayo perbanyak pilah sampah!';
+    toastMsg.value = 'Point tidak cukup untuk penukaran ini!';
     toastType.value = 'error';
     toastIcon.value = '❗';
     return;
