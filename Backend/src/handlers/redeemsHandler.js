@@ -81,4 +81,35 @@ const redeemPoint = async (request, h) => {
   }).code(200);
 };
 
-module.exports = { redeemPoint };
+// Get redeem history API
+const getRedeemHistory = async (request, h) => {
+  const authHeader = request.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return h.response({ status: 'fail', message: 'Token tidak ditemukan' }).code(401);
+  }
+  const token = authHeader.split(' ')[1];
+  let payload;
+  try {
+    payload = jwt.verify(token, JWT_SECRET);
+  } catch {
+    return h.response({ status: 'fail', message: 'Token tidak valid' }).code(401);
+  }
+  const userId = payload.id;
+
+  const { data, error } = await supabase
+    .from('redeems')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    return h.response({ status: 'fail', message: 'Gagal mengambil riwayat redeem' }).code(500);
+  }
+
+  return h.response({
+    status: 'success',
+    data
+  }).code(200);
+};
+
+module.exports = { redeemPoint, getRedeemHistory };

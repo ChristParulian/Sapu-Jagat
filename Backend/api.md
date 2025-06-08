@@ -265,3 +265,34 @@ axios.get('/checkin/history', {
   ```
 
 ---
+
+## 12. Get Redeem History
+- **Endpoint:** `GET /redeem`
+- **Header:**
+  - `Authorization: Bearer <jwt_token>`
+- **Response Sukses:**
+  ```json
+  {
+    "status": "success",
+    "data": [
+      {
+        "id": "...",
+        "user_id": "...",
+        "type": "ewallet",
+        "provider": "ovo",
+        "amount": 10000,
+        "points": 900,
+        "target": "08123456789",
+        "status": "success",
+        "date": "2025-06-08",
+        "created_at": "2025-06-08T10:00:00.000Z"
+      }
+      // ...data redeem lain milik user...
+    ]
+  }
+  ```
+- **Catatan:**
+  - Hanya menampilkan riwayat redeem milik user yang sedang login (berdasarkan token JWT).
+  - Data diurutkan dari yang terbaru ke terlama.
+
+---
