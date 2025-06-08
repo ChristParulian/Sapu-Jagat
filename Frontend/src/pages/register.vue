@@ -146,6 +146,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import registerPresenter from '../presenters/registerPresenter'
 import Toast from '../components/Toast.vue'
+import { useUserModel } from '../models/userModel.js'
 
 const username = ref('')
 const email = ref('')
@@ -156,6 +157,7 @@ const showToast = ref(false)
 const toastMsg = ref('')
 const router = useRouter()
 const showPassword = ref(false)
+const { setUserFromApi } = useUserModel()
 
 const handleRegister = async () => {
   error.value = ''
@@ -164,9 +166,8 @@ const handleRegister = async () => {
     const data = await registerPresenter.register(username.value, email.value, password.value)
     if (data.token) {
       localStorage.setItem('token', data.token)
-    } else {
-      localStorage.setItem('user', JSON.stringify(data))
     }
+    setUserFromApi(data) // update user global & localStorage dari API
     toastMsg.value = 'Registrasi berhasil!'
     showToast.value = true
     setTimeout(() => router.push('/dashboard'), 1200)

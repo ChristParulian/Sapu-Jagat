@@ -1,5 +1,5 @@
 // Presenter untuk login
-import { loginUser } from '../models/userModel';
+import { loginUser } from '../models/loginModel';
 
 export default {
   async login(email, password) {

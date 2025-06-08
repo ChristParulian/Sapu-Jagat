@@ -52,9 +52,9 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import BottomNav from '../components/BottomNav.vue';
 import Header from '../components/Header.vue';
-import { editUser } from '../services/api';
+import { editUserPresenter } from '../presenters/userPresenter.js';
 import Toast from '../components/Toast.vue';
-import { useUserStore } from '../models/userStore.js';
+import { useUserStore, useUserModel } from '../models/userModel.js';
 
 const router = useRouter();
 const userName = ref('');
@@ -77,6 +77,7 @@ const toastType = ref('success');
 const toastIcon = ref('✔️');
 
 const { setUsername } = useUserStore();
+const { setUserFromApi } = useUserModel();
 
 function showNotification(message, type = 'success', icon = '✔️') {
   toastMsg.value = message;
@@ -147,21 +148,14 @@ const handleEditProfile = async () => {
     if (!token) throw new Error('Anda belum login');
     const payload = { username: formUsername.value };
     if (formPassword.value) payload.password = formPassword.value;
-    const updated = await editUser(payload, token);
-    userName.value = formUsername.value;
-    setUsername(formUsername.value); // update global userStore
+    // Pakai presenter
+    const updated = await editUserPresenter(payload, token);
+    userName.value = updated.username || formUsername.value;
+    setUsername(updated.username || formUsername.value); // update global userStore
+    setUserFromApi(updated); // update global & localStorage dari API
     showNotification('Profil berhasil diperbarui', 'success');
     formPassword.value = '';
     formPasswordConfirm.value = '';
-    // Update localStorage agar username baru langsung tampil di header/beranda
-    const user = localStorage.getItem('user');
-    if (user) {
-      try {
-        const userData = JSON.parse(user);
-        userData.name = formUsername.value;
-        localStorage.setItem('user', JSON.stringify(userData));
-      } catch (e) {}
-    }
     // Redirect ke beranda setelah sukses
     setTimeout(() => {
       router.replace('/dashboard');
@@ -172,8 +166,8 @@ const handleEditProfile = async () => {
       showNotification('Username sudah tersedia, silakan pilih yang lain', 'error', '❗');
       formError.value = 'Username sudah tersedia, silakan pilih yang lain';
     } else {
-      showNotification(error.message || 'Username sudah tersedia, silakan pilih yang lain', 'error', '❗');
-      formError.value = error.message || 'Username sudah tersedia, silakan pilih yang lain';
+      showNotification(error.message || 'Gagal memperbarui profil, Username sudah tersedia', 'error', '❗');
+      formError.value = error.message || 'Gagal memperbarui profil, Username sudah tersedia';
     }
   } finally {
     isLoading.value = false;

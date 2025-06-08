@@ -8,12 +8,15 @@
       </div>
 
       <!-- User Info & Logout Section -->
-      <div class="flex items-center space-x-4">        <!-- User Greeting -->
-        <div class="hidden sm:block">
+      <div class="flex items-center space-x-4">
+        <!-- User Greeting -->
+        <div class="block sm:block">
           <span class="font-opensans text-sm" style="color: #FFCF50;">
             Hi, {{ username || 'User' }}!
           </span>
-        </div>        <!-- Logout Button -->        <button
+        </div>
+        <!-- Logout Button -->
+        <button
           @click="handleLogout"
           :disabled="isLoggingOut"
           class="flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed font-opensans"
@@ -52,7 +55,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useUserStore } from '../models/userStore.js'
+import { useUserStore } from '../models/userModel.js'
 
 const router = useRouter()
 const { username } = useUserStore()
