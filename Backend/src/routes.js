@@ -1,5 +1,5 @@
 // import necessary modules
-const { registerUser, loginUser, editUser } = require('./handlers/userHandler');
+const { registerUser, loginUser, editUser, getUserProfile } = require('./handlers/userHandler');
 const { checkInUser, getCheckinHistoryByMonth } = require('./handlers/checkinHandler');
 const { redeemPoint, getRedeemHistory } = require('./handlers/redeemsHandler');
 
@@ -46,6 +46,12 @@ const routes = [
     method: 'GET',
     path: '/redeem',
     handler: getRedeemHistory,
+  },
+  // Route for get user profile
+  {
+    method: 'GET',
+    path: '/users/profile',
+    handler: getUserProfile,
   },
 ];
 
