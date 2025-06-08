@@ -296,3 +296,25 @@ axios.get('/checkin/history', {
   - Data diurutkan dari yang terbaru ke terlama.
 
 ---
+
+## 13. Get User Profile
+- **Endpoint:** `GET /users/profile`
+- **Header:**
+  - `Authorization: Bearer <jwt_token>`
+- **Response Sukses:**
+  ```json
+  {
+    "status": "success",
+    "data": {
+      "id": "uuid",
+      "username": "namakamu",
+      "email": "emailkamu@example.com",
+      "points": 150
+    }
+  }
+  ```
+- **Catatan:**
+  - Endpoint ini mengambil data user yang sedang login berdasarkan token JWT.
+  - Cocok untuk frontend yang ingin menampilkan data user terbaru setelah update profil dan checkin.
+
+---

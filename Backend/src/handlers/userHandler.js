@@ -189,4 +189,34 @@ const editUser = async (request, h) => {
   }).code(200);
 };
 
-module.exports = { registerUser, loginUser, editUser };
+// Get user profile (GET /users/profile)
+const getUserProfile = async (request, h) => {
+  const authHeader = request.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return h.response({ status: 'fail', message: 'Token tidak ditemukan' }).code(401);
+  }
+  const token = authHeader.split(' ')[1];
+  let payload;
+  try {
+    payload = jwt.verify(token, JWT_SECRET);
+  } catch {
+    return h.response({ status: 'fail', message: 'Token tidak valid' }).code(401);
+  }
+  const userId = payload.id;
+
+  const { data: users, error } = await supabase
+    .from('users')
+    .select('id, username, email, points')
+    .eq('id', userId);
+
+  if (error || !users || users.length === 0) {
+    return h.response({ status: 'fail', message: 'User tidak ditemukan' }).code(404);
+  }
+
+  return h.response({
+    status: 'success',
+    data: users[0]
+  }).code(200);
+};
+
+module.exports = { registerUser, loginUser, editUser, getUserProfile };
