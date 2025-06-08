@@ -52,10 +52,38 @@ const checkInUser = async (request, h) => {
       message: 'Gagal melakukan check-in',
     }).code(500);
   }
+  // Tambahkan 50 point ke user
+  // Ambil point sekarang
+  const { data: userData, error: userError } = await supabase
+    .from('users')
+    .select('points')
+    .eq('id', userId)
+    .single();
+  if (userError) {
+    return h.response({
+      status: 'fail',
+      message: 'Gagal mengambil data user',
+    }).code(500);
+  }
+  const newPoints = (userData.points || 0) + 50;
+  // Update point user
+  const { error: updateError } = await supabase
+    .from('users')
+    .update({ points: newPoints })
+    .eq('id', userId);
+  if (updateError) {
+    return h.response({
+      status: 'fail',
+      message: 'Gagal menambahkan point',
+    }).code(500);
+  }
   return h.response({
     status: 'success',
-    message: 'Check-in berhasil',
-    data: data[0],
+    message: 'Check-in berhasil, point bertambah',
+    data: {
+      ...data[0],
+      points: newPoints
+    },
   }).code(201);
 };
 

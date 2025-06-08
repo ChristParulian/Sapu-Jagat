@@ -110,11 +110,12 @@ Dokumen ini menjelaskan cara penggunaan endpoint API backend Sapu Jagat untuk in
   ```json
   {
     "status": "success",
-    "message": "Check-in berhasil",
+    "message": "Check-in berhasil, point bertambah",
     "data": {
       "id": "...",
       "user_id": "...",
-      "date": "YYYY-MM-DD"
+      "date": "YYYY-MM-DD",
+      "points": 150
     }
   }
   ```
@@ -214,5 +215,53 @@ axios.get('/checkin/history', {
 - Semua tanggal format `YYYY-MM-DD` (UTC).
 - Token JWT tidak perlu disimpan di database.
 - Jika ingin fitur tambahan (reward, streak, dsb), diskusikan dengan tim backend.
+
+---
+
+## 11. Redeem Point
+- **Endpoint:** `POST /redeem`
+- **Header:**
+  - `Authorization: Bearer <jwt_token>`
+- **Body (JSON):**
+  ```json
+  {
+    "type": "ewallet",         // "ewallet", "pulsa", atau "token"
+    "provider": "ovo",         // untuk ewallet/pulsa (opsional, tergantung type)
+    "amount": 10000,            // nominal yang di-redeem
+    "points": 900,              // point yang akan dipotong
+    "target": "08123456789"    // nomor tujuan (hp/akun ewallet/token listrik)
+  }
+  ```
+- **Response Sukses:**
+  ```json
+  {
+    "status": "success",
+    "message": "Redeem berhasil",
+    "data": {
+      "type": "ewallet",
+      "provider": "ovo",
+      "amount": 10000,
+      "points_dipakai": 900,
+      "points_sisa": 1600,
+      "target": "08123456789"
+    }
+  }
+  ```
+- **Catatan:**
+  - Status di database langsung `success` setelah redeem.
+- **Error jika point tidak cukup:**
+  ```json
+  {
+    "status": "fail",
+    "message": "Point tidak cukup"
+  }
+  ```
+- **Error jika data tidak lengkap:**
+  ```json
+  {
+    "status": "fail",
+    "message": "Data redeem tidak lengkap"
+  }
+  ```
 
 ---
