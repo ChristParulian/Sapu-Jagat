@@ -1,5 +1,6 @@
 <template>
   <div class="min-h-screen flex flex-col justify-between" style="background-color: #FEFAE0; font-family: 'Montserrat', 'Open Sans', sans-serif;">
+    <!-- Removed duplicate greeting and points display here -->
     <!-- Header Component -->
     <Header />
     
@@ -34,6 +35,7 @@
         <div class="bg-white rounded-xl shadow-lg p-3 sm:p-6 w-[95vw] max-w-xs sm:max-w-md relative overflow-y-auto max-h-[90vh]">
           <button class="absolute top-2 right-2 sm:top-3 sm:right-3 text-gray-400 hover:text-gray-700 text-2xl w-9 h-9 flex items-center justify-center bg-gray-100 rounded-full" @click="closeModal" aria-label="Tutup">&times;</button>
           <h2 class="text-lg sm:text-xl font-bold mb-4 text-primary text-center">Redeem E-Wallet</h2>
+          <div class="mb-2 text-sm text-gray-600 text-center">Sisa Poin Anda: <span class="font-bold text-[#386641]">{{ totalPoin.toLocaleString('id-ID') }}</span></div>
           <div class="mb-4">
             <label class="block text-gray-600 mb-2">Pilih E-Wallet</label>
             <select v-model="selectedEwallet" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
@@ -52,15 +54,15 @@
             <label class="block text-gray-600 mb-2">Nominal E-Wallet</label>
             <select v-model="selectedEwalletNominal" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
               <option disabled value="">-- Pilih Nominal --</option>
-              <option v-for="nom in ewalletNominals" :key="nom.value" :value="nom.value">
-                {{ nom.label }} ({{ nom.point }} poin)
+              <option v-for="nom in ewalletNominals" :key="nom.value" :value="nom.value" :disabled="totalPoin < nom.point">
+                {{ nom.label }} ({{ nom.point }} poin) <span v-if="totalPoin < nom.point">- Poin tidak cukup</span>
               </option>
             </select>
           </div>
           <div v-if="selectedEwallet" class="flex items-center justify-center mt-2">
             <img :src="ewalletLogos[selectedEwallet]" alt="Logo E-Wallet" class="w-14 h-14 sm:w-20 sm:h-20 object-contain" />
           </div>
-          <button v-if="selectedEwallet && selectedEwalletNominal" @click.stop="handleRedeem('ewallet')" class="btn-redeem mt-6 w-full bg-[#626F47] hover:bg-[#4e593a] border-none">Tukar E-Wallet</button>
+          <button v-if="selectedEwallet && selectedEwalletNominal" @click.stop="handleRedeem('ewallet')" class="btn-redeem mt-6 w-full bg-[#626F47] hover:bg-[#4e593a] border-none" :disabled="totalPoin < (ewalletNominals.find(n => n.value === selectedEwalletNominal)?.point || 0)">Tukar E-Wallet</button>
         </div>
       </div>
       <!-- Modal Pulsa -->
@@ -68,6 +70,7 @@
         <div class="bg-white rounded-xl shadow-lg p-3 sm:p-6 w-[95vw] max-w-xs sm:max-w-md relative overflow-y-auto max-h-[90vh]">
           <button class="absolute top-2 right-2 sm:top-3 sm:right-3 text-gray-400 hover:text-gray-700 text-2xl w-9 h-9 flex items-center justify-center bg-gray-100 rounded-full" @click="closeModal" aria-label="Tutup">&times;</button>
           <h2 class="text-lg sm:text-xl font-bold mb-4 text-primary text-center">Redeem Pulsa</h2>
+          <div class="mb-2 text-sm text-gray-600 text-center">Sisa Poin Anda: <span class="font-bold text-[#386641]">{{ totalPoin.toLocaleString('id-ID') }}</span></div>
           <div class="mb-4">
             <label class="block text-gray-600 mb-2">Pilih Provider</label>
             <select v-model="selectedPulsaProvider" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
@@ -83,15 +86,15 @@
             <label class="block text-gray-600 mb-2">Nominal Pulsa</label>
             <select v-model="selectedPulsaNominal" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
               <option disabled value="">-- Pilih Nominal --</option>
-              <option v-for="nom in pulsaNominals" :key="nom.value" :value="nom.value">
-                {{ nom.label }} ({{ nom.point }} poin)
+              <option v-for="nom in pulsaNominals" :key="nom.value" :value="nom.value" :disabled="totalPoin < nom.point">
+                {{ nom.label }} ({{ nom.point }} poin) <span v-if="totalPoin < nom.point">- Poin tidak cukup</span>
               </option>
             </select>
           </div>
           <div v-if="selectedPulsaProvider" class="flex items-center justify-center mt-2">
             <img :src="pulsaProviderLogos[selectedPulsaProvider]" alt="Logo Provider" class="w-14 h-14 sm:w-20 sm:h-20 object-contain" />
           </div>
-          <button v-if="selectedPulsaProvider && selectedPulsaNominal" @click.stop="handleRedeem('pulsa')" class="btn-redeem mt-6 w-full bg-[#626F47] hover:bg-[#4e593a] border-none">Tukar Pulsa</button>
+          <button v-if="selectedPulsaProvider && selectedPulsaNominal" @click.stop="handleRedeem('pulsa')" class="btn-redeem mt-6 w-full bg-[#626F47] hover:bg-[#4e593a] border-none" :disabled="totalPoin < (pulsaNominals.find(n => n.value === selectedPulsaNominal)?.point || 0)">Tukar Pulsa</button>
         </div>
       </div>
       <!-- Modal Token Listrik -->
@@ -99,12 +102,13 @@
         <div class="bg-white rounded-xl shadow-lg p-3 sm:p-6 w-[95vw] max-w-xs sm:max-w-md relative overflow-y-auto max-h-[90vh]">
           <button class="absolute top-2 right-2 sm:top-3 sm:right-3 text-gray-400 hover:text-gray-700 text-2xl w-9 h-9 flex items-center justify-center bg-gray-100 rounded-full" @click="closeModal" aria-label="Tutup">&times;</button>
           <h2 class="text-lg sm:text-xl font-bold mb-4 text-primary text-center">Redeem Token Listrik</h2>
+          <div class="mb-2 text-sm text-gray-600 text-center">Sisa Poin Anda: <span class="font-bold text-[#386641]">{{ totalPoin.toLocaleString('id-ID') }}</span></div>
           <div class="mb-4">
             <label class="block text-gray-600 mb-2">Nominal Token</label>
             <select v-model="selectedTokenNominal" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
               <option disabled value="">-- Pilih Nominal --</option>
-              <option v-for="nom in tokenNominals" :key="nom.value" :value="nom.value">
-                {{ nom.label }} ({{ nom.point }} poin)
+              <option v-for="nom in tokenNominals" :key="nom.value" :value="nom.value" :disabled="totalPoin < nom.point">
+                {{ nom.label }} ({{ nom.point }} poin) <span v-if="totalPoin < nom.point">- Poin tidak cukup</span>
               </option>
             </select>
           </div>
@@ -115,7 +119,7 @@
           <div class="flex items-center justify-center mt-2">
             <img src="/logo/token-listrik/pln.png" alt="Logo PLN" class="w-14 h-14 sm:w-20 sm:h-20 object-contain" />
           </div>
-          <button v-if="selectedTokenNominal" @click.stop="handleRedeem('token')" class="btn-redeem mt-6 w-full bg-[#626F47] hover:bg-[#4e593a] border-none">Tukar Token Listrik</button>
+          <button v-if="selectedTokenNominal" @click.stop="handleRedeem('token')" class="btn-redeem mt-6 w-full bg-[#626F47] hover:bg-[#4e593a] border-none" :disabled="totalPoin < (tokenNominals.find(n => n.value === selectedTokenNominal)?.point || 0)">Tukar Token Listrik</button>
         </div>
       </div>
       <!-- History Penukaran -->
@@ -126,16 +130,19 @@
             Riwayat Penukaran
           </h3>
           <ul>
-            <li v-for="(item, idx) in dummyHistory" :key="idx" class="flex justify-between items-center py-2 border-b last:border-b-0">
+            <li v-if="redeemLoading" class="text-gray-400 text-center py-4">Memuat riwayat penukaran...</li>
+            <li v-else-if="redeemError" class="text-red-500 text-center py-4">{{ redeemError }}</li>
+            <li v-else-if="mappedHistory.length === 0" class="text-gray-400 text-center py-4">Belum ada riwayat penukaran.</li>
+            <li v-for="(item, idx) in mappedHistory" :key="idx" class="flex justify-between items-center py-2 border-b last:border-b-0">
               <span class="font-medium text-gray-700">{{ item.tipe }} - {{ item.nominal }}</span>
               <span class="text-sm text-gray-500">{{ item.tanggal }}</span>
               <span class="text-sm font-semibold text-[#a7c957]">-{{ item.poin }} poin</span>
             </li>
-            <li v-if="dummyHistory.length === 0" class="text-gray-400 text-center py-4">Belum ada riwayat penukaran.</li>
           </ul>
         </div>
       </div>
     </div>
+    <LoadingIndicator :visible="globalLoading" :message="globalLoadingMsg" />
     <BottomNav active="redeem" />
     <Toast v-model="showToast" :message="toastMsg" :type="toastType" :icon="toastIcon" />
   </div>
@@ -146,7 +153,10 @@ import { useRouter } from 'vue-router'
 import BottomNav from '../components/BottomNav.vue'
 import Header from '../components/Header.vue'
 import Toast from '../components/Toast.vue'
-import { ref } from 'vue'
+import LoadingIndicator from '../components/LoadingIndicator.vue'
+import { ref, onMounted, computed } from 'vue'
+import { useUserProfile } from '../models/userprofileModel.js'
+import { redeem, getRedeemHistory } from '../services/api.js'
 
 const router = useRouter()
 
@@ -158,6 +168,7 @@ const selectedTokenNominal = ref('')
 const ewalletNumber = ref('')
 const pulsaNumber = ref('')
 const tokenNumber = ref('')
+const dummyHistory = ref([])
 
 // Modal logic
 const showModal = ref('')
@@ -229,69 +240,173 @@ const toastType = ref('success')
 const toastIcon = ref('✔️')
 
 // Total poin statis
-const totalPoin = 2500
+const { userProfile, fetchUserProfile } = useUserProfile()
 
-// Dummy data history, nanti diganti API
-const dummyHistory = [
-  { tipe: 'E-Wallet (OVO)', nominal: '10.000', poin: 900, tanggal: '2025-06-01' },
-  { tipe: 'Pulsa (Telkomsel)', nominal: '5.000', poin: 600, tanggal: '2025-05-28' },
-  { tipe: 'Token Listrik', nominal: '20.000', poin: 2500, tanggal: '2025-05-20' },
-]
+const totalPoin = computed(() => userProfile.value?.points ?? 0)
 
-function handleRedeem(type) {
-  // Ambil point yang dibutuhkan sesuai pilihan
-  let requiredPoint = 0;
+// Riwayat redeem
+const redeemHistory = ref([])
+const redeemLoading = ref(false)
+const redeemError = ref('')
+
+async function fetchRedeemHistory() {
+  globalLoading.value = true
+  globalLoadingMsg.value = 'Memuat riwayat penukaran...'
+  redeemLoading.value = true
+  redeemError.value = ''
+  try {
+    const token = localStorage.getItem('token')
+    if (!token) throw new Error('Sesi login habis, silakan login ulang.')
+    const data = await getRedeemHistory(token)
+    redeemHistory.value = Array.isArray(data) ? data : []
+  } catch (err) {
+    redeemError.value = err?.message || 'Gagal mengambil riwayat penukaran.'
+    redeemHistory.value = []
+  } finally {
+    redeemLoading.value = false
+    globalLoading.value = false
+    globalLoadingMsg.value = ''
+  }
+}
+
+onMounted(() => {
+  fetchUserProfile(localStorage.getItem('token'))
+  fetchRedeemHistory()
+})
+
+// Gantikan dummyHistory dengan computed yang memetakan redeemHistory
+const mappedHistory = computed(() => {
+  return redeemHistory.value.map(item => ({
+    tipe: item.type === 'ewallet' ? `E-Wallet (${item.provider || '-'})` : item.type === 'pulsa' ? `Pulsa (${item.provider || '-'})` : 'Token Listrik',
+    nominal: item.amount ? `Rp${item.amount.toLocaleString('id-ID')}` : '-',
+    tanggal: item.date || (item.created_at ? item.created_at.slice(0,10) : '-'),
+    poin: item.points || '-',
+    status: item.status || 'success',
+  }))
+})
+
+const globalLoading = ref(false)
+const globalLoadingMsg = ref('')
+
+async function handleRedeem(type) {
+  let token = localStorage.getItem('token')
+  if (!token || token === 'null' || token === 'undefined') {
+    showToast.value = true
+    toastType.value = 'error'
+    toastIcon.value = '❗'
+    toastMsg.value = 'Sesi login habis, silakan login ulang.'
+    setTimeout(() => router.push('/login'), 1500)
+    return
+  }
+  token = token.trim()
+  if (!/^eyJ/.test(token)) { // JWT harus diawali eyJ
+    showToast.value = true
+    toastType.value = 'error'
+    toastIcon.value = '❗'
+    toastMsg.value = 'Token tidak valid, silakan login ulang.'
+    setTimeout(() => router.push('/login'), 1500)
+    return
+  }
+  let payload = {}
   if (type === 'ewallet') {
-    const nominal = ewalletNominals.find(n => n.value === selectedEwalletNominal.value);
-    requiredPoint = nominal ? nominal.point : 0;
-    // Validasi nomor e-wallet
-    if (!ewalletNumber.value || ewalletNumber.value.length < 11 || ewalletNumber.value.length > 15) {
-      showToast.value = true;
-      toastMsg.value = 'Nomor e-wallet harus 11-15 digit!';
-      toastType.value = 'error';
-      toastIcon.value = '❗';
-      return;
+    const selected = ewalletNominals.find(n => n.value === selectedEwalletNominal.value)
+    const amount = Number(selectedEwalletNominal.value.replace(/\./g, ''))
+    const points = Number(selected ? selected.point : 0)
+    if (!selectedEwallet.value || !ewalletNumber.value || !amount || !points || isNaN(amount) || isNaN(points)) {
+      showToast.value = true
+      toastType.value = 'error'
+      toastIcon.value = '❗'
+      toastMsg.value = 'Data e-wallet tidak lengkap atau tidak valid!'
+      return
+    }
+    payload = {
+      type: 'ewallet',
+      provider: selectedEwallet.value,
+      amount,
+      points,
+      target: ewalletNumber.value
+    }
+  } else if (type === 'pulsa') {
+    const selected = pulsaNominals.find(n => n.value === selectedPulsaNominal.value)
+    const amount = Number(selectedPulsaNominal.value.replace(/\./g, ''))
+    const points = Number(selected ? selected.point : 0)
+    if (!selectedPulsaProvider.value || !pulsaNumber.value || !amount || !points || isNaN(amount) || isNaN(points)) {
+      showToast.value = true
+      toastType.value = 'error'
+      toastIcon.value = '❗'
+      toastMsg.value = 'Data pulsa tidak lengkap atau tidak valid!'
+      return
+    }
+    payload = {
+      type: 'pulsa',
+      provider: selectedPulsaProvider.value,
+      amount,
+      points,
+      target: pulsaNumber.value
+    }
+  } else if (type === 'token') {
+    if (!/^\d{20}$/.test(tokenNumber.value)) {
+      showToast.value = true
+      toastType.value = 'error'
+      toastIcon.value = '❗'
+      toastMsg.value = 'Nomor meter/kWh harus 20 digit angka!'
+      return
+    }
+    const selected = tokenNominals.find(n => n.value === selectedTokenNominal.value)
+    const amount = Number(selectedTokenNominal.value.replace(/\./g, ''))
+    const points = Number(selected ? selected.point : 0)
+    if (!amount || !points || isNaN(amount) || isNaN(points)) {
+      showToast.value = true
+      toastType.value = 'error'
+      toastIcon.value = '❗'
+      toastMsg.value = 'Data token listrik tidak lengkap atau tidak valid!'
+      return
+    }
+    payload = {
+      type: 'token',
+      provider: '', // provider harus selalu ada sesuai handler backend
+      amount,
+      points,
+      target: tokenNumber.value
     }
   }
-  if (type === 'pulsa') {
-    const nominal = pulsaNominals.find(n => n.value === selectedPulsaNominal.value);
-    requiredPoint = nominal ? nominal.point : 0;
-    // Validasi nomor pulsa
-    if (!pulsaNumber.value || pulsaNumber.value.length < 11 || pulsaNumber.value.length > 15) {
-      showToast.value = true;
-      toastMsg.value = 'Nomor HP harus 11-15 digit!';
-      toastType.value = 'error';
-      toastIcon.value = '❗';
-      return;
+  // Tidak perlu hapus field provider, selalu ada (string kosong jika token listrik)
+  // Debug log payload dan tipe data
+  console.log('Payload redeem:', payload, JSON.stringify(payload), {
+    type: typeof payload.type,
+    provider: typeof payload.provider,
+    amount: typeof payload.amount,
+    points: typeof payload.points,
+    target: typeof payload.target,
+  })
+  globalLoading.value = true
+  globalLoadingMsg.value = 'Memproses penukaran...'
+  try {
+    await redeem(payload, token)
+    showToast.value = true
+    toastType.value = 'success'
+    toastIcon.value = '✔️'
+    toastMsg.value = 'Redeem berhasil!'
+    await fetchUserProfile(token)
+    await fetchRedeemHistory() // refresh riwayat setelah redeem
+    closeModal()
+  } catch (err) {
+    let msg = err?.response?.data?.message || err?.message || 'Redeem gagal!'
+    // Jika error karena token, redirect ke login
+    if (msg.toLowerCase().includes('token')) {
+      toastMsg.value = 'Sesi login habis/invalid, silakan login ulang.'
+      setTimeout(() => router.push('/login'), 1800)
+    } else {
+      toastMsg.value = msg
     }
+    showToast.value = true
+    toastType.value = 'error'
+    toastIcon.value = '❗'
+    console.error('Redeem error:', err?.response || err)
+  } finally {
+    globalLoading.value = false
+    globalLoadingMsg.value = ''
   }
-  if (type === 'token') {
-    const nominal = tokenNominals.find(n => n.value === selectedTokenNominal.value);
-    requiredPoint = nominal ? nominal.point : 0;
-    // Validasi nomor token listrik
-    if (!tokenNumber.value || tokenNumber.value.length !== 20) {
-      showToast.value = true;
-      toastMsg.value = 'Nomor meter/kWh harus 20 digit!';
-      toastType.value = 'error';
-      toastIcon.value = '❗';
-      return;
-    }
-  }
-  // Validasi point cukup
-  if (requiredPoint > totalPoin) {
-    showToast.value = true;
-    toastMsg.value = 'Point tidak cukup untuk penukaran ini!';
-    toastType.value = 'error';
-    toastIcon.value = '❗';
-    return;
-  }
-  // Validasi sederhana, bisa dikembangkan sesuai kebutuhan
-  showToast.value = true
-  toastType.value = 'success'
-  toastIcon.value = '✔️'
-  if (type === 'ewallet') toastMsg.value = 'Redeem e-wallet berhasil!'
-  if (type === 'pulsa') toastMsg.value = 'Redeem pulsa berhasil!'
-  if (type === 'token') toastMsg.value = 'Redeem token listrik berhasil!'
 }
 </script>
 

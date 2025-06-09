@@ -23,15 +23,24 @@
     
     <!-- Bottom Navigation -->
     <BottomNav active="history" />
+    <LoadingIndicator :visible="globalLoading" />
   </div>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 import BottomNav from '../components/BottomNav.vue'
 import Header from '../components/Header.vue'
+import LoadingIndicator from '../components/LoadingIndicator.vue'
 
 const router = useRouter()
+const globalLoading = ref(false)
+
+// Contoh penggunaan:
+// globalLoading.value = true; // sebelum request
+// globalLoading.value = false; // setelah selesai
+// Terapkan pada setiap request API utama di page ini.
 
 // TODO: Implement history API call when ready
 // This will fetch history data from a separate API endpoint

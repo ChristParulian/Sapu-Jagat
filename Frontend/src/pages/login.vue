@@ -138,12 +138,14 @@ const loading = ref(false)
 const showToast = ref(false)
 const toastMsg = ref('')
 const showPassword = ref(false)
+const globalLoading = ref(false)
 const router = useRouter()
 const { setUserFromApi } = useUserModel()
 
 const handleLogin = async () => {
   error.value = ''
   loading.value = true
+  globalLoading.value = true
   try {
     const data = await loginPresenter.login(email.value, password.value)
     localStorage.setItem('token', data.token)
@@ -155,8 +157,14 @@ const handleLogin = async () => {
     error.value = err.message || err
   } finally {
     loading.value = false
+    globalLoading.value = false
   }
 }
+
+// Contoh penggunaan:
+// globalLoading.value = true; // sebelum request
+// globalLoading.value = false; // setelah selesai
+// Terapkan pada setiap request API utama di page ini.
 </script>
 
 <style scoped>

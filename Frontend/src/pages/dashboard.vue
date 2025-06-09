@@ -7,7 +7,7 @@
       <!-- Welcome Back Message -->
       <div class="text-center mb-6">
         <h1 class="text-2xl sm:text-3xl font-bold mb-2 text-primary">
-          Selamat datang kembali, <span class="text-primary">{{ username || 'User' }}</span>!
+          Selamat datang kembali, <span class="text-primary">{{ userProfile?.username || 'User' }}</span>!
         </h1>
         <p class="text-secondary text-lg">Mulai perjalanan hijau Anda hari ini!</p>
         <!-- Mulai Scan Button -->
@@ -38,7 +38,7 @@
         <!-- Total Poin Diperoleh - Neumorphic -->
         <div class="neumorphic-card p-6">
           <h3 class="text-base font-semibold text-gray-600 mb-2">Total Poin Diperoleh</h3>
-          <div class="text-2xl sm:text-3xl font-bold text-gray-800 mb-1">5,678</div>
+          <div class="text-2xl sm:text-3xl font-bold text-gray-800 mb-1">{{ userProfile?.points?.toLocaleString('id-ID') ?? 0 }}</div>
           <p class="text-sm text-gray-500">Poin reward</p>
         </div>
           <!-- Daily Check-in - Neumorphic Style -->
@@ -85,22 +85,24 @@
             <p class="text-gray-600">Lihat riwayat aktivitas pemilahan sampah Anda</p>
           </button>
         </div>
-        <!-- Lokasi Bank Sampah Map -->
-        <div class="neumorphic-card p-4 relative z-0" style="background:#A4B465;">
-          <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center gap-2 justify-center">
-            <svg class="w-6 h-6" style="color:#FEFAE0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.8 13.938h-.011a7 7 0 1 0-11.464.144h-.016l.14.171c.1.127.2.251.3.371L12 21l5.13-6.248c.194-.209.374-.429.54-.659l.13-.155Z"/>
-            </svg>
-            Peta Jagat
-          </h3>
-          <p class="text-sm text-gray-600 mb-4">Temukan lokasi bank sampah terdekat</p>
-          <div id="map" class="w-full rounded-lg" style="height:300px;"></div>
+      </div>
+      <!-- Map Container (not in card) -->
+      <div class="w-full flex flex-col items-center mb-8" style="background:transparent;">
+        <div class="flex items-center gap-2 mb-1">
+          <svg class="w-6 h-6" style="color:#A4B465" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.8 13.938h-.011a7 7 0 1 0-11.464.144h-.016l.14.171c.1.127.2.251.3.371L12 21l5.13-6.248c.194-.209.374-.429.54-.659l.13-.155Z"/>
+          </svg>
+          <span class="text-lg sm:text-xl font-bold text-gray-800">Peta Jagat</span>
         </div>
+        <div class="text-sm text-gray-600 mb-3">Temukan lokasi bank sampah terdekat</div>
+        <div id="map" class="map-bordered w-full rounded-lg" style="height:350px; max-width:1000px;"></div>
       </div>
     </div>
     <!-- Bottom Navigation -->
     <BottomNav active="dashboard" />
+    <!-- Loading Indicator -->
+    <LoadingIndicator :visible="globalLoading" />
   </div>
 </template>
 
@@ -109,12 +111,16 @@ import { useRouter } from 'vue-router'
 import BottomNav from '../components/BottomNav.vue'
 import Header from '../components/Header.vue'
 import { useUserStore } from '../models/userModel.js'
+import { useUserProfile } from '../models/userprofileModel.js'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
+import LoadingIndicator from '../components/LoadingIndicator.vue'
 
 const router = useRouter()
 const { username } = useUserStore()
+const { userProfile, fetchUserProfile } = useUserProfile()
+const globalLoading = ref(false)
 
 function goToCheckin() {
   router.push('/checkin')
@@ -133,33 +139,54 @@ function goToHistory() {
 }
 
 onMounted(async () => {
-  // Inisialisasi map
-  const map = L.map('map').setView([-6.234985, 106.831627], 10)
-  L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=OCxf3aKSk6gkj1aQKlOR', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors & <a href="https://www.maptiler.com/copyright/" target="_blank" rel="noopener">MapTiler</a>',
-    tileSize: 512,
-    zoomOffset: -1,
-    minZoom: 1,
-    crossOrigin: true
-  }).addTo(map)
+  globalLoading.value = true
+  try {
+    await fetchUserProfile(localStorage.getItem('token'))
+    
+    // Inisialisasi map
+    const map = L.map('map').setView([-6.234985, 106.831627], 10)
+    L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=OCxf3aKSk6gkj1aQKlOR', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors & <a href="https://www.maptiler.com/copyright/" target="_blank" rel="noopener">MapTiler</a>',
+      tileSize: 512,
+      zoomOffset: -1,
+      minZoom: 1,
+      crossOrigin: true
+    }).addTo(map)
 
-  // Ambil data lokasi bank sampah
-  const res = await fetch('https://api.maptiler.com/data/01974e93-88e2-7375-a40e-2a1dc2e1c474/features.json?key=OCxf3aKSk6gkj1aQKlOR')
-  const data = await res.json()
-  if (data && data.features) {
-    data.features.forEach(f => {
-      const [lng, lat] = f.geometry.coordinates
-      // Ambil nama bank sampah dari berbagai kemungkinan field
-      const name = f.properties.nama_bank_sampah || f.properties.name || f.properties.NAMA || f.properties.nama || f.properties.title || 'Bank Sampah'
-      const alamat = f.properties.address || f.properties.alamat || ''
-      const deskripsi = f.properties.description || ''
-      let popupContent = `<b>${name}</b>`
-      if (alamat) popupContent += `<br><span style='font-size:13px;'>${alamat}</span>`
-      if (deskripsi) popupContent += `<br><span style='font-size:12px;color:#888;'>${deskripsi}</span>`
-      L.marker([lat, lng]).addTo(map).bindPopup(popupContent)
-    })
+    // Ambil data lokasi bank sampah
+    const res = await fetch('https://api.maptiler.com/data/01974e93-88e2-7375-a40e-2a1dc2e1c474/features.json?key=OCxf3aKSk6gkj1aQKlOR')
+    const data = await res.json()
+    if (data && data.features) {
+      data.features.forEach(f => {
+        // Pastikan hanya geometry type Point
+        if (f.geometry && f.geometry.type === 'Point' && Array.isArray(f.geometry.coordinates)) {
+          const [lng, lat] = f.geometry.coordinates
+          // Debug log koordinat dan properti
+          console.log('MapTiler marker:', { lat, lng, props: f.properties })
+          // Validasi lat/lng
+          if (typeof lat === 'number' && typeof lng === 'number' && Math.abs(lat) <= 90 && Math.abs(lng) <= 180) {
+            const name = f.properties.nama_bank_sampah || f.properties.name || f.properties.NAMA || f.properties.nama || f.properties.title || 'Bank Sampah'
+            const alamat = f.properties.address || f.properties.alamat || ''
+            const deskripsi = f.properties.description || ''
+            let popupContent = `<b>${name}</b>`
+            if (alamat) popupContent += `<br><span style='font-size:13px;'>${alamat}</span>`
+            if (deskripsi) popupContent += `<br><span style='font-size:12px;color:#888;'>${deskripsi}</span>`
+            L.marker([lat, lng]).addTo(map).bindPopup(popupContent)
+          }
+        }
+      })
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error)
+  } finally {
+    globalLoading.value = false
   }
 })
+
+/* Contoh penggunaan:
+globalLoading.value = true; // sebelum request
+globalLoading.value = false; // setelah selesai
+Terapkan pada setiap request API utama di page ini. */
 </script>
 
 <style scoped>
@@ -215,6 +242,12 @@ onMounted(async () => {
 /* Override Tailwind bg-clip-text jika ada */
 .neumorphic-card [class*='text-'] {
   color: #FEFAE0 !important;
+}
+
+.map-bordered {
+  /* border: 3px solid #A4B465; */
+  box-shadow: 0 8px 32px #A4B46566, 0 1.5px 8px #A4B46533;
+  background: #fff;
 }
 </style>
 

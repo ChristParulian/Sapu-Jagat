@@ -10,11 +10,19 @@
       <!-- User Info & Logout Section -->
       <div class="flex items-center space-x-4">
         <!-- User Greeting -->
-        <div class="block sm:block">
+        <div class="block sm:block lg:hidden">
           <span class="font-opensans text-sm" style="color: #FFCF50;">
             Hi, {{ username || 'User' }}!
           </span>
         </div>
+        <!-- Desktop Action Nav -->
+        <nav class="hidden lg:flex items-center gap-2 ml-6">
+          <router-link to="/dashboard" class="header-nav-btn" :class="{active: $route.path==='/dashboard'}">Beranda</router-link>
+          <router-link to="/redeem" class="header-nav-btn" :class="{active: $route.path==='/redeem'}">Dompet</router-link>
+          <router-link to="/scan" class="header-nav-btn" :class="{active: $route.path==='/scan'}">Scan</router-link>
+          <router-link to="/education" class="header-nav-btn" :class="{active: $route.path==='/education'}">Edukasi</router-link>
+          <router-link to="/about" class="header-nav-btn" :class="{active: $route.path==='/about'}">Tentang</router-link>
+        </nav>
         <!-- Logout Button -->
         <button
           @click="handleLogout"
@@ -102,6 +110,19 @@ img[alt="Sapu Jagat Logo"]:hover {
 
 .font-opensans {
   font-family: 'Open Sans', sans-serif;
+}
+
+/* Navigation button styles */
+.header-nav-btn {
+  @apply px-4 py-2 rounded-lg font-semibold transition-all duration-200;
+  background: transparent;
+  color: #FFCF50;
+  border: none;
+  outline: none;
+}
+.header-nav-btn.active, .header-nav-btn:hover {
+  background: #FFCF50;
+  color: #626F47;
 }
 
 /* Responsive adjustments */

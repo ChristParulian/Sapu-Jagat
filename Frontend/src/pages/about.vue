@@ -6,18 +6,31 @@
       <p class="text-secondary text-lg">Belum ada informasi tentang aplikasi.</p>
     </div>
     <BottomNav active="about" />
+    <LoadingIndicator :visible="globalLoading" />
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import BottomNav from '../components/BottomNav.vue'
 import Header from '../components/Header.vue'
+import LoadingIndicator from '../components/LoadingIndicator.vue'
 
 const router = useRouter()
+const globalLoading = ref(false)
+
+// Contoh penggunaan:
+// globalLoading.value = true; // sebelum request
+// globalLoading.value = false; // setelah selesai
+// Terapkan pada setiap request API utama di page ini.
 
 function logout() {
   localStorage.removeItem('token')
   router.push('/login')
 }
 </script>
+
+<style scoped>
+/* Add any component-specific styles here */
+</style>

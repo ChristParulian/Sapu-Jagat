@@ -157,11 +157,18 @@ const showToast = ref(false)
 const toastMsg = ref('')
 const router = useRouter()
 const showPassword = ref(false)
+const globalLoading = ref(false)
 const { setUserFromApi } = useUserModel()
+
+// Contoh penggunaan:
+// globalLoading.value = true; // sebelum request
+// globalLoading.value = false; // setelah selesai
+// Terapkan pada setiap request API utama di page ini.
 
 const handleRegister = async () => {
   error.value = ''
   loading.value = true
+  globalLoading.value = true
   try {
     const data = await registerPresenter.register(username.value, email.value, password.value)
     if (data.token) {
@@ -175,6 +182,7 @@ const handleRegister = async () => {
     error.value = err.message || err
   } finally {
     loading.value = false
+    globalLoading.value = false
   }
 }
 </script>
