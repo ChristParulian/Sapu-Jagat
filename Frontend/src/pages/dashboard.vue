@@ -3,91 +3,62 @@
     <!-- Header Component -->
     <Header />
     <!-- Main Content -->
-    <div class="flex-1 pt-24 lg:pt-28 xl:pt-32 p-4 sm:p-8">      
-      <!-- Welcome Back Message -->
-      <div class="text-center mb-6">
-        <h1 class="text-2xl sm:text-3xl font-bold mb-2 text-primary">
-          Selamat datang kembali, <span class="text-primary">{{ userProfile?.username || 'User' }}</span>!
-        </h1>
-        <p class="text-secondary text-lg">Mulai perjalanan hijau Anda hari ini!</p>
-        <!-- Mulai Scan Button -->
-        <button 
-          @click="goToScan"
-          class="bg-primary hover:bg-secondary text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 mt-4"
-        >
-          Mulai Scan
-        </button>
-      </div>      
-      
-      <!-- Statistics Cards -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <!-- Sampah Sudah Dipilah - Neumorphic -->
-        <div class="neumorphic-card p-6">
-          <h3 class="text-base font-semibold text-gray-600 mb-2">Sampah Sudah Dipilah</h3>
-          <div class="text-2xl sm:text-3xl font-bold text-gray-800 mb-1">1,234</div>
-          <p class="text-sm text-gray-500">Sampah yang dipilah</p>
-        </div>
-        
-        <!-- Total Berat Sampah - Neumorphic -->
-        <div class="neumorphic-card p-6">
-          <h3 class="text-base font-semibold text-gray-600 mb-2">Total Berat Sampah</h3>
-          <div class="text-2xl sm:text-3xl font-bold text-gray-800 mb-1">3,567 kg</div>
-          <p class="text-sm text-gray-500">Berat total sampah</p>
-        </div>
-        
-        <!-- Total Poin Diperoleh - Neumorphic -->
-        <div class="neumorphic-card p-6">
-          <h3 class="text-base font-semibold text-gray-600 mb-2">Total Poin Diperoleh</h3>
-          <div class="text-2xl sm:text-3xl font-bold text-gray-800 mb-1">{{ userProfile?.points?.toLocaleString('id-ID') ?? 0 }}</div>
-          <p class="text-sm text-gray-500">Poin reward</p>
-        </div>
-          <!-- Daily Check-in - Neumorphic Style -->
-        <div class="neumorphic-card p-6">
-          <h3 class="text-base font-semibold text-gray-600 mb-2">Jagat Aktif</h3>
+    <div class="flex-1 pt-24 lg:pt-28 xl:pt-32 p-4 sm:p-8">
+      <!-- Atas: Salam & Ilustrasi -->
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
+        <!-- Salam & Scan Button -->
+        <div class="flex-1" data-aos="fade-right">
+          <h1 class="text-2xl sm:text-3xl font-bold mb-2 text-primary">
+            Selamat datang kembali, <span class="text-primary">{{ userProfile?.username || 'User' }}</span>!
+          </h1>
+          <p class="text-secondary text-lg mb-4">Mulai perjalanan hijau Anda hari ini!</p>
           <button 
-            @click="goToCheckin"
-            class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 w-full mb-2"
+            @click="goToScan"
+            class="bg-primary hover:bg-secondary text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300"
           >
-            Check In Hari Ini
+            Mulai Scan Sampah
           </button>
-          <p class="text-xs text-gray-500">Terakhir: 5 Juni 2025</p>        
         </div>
-      </div>      <!-- Quick Access Section -->
-      <div class="mb-8">
-        <h2 class="text-xl font-bold text-gray-800 mb-4">Akses Cepat</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-          <!-- Profile Button - Neumorphic -->
-          <button 
-            @click="goToProfile"
-            class="neumorphic-card p-6 hover:shadow-lg transition-all duration-300 text-left group"
-          >
-            <div class="flex items-center mb-2">
-              <svg class="w-8 h-8 mr-3 transition-transform group-hover:scale-110" style="color:#FEFAE0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <circle cx="12" cy="8" r="4"/>
-                <path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
-              </svg>
-              <h3 class="text-lg font-semibold text-gray-800">Profil Jagat</h3>
+        <!-- Ilustrasi -->
+        <div class="flex-1 flex justify-center" data-aos="zoom-in">
+          <div class="relative w-full max-w-xs md:max-w-sm lg:max-w-md">
+            <img src="/illustrations/person-doing-selective-recycle-garbage.jpg" alt="Orang scan sampah" class="w-full drop-shadow-2xl rounded-2xl bg-[#A4B465] p-2" />
+            <div class="absolute bottom-2 left-2 bg-black bg-opacity-40 text-xs text-white px-2 py-1 rounded" style="font-size:11px;">
+              Image by <a href="https://www.freepik.com/free-photo/person-doing-selective-recycle-garbage_18955511.htm" target="_blank" rel="noopener" class="underline">freepik</a>
             </div>
-            <p class="text-gray-600">Kelola informasi akun dan preferensi Anda</p>
-          </button>
-
-          <!-- History Button - Neumorphic -->
-          <button 
-            @click="goToHistory"
-            class="neumorphic-card p-6 hover:shadow-lg transition-all duration-300 text-left group"
-          >
-            <div class="flex items-center mb-2">
-              <svg class="w-8 h-8 mr-3 transition-transform group-hover:scale-110" style="color:#FEFAE0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-              </svg>
-              <h3 class="text-lg font-semibold text-gray-800">Aksi Jagat</h3>
-            </div>
-            <p class="text-gray-600">Lihat riwayat aktivitas pemilahan sampah Anda</p>
-          </button>
+          </div>
         </div>
       </div>
-      <!-- Map Container (not in card) -->
-      <div class="w-full flex flex-col items-center mb-8" style="background:transparent;">
+      <!-- Statistik Total Sampah -->
+      <div class="flex justify-center mb-8" data-aos="fade-up">
+        <div class="neumorphic-card p-8 w-full max-w-2xl text-center">
+          <h3 class="text-lg sm:text-xl font-semibold mb-2">Statistik Total Sampah yang Sudah di Scan</h3>
+          <div class="flex flex-col sm:flex-row justify-center gap-6">
+            <div>
+              <div class="text-2xl sm:text-3xl font-bold mb-1">1,234</div>
+              <p class="text-sm">Sampah Sudah Dipilah</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Jagat Aktif, Profil, Aksi -->
+      <div class="flex flex-col sm:flex-row gap-4 mb-8" data-aos="fade-up">
+        <div class="flex-1 neumorphic-card p-6 flex flex-col items-center">
+          <h3 class="text-base font-semibold mb-2">Jagat Aktif</h3>
+          <button @click="goToCheckin" class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 w-full mb-2">Check In Hari Ini</button>
+          <p class="text-xs">Terakhir: 5 Juni 2025</p>
+        </div>
+        <div class="flex-1 neumorphic-card p-6 flex flex-col items-center">
+          <h3 class="text-base font-semibold mb-2">Profil Jagat</h3>
+          <button @click="goToProfile" class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 w-full">Menuju Profil Jagat</button>
+        </div>
+        <div class="flex-1 neumorphic-card p-6 flex flex-col items-center">
+          <h3 class="text-base font-semibold mb-2">Aksi Jagat</h3>
+          <button @click="goToHistory" class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 w-full">Menuju Aksi Jagat</button>
+        </div>
+      </div>
+      <!-- Map Section -->
+      <div class="w-full flex flex-col items-center mb-8" style="background:transparent;" data-aos="fade-up">
         <div class="flex items-center gap-2 mb-1">
           <svg class="w-6 h-6" style="color:#A4B465" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
@@ -112,10 +83,13 @@ import BottomNav from '../components/BottomNav.vue'
 import Header from '../components/Header.vue'
 import { useUserStore } from '../models/userModel.js'
 import { useUserProfile } from '../models/userprofileModel.js'
-import L from 'leaflet'
+import L, { icon } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { ref, onMounted } from 'vue'
 import LoadingIndicator from '../components/LoadingIndicator.vue'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
+import { initMap } from '../utils/map.js'
 
 const router = useRouter()
 const { username } = useUserStore()
@@ -139,20 +113,21 @@ function goToHistory() {
 }
 
 onMounted(async () => {
+  AOS.init({ once: true, duration: 800 })
   globalLoading.value = true
   try {
     await fetchUserProfile(localStorage.getItem('token'))
-    
-    // Inisialisasi map
-    const map = L.map('map').setView([-6.234985, 106.831627], 10)
-    L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=OCxf3aKSk6gkj1aQKlOR', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors & <a href="https://www.maptiler.com/copyright/" target="_blank" rel="noopener">MapTiler</a>',
-      tileSize: 512,
-      zoomOffset: -1,
-      minZoom: 1,
-      crossOrigin: true
-    }).addTo(map)
-
+    // Inisialisasi map pakai utils
+    const map = initMap('map')
+    // Custom icon untuk marker agar tidak broken image
+    const customIcon = L.icon({
+      iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+      shadowSize: [41, 41]
+    })
     // Ambil data lokasi bank sampah
     const res = await fetch('https://api.maptiler.com/data/01974e93-88e2-7375-a40e-2a1dc2e1c474/features.json?key=OCxf3aKSk6gkj1aQKlOR')
     const data = await res.json()
@@ -161,8 +136,6 @@ onMounted(async () => {
         // Pastikan hanya geometry type Point
         if (f.geometry && f.geometry.type === 'Point' && Array.isArray(f.geometry.coordinates)) {
           const [lng, lat] = f.geometry.coordinates
-          // Debug log koordinat dan properti
-          console.log('MapTiler marker:', { lat, lng, props: f.properties })
           // Validasi lat/lng
           if (typeof lat === 'number' && typeof lng === 'number' && Math.abs(lat) <= 90 && Math.abs(lng) <= 180) {
             const name = f.properties.nama_bank_sampah || f.properties.name || f.properties.NAMA || f.properties.nama || f.properties.title || 'Bank Sampah'
@@ -171,7 +144,7 @@ onMounted(async () => {
             let popupContent = `<b>${name}</b>`
             if (alamat) popupContent += `<br><span style='font-size:13px;'>${alamat}</span>`
             if (deskripsi) popupContent += `<br><span style='font-size:12px;color:#888;'>${deskripsi}</span>`
-            L.marker([lat, lng]).addTo(map).bindPopup(popupContent)
+            L.marker([lat, lng], { icon: customIcon }).addTo(map).bindPopup(popupContent)
           }
         }
       })
@@ -248,6 +221,19 @@ Terapkan pada setiap request API utama di page ini. */
   /* border: 3px solid #A4B465; */
   box-shadow: 0 8px 32px #A4B46566, 0 1.5px 8px #A4B46533;
   background: #fff;
+}
+
+@media (max-width: 640px) {
+  h1, h2, h3, h4, h5, h6, .text-lg, .text-xl, .text-2xl, .text-3xl {
+    font-size: 90% !important;
+  }
+  .neumorphic-card {
+    padding: 1rem !important;
+  }
+  button {
+    font-size: 90% !important;
+    padding: 0.5rem 1rem !important;
+  }
 }
 </style>
 

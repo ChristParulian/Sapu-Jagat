@@ -23,12 +23,18 @@
               <div class="text-xs text-gray-500 mb-1">Pengguna Baru</div>
               <div class="text-2xl font-bold text-[#626F47]">9.9k+</div>
             </div>
-              <!-- Main illustration image -->
-            <div class="mt-12 mb-8 flex justify-center">
-              <img src="/illustrations/waste-sorting.png" 
-                alt="Waste Sorting Illustration" 
-                class="w-96 h-72 object-contain drop-shadow-lg" 
-              />            </div>
+            <!-- Main illustration image -->
+            <div class="mt-12 mb-8 flex justify-center relative">
+              <img src="/illustrations/40276.png"
+                alt="Waste Sorting Illustration"
+                class="w-96 h-72 object-contain drop-shadow-lg rounded-xl"
+              />
+              <div class="absolute bottom-2 right-2 text-[11px] text-[#FEFAE0]/70 max-w-[80%] text-right pointer-events-auto select-none" style="font-weight: 400; letter-spacing: 0.01em; opacity:0.7;">
+                <a href="https://www.freepik.com/free-vector/students-learning-about-various-recyclable-materials_3198231.htm" target="_blank" rel="noopener noreferrer" style="color:#FEFAE0; text-decoration:underline; opacity:0.7; font-style:normal;">
+                  Image by rawpixel.com on Freepik
+                </a>
+              </div>
+            </div>
           </div>        </div>        <!-- Right Side - Register Form -->
         <div class="w-full md:w-1/2 p-6 md:p-8 lg:p-12 flex flex-col justify-center bg-white">          <!-- Logo and Header -->          <div class="text-center mb-6">            <div class="flex justify-center mb-2">
               <img src="/logo/logo.png" alt="Sapu Jagat" class="w-40 h-40 md:w-48 md:h-48 object-contain" />
