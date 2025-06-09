@@ -43,18 +43,21 @@
       </div>
       <!-- Jagat Aktif, Profil, Aksi -->
       <div class="flex flex-col sm:flex-row gap-4 mb-8" data-aos="fade-up">
+        <!-- Card Jagat Aktif -->
         <div class="flex-1 neumorphic-card p-6 flex flex-col items-center">
           <h3 class="text-base font-semibold mb-2">Jagat Aktif</h3>
           <button @click="goToCheckin" class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 w-full mb-2">Check In Hari Ini</button>
           <p class="text-xs">Terakhir: 5 Juni 2025</p>
         </div>
-        <div class="flex-1 neumorphic-card p-6 flex flex-col items-center">
+        <!-- Card Profil Jagat (Clickable) -->
+        <div class="flex-1 neumorphic-card p-6 flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200"
+          @click="goToProfile">
           <h3 class="text-base font-semibold mb-2">Profil Jagat</h3>
-          <button @click="goToProfile" class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 w-full">Menuju Profil Jagat</button>
         </div>
-        <div class="flex-1 neumorphic-card p-6 flex flex-col items-center">
+        <!-- Card Aksi Jagat (Clickable) -->
+        <div class="flex-1 neumorphic-card p-6 flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200"
+          @click="goToHistory">
           <h3 class="text-base font-semibold mb-2">Aksi Jagat</h3>
-          <button @click="goToHistory" class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 w-full">Menuju Aksi Jagat</button>
         </div>
       </div>
       <!-- Map Section -->
