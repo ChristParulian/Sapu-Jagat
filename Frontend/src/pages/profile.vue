@@ -23,12 +23,34 @@
               <label for="floating_username" class="peer-focus:font-medium absolute text-base text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 left-0 -z-10 origin-[0] peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 whitespace-nowrap truncate w-full sm:w-auto text-left sm:text-center">Username</label>
             </div>
             <div class="relative z-0 w-full group">
-              <input type="password" v-model="formPassword" id="floating_password" class="block py-3 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-primary peer placeholder:opacity-0" placeholder="Password Baru" />
+              <input :type="showPassword ? 'text' : 'password'" v-model="formPassword" id="floating_password" class="block py-3 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-primary peer placeholder:opacity-0 pr-12" placeholder="Password Baru" />
               <label for="floating_password" class="peer-focus:font-medium absolute text-base text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 left-0 -z-10 origin-[0] peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 whitespace-nowrap truncate w-full sm:w-auto text-left sm:text-center">Password Baru</label>
+              <button type="button" @click="showPassword = !showPassword" tabindex="-1" class="absolute right-3 top-1/2 -translate-y-1/2 bg-transparent border-none p-0 m-0 focus:outline-none shadow-none hover:bg-transparent active:bg-transparent">
+                <svg v-if="showPassword" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" :stroke="'#626F47'">
+                  <ellipse cx="12" cy="12" rx="8" ry="5.5" stroke-width="2" fill="none" />
+                  <circle cx="12" cy="12" r="2.5" stroke-width="2" fill="none" />
+                </svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" :stroke="'#626F47'">
+                  <ellipse cx="12" cy="12" rx="8" ry="5.5" stroke-width="2" fill="none" />
+                  <circle cx="12" cy="12" r="2.5" stroke-width="2" fill="none" />
+                  <line x1="5" y1="19" x2="19" y2="5" stroke-width="2" />
+                </svg>
+              </button>
             </div>
             <div class="relative z-0 w-full group">
-              <input type="password" v-model="formPasswordConfirm" id="floating_repeat_password" class="block py-3 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-primary peer placeholder:opacity-0" placeholder="Konfirmasi Password Baru" />
+              <input :type="showPasswordConfirm ? 'text' : 'password'" v-model="formPasswordConfirm" id="floating_repeat_password" class="block py-3 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-primary peer placeholder:opacity-0 pr-12" placeholder="Konfirmasi Password Baru" />
               <label for="floating_repeat_password" class="peer-focus:font-medium absolute text-base text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 left-0 -z-10 origin-[0] peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 whitespace-nowrap truncate w-full sm:w-auto text-left sm:text-center">Konfirmasi Password Baru</label>
+              <button type="button" @click="showPasswordConfirm = !showPasswordConfirm" tabindex="-1" class="absolute right-3 top-1/2 -translate-y-1/2 bg-transparent border-none p-0 m-0 focus:outline-none shadow-none hover:bg-transparent active:bg-transparent">
+                <svg v-if="showPasswordConfirm" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" :stroke="'#626F47'">
+                  <ellipse cx="12" cy="12" rx="8" ry="5.5" stroke-width="2" fill="none" />
+                  <circle cx="12" cy="12" r="2.5" stroke-width="2" fill="none" />
+                </svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" :stroke="'#626F47'">
+                  <ellipse cx="12" cy="12" rx="8" ry="5.5" stroke-width="2" fill="none" />
+                  <circle cx="12" cy="12" r="2.5" stroke-width="2" fill="none" />
+                  <line x1="5" y1="19" x2="19" y2="5" stroke-width="2" />
+                </svg>
+              </button>
             </div>
             <button type="submit" :disabled="isLoading" class="text-white bg-primary hover:bg-secondary focus:ring-4 focus:outline-none focus:ring-primary/30 font-semibold rounded-xl text-base w-full px-5 py-3 text-center mt-2 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center">
               <svg v-if="isLoading" class="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -79,10 +101,14 @@ const globalLoading = ref(false);
 // Terapkan pada setiap request API utama di page ini.
 
 // Toast state
-const showToast = ref('');
+const showToast = ref(false)
 const toastMsg = ref('');
 const toastType = ref('success');
 const toastIcon = ref('✔️');
+
+// State untuk toggle visibility password
+const showPassword = ref(false)
+const showPasswordConfirm = ref(false)
 
 const { setUsername } = useUserStore();
 const { setUserFromApi } = useUserModel();
