@@ -44,6 +44,7 @@
     </div>
     <BottomNav active="profile" />
     <Toast v-model="showToast" :message="toastMsg" :type="toastType" :icon="toastIcon" />
+    <LoadingIndicator :visible="globalLoading" />
   </div>
 </template>
 
@@ -55,6 +56,7 @@ import Header from '../components/Header.vue';
 import { editUserPresenter } from '../presenters/userPresenter.js';
 import Toast from '../components/Toast.vue';
 import { useUserStore, useUserModel } from '../models/userModel.js';
+import LoadingIndicator from '../components/LoadingIndicator.vue';
 
 const router = useRouter();
 const userName = ref('');
@@ -69,9 +71,15 @@ const formUsername = ref('');
 const formPassword = ref('');
 const formPasswordConfirm = ref('');
 const formError = ref('');
+const globalLoading = ref(false);
+
+// Contoh penggunaan:
+// globalLoading.value = true; // sebelum request
+// globalLoading.value = false; // setelah selesai
+// Terapkan pada setiap request API utama di page ini.
 
 // Toast state
-const showToast = ref(false);
+const showToast = ref('');
 const toastMsg = ref('');
 const toastType = ref('success');
 const toastIcon = ref('✔️');

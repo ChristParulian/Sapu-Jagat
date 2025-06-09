@@ -24,15 +24,26 @@
     
     <!-- Bottom Navigation -->
     <BottomNav active="results" />
+    
+    <!-- Loading Indicator -->
+    <LoadingIndicator :visible="globalLoading" />
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import BottomNav from '../components/BottomNav.vue'
 import Header from '../components/Header.vue'
+import LoadingIndicator from '../components/LoadingIndicator.vue'
 
 const router = useRouter()
+const globalLoading = ref(false)
+
+// Contoh penggunaan:
+// globalLoading.value = true; // sebelum request
+// globalLoading.value = false; // setelah selesai
+// Terapkan pada setiap request API utama di page ini.
 
 // TODO: Implement scan results functionality when ready
 // This will display the results from waste scanning

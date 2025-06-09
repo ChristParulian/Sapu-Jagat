@@ -97,6 +97,7 @@
     </div>
     <BottomNav active="home" />
     <Toast v-model="showToast" :message="toastMsg" type="success" icon="✔️" />
+    <LoadingIndicator :visible="globalLoading" />
   </div>
 </template>
 
@@ -107,6 +108,8 @@ import checkinPresenter from '../presenters/checkinPresenter'
 import BottomNav from '../components/BottomNav.vue'
 import Header from '../components/Header.vue'
 import Toast from '../components/Toast.vue'
+import LoadingIndicator from '../components/LoadingIndicator.vue'
+import { useUserProfile } from '../models/userprofileModel.js'
 
 const router = useRouter()
 const today = new Date();
@@ -118,6 +121,9 @@ const notifType = ref('success')
 const submittingDate = ref("");
 const showToast = ref(false)
 const toastMsg = ref('')
+const globalLoading = ref(false)
+
+const { userProfile, fetchUserProfile } = useUserProfile()
 
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
@@ -227,6 +233,7 @@ async function handleCheckInForDate(date) {
     showToast.value = true
     toastMsg.value = 'Check-in berhasil!'
     await fetchHistory()
+    await fetchUserProfile(token) // update poin & username setelah checkin
   } catch (err) {
     notif.value = err.message || err
     notifType.value = 'error'
@@ -241,6 +248,7 @@ onMounted(() => {
   window.addEventListener('resize', () => {
     isMobile.value = window.innerWidth < 640;
   });
+  fetchUserProfile(localStorage.getItem('token'))
 });
 onMounted(fetchHistory)
 watch(selectedMonth, fetchHistory)
@@ -255,3 +263,8 @@ watch(selectedMonth, fetchHistory)
   }
 }
 </style>
+
+<!-- Contoh penggunaan globalLoading:
+globalLoading.value = true; // sebelum request
+globalLoading.value = false; // setelah selesai
+Terapkan pada setiap request API utama di page ini. -->

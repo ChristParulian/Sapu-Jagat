@@ -64,6 +64,9 @@
     
     <!-- Toast Notification -->
     <Toast v-model="showToast" :message="toastMsg" type="success" icon="✔️" />
+    
+    <!-- Loading Indicator -->
+    <LoadingIndicator :visible="globalLoading" />
   </div>
 </template>
 
@@ -72,16 +75,23 @@ import { useRouter } from 'vue-router'
 import BottomNav from '../components/BottomNav.vue'
 import Header from '../components/Header.vue'
 import Toast from '../components/Toast.vue'
+import LoadingIndicator from '../components/LoadingIndicator.vue'
 import { ref } from 'vue'
 
 const router = useRouter()
 const showToast = ref(false)
 const toastMsg = ref('')
+const globalLoading = ref(false)
 
 function handleScanSuccess() {
   showToast.value = true
   toastMsg.value = 'Scan berhasil!'
 }
+
+// Contoh penggunaan:
+// globalLoading.value = true; // sebelum request
+// globalLoading.value = false; // setelah selesai
+// Terapkan pada setiap request API utama di page ini.
 
 // TODO: Implement camera functionality when model API is ready
 // This will include:
