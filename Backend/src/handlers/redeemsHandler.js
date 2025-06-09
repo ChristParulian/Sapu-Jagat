@@ -1,6 +1,6 @@
 const supabase = require('../supabaseClient');
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = process.env.JWT_SECRET || 'rahasia_super_aman';
+const JWT_SECRET = process.env.JWT_SECRET || 'secret_key';
 
 // Redeem point API
 const redeemPoint = async (request, h) => {
