@@ -309,6 +309,14 @@ async function handleRedeem(type) {
   }
   let payload = {}
   if (type === 'ewallet') {
+    // Validasi nomor e-wallet 11-15 digit
+    if (!/^\d{11,15}$/.test(ewalletNumber.value)) {
+      showToast.value = true
+      toastType.value = 'error'
+      toastIcon.value = '❗'
+      toastMsg.value = 'Nomor e-wallet harus 11-15 digit!'
+      return
+    }
     const selected = ewalletNominals.find(n => n.value === selectedEwalletNominal.value)
     const amount = Number(selectedEwalletNominal.value.replace(/\./g, ''))
     const points = Number(selected ? selected.point : 0)
@@ -327,6 +335,14 @@ async function handleRedeem(type) {
       target: ewalletNumber.value
     }
   } else if (type === 'pulsa') {
+    // Validasi nomor pulsa 11-15 digit
+    if (!/^\d{11,15}$/.test(pulsaNumber.value)) {
+      showToast.value = true
+      toastType.value = 'error'
+      toastIcon.value = '❗'
+      toastMsg.value = 'Nomor HP harus 11-15 digit!'
+      return
+    }
     const selected = pulsaNominals.find(n => n.value === selectedPulsaNominal.value)
     const amount = Number(selectedPulsaNominal.value.replace(/\./g, ''))
     const points = Number(selected ? selected.point : 0)
