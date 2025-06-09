@@ -318,3 +318,20 @@ axios.get('/checkin/history', {
   - Cocok untuk frontend yang ingin menampilkan data user terbaru setelah update profil dan checkin.
 
 ---
+
+## 14. Get Last Check-in
+- **Endpoint:** `GET /checkin/last`
+- **Header:**
+  - `Authorization: Bearer <jwt_token>`
+- **Response Sukses:**
+  ```json
+  {
+    "status": "success",
+    "data": {
+      "last_checkin": "2025-06-08" // atau null jika belum pernah check-in
+    }
+  }
+  ```
+- **Catatan:**
+  - Mengembalikan tanggal check-in terakhir milik user yang sedang login (berdasarkan token JWT).
+  - Jika user belum pernah check-in, maka `last_checkin` bernilai null.
