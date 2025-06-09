@@ -139,4 +139,38 @@ const getCheckinHistoryByMonth = async (request, h) => {
   }).code(200);
 };
 
-module.exports = { checkInUser, getCheckinHistoryByMonth };
+// Get last check-in date
+const getLastCheckin = async (request, h) => {
+  const authHeader = request.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return h.response({ status: 'fail', message: 'Token tidak ditemukan' }).code(401);
+  }
+  const token = authHeader.split(' ')[1];
+  let payload;
+  try {
+    payload = jwt.verify(token, JWT_SECRET);
+  } catch {
+    return h.response({ status: 'fail', message: 'Token tidak valid' }).code(401);
+  }
+  const userId = payload.id;
+
+  const { data, error } = await supabase
+    .from('checkins')
+    .select('date')
+    .eq('user_id', userId)
+    .order('date', { ascending: false })
+    .limit(1);
+
+  if (error) {
+    return h.response({ status: 'fail', message: 'Gagal mengambil data' }).code(500);
+  }
+
+  const lastCheckin = data && data.length > 0 ? data[0].date : null;
+
+  return h.response({
+    status: 'success',
+    data: { lastCheckin }
+  }).code(200);
+};
+
+module.exports = { checkInUser, getCheckinHistoryByMonth, getLastCheckin };
