@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const supabase = require('../supabaseClient');
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = process.env.JWT_SECRET || 'rahasia_super_aman';
+const JWT_SECRET = process.env.JWT_SECRET || 'secret_key';
 
 // Register
 const registerUser = async (request, h) => {
