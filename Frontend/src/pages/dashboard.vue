@@ -47,7 +47,9 @@
         <div class="flex-1 neumorphic-card p-6 flex flex-col items-center">
           <h3 class="text-base font-semibold mb-2">Jagat Aktif</h3>
           <button @click="goToCheckin" class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 w-full mb-2">Check In Hari Ini</button>
-          <p class="text-xs">Terakhir: 5 Juni 2025</p>
+          <p class="text-xs">
+            Terakhir: {{ lastCheckin ? formatDate(lastCheckin) : '-' }}
+          </p>
         </div>
         <!-- Card Profil Jagat (Clickable) -->
         <div class="flex-1 neumorphic-card p-6 flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200"
@@ -98,6 +100,7 @@ const router = useRouter()
 const { username } = useUserStore()
 const { userProfile, fetchUserProfile } = useUserProfile()
 const globalLoading = ref(false)
+const lastCheckin = ref(null)
 
 function goToCheckin() {
   router.push('/checkin')
@@ -115,11 +118,28 @@ function goToHistory() {
   router.push('/history')
 }
 
+async function fetchLastCheckin() {
+  try {
+    const token = localStorage.getItem('token')
+    if (!token) return
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/checkin/last`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    const data = await res.json()
+    if (data.status === 'success' && data.data.lastCheckin) {
+      lastCheckin.value = data.data.lastCheckin
+    }
+  } catch (e) {
+    lastCheckin.value = null
+  }
+}
+
 onMounted(async () => {
   AOS.init({ once: true, duration: 800 })
   globalLoading.value = true
   try {
     await fetchUserProfile(localStorage.getItem('token'))
+    await fetchLastCheckin()
     // Inisialisasi map pakai utils
     const map = initMap('map')
     // Custom icon untuk marker agar tidak broken image
@@ -158,6 +178,17 @@ onMounted(async () => {
     globalLoading.value = false
   }
 })
+
+// Helper untuk format tanggal ke "5 Juni 2025"
+function formatDate(dateStr) {
+  if (!dateStr) return '-'
+  const bulan = [
+    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+  ]
+  const [year, month, day] = dateStr.split('-')
+  return `${Number(day)} ${bulan[Number(month) - 1]} ${year}`
+}
 
 /* Contoh penggunaan:
 globalLoading.value = true; // sebelum request

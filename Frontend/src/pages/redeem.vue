@@ -6,7 +6,7 @@
     
     <!-- Main Content -->
     <div class="flex-1 pt-24 lg:pt-28 xl:pt-32 p-4 sm:p-8 flex flex-col items-center">
-      <h1 class="text-3xl font-bold mb-2 text-primary">Tukar Poin</h1>
+      <h1 class="text-3xl font-bold mb-2 text-primary">Dompet Jagat</h1>
       <p class="text-secondary text-lg mb-6">Tukar poin Anda dengan hadiah menarik!</p>
       <!-- Total Poin -->
       <div class="mb-8 flex items-center justify-center">

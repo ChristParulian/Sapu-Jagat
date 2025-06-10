@@ -6,7 +6,7 @@
     <!-- Main Content -->
     <div class="flex-1 pt-24 lg:pt-28 xl:pt-32 p-4 sm:p-8">
       <div class="text-center mb-6">
-        <h1 class="text-2xl sm:text-3xl font-bold mb-2 text-primary">Scan Sampah</h1>
+        <h1 class="text-2xl sm:text-3xl font-bold mb-2 text-primary">Scan Jagat</h1>
         <p class="text-secondary text-lg">Pindai sampah untuk mendapatkan informasi pemilahan</p>
       </div>
       

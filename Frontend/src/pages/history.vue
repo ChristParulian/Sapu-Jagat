@@ -5,7 +5,7 @@
     <!-- Main Content -->
     <div class="flex-1 pt-24 lg:pt-28 xl:pt-32 p-4 sm:p-8">
       <div class="text-center mb-6">
-        <h1 class="text-2xl sm:text-3xl font-bold mb-2 text-primary">Riwayat</h1>
+        <h1 class="text-2xl sm:text-3xl font-bold mb-2 text-primary">Aksi Jagat</h1>
         <p class="text-secondary text-lg">Riwayat aktivitas sampah Anda</p>
       </div>
       
