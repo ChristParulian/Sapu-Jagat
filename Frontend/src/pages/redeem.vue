@@ -1,144 +1,381 @@
 <template>
-  <div class="min-h-screen flex flex-col justify-between" style="background-color: #FEFAE0; font-family: 'Montserrat', 'Open Sans', sans-serif;">
-    <!-- Removed duplicate greeting and points display here -->
-    <!-- Header Component -->
-    <Header />
+  <div class="min-h-screen flex flex-col justify-between bg-brand-cream font-sans relative overflow-hidden">
+    <!-- Animated Background -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div class="absolute top-20 right-10 w-32 h-32 bg-brand-yellow/10 rounded-full blur-3xl animate-float"></div>
+      <div class="absolute bottom-40 left-10 w-40 h-40 bg-brand-sage/15 rounded-full blur-2xl animate-float-delay"></div>
+      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-brand-forest/5 rounded-full blur-3xl animate-pulse-slow"></div>
+    </div>
     
-    <!-- Main Content -->
-    <div class="flex-1 pt-24 lg:pt-28 xl:pt-32 p-4 sm:p-8 flex flex-col items-center">
-      <h1 class="text-3xl font-bold mb-2 text-primary">Dompet Jagat</h1>
-      <p class="text-secondary text-lg mb-6">Tukar poin Anda dengan hadiah menarik!</p>
-      <!-- Total Poin -->
-      <div class="mb-8 flex items-center justify-center">
-        <div class="bg-white rounded-xl shadow px-6 py-3 flex items-center gap-2 border-2 border-[#a7c957]">
-          <span class="inline-flex items-center justify-center w-7 h-7">
-            <svg class="w-7 h-7 text-[#a7c957]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="9.5"/>
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12"/>
-              <path stroke-linecap="round" stroke-linejoin="round" d="M14.5 9.5c0-.8-.7-1.5-2.5-1.5s-2.5.7-2.5 1.5.7 1.5 2.5 1.5"/>
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9.5 14.5C9.5 15.3 10.2 16 12 16s2.5-.7 2.5-1.5-1.3-1.5-2.5-1.5"/>
+    <!-- Header Component -->
+    <Header />    <!-- Main Content -->
+    <div class="flex-1 main-content p-4 sm:p-8 flex flex-col items-center relative z-10">
+      <!-- Hero Section -->
+      <div class="text-center mb-12 w-full" data-aos="fade-down">
+        <h1 class="hero-title text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-brand-forest via-brand-sage to-brand-forest bg-clip-text text-transparent">
+          Dompet Jagat
+        </h1>
+        <p class="text-brand-forest text-lg sm:text-xl mb-8 max-w-md mx-auto">
+          Tukar poin Anda dengan hadiah menarik dan nikmati reward dari usaha ramah lingkungan!
+        </p>
+      </div>
+
+      <!-- Total Poin Card -->
+      <div class="mb-12 w-full max-w-md" data-aos="zoom-in" data-aos-delay="200">
+        <div class="glass-card p-8 relative overflow-hidden group hover:scale-105 transition-all duration-500">
+          <!-- Background decoration -->
+          <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-brand-yellow/30 to-brand-sage/30 rounded-full blur-xl"></div>
+          <div class="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-tr from-brand-sage/20 to-brand-forest/20 rounded-full blur-lg"></div>
+          
+          <div class="relative z-10 text-center">            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 bg-gradient-to-br from-brand-sage to-brand-forest shadow-lg">
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <div class="space-y-2">
+              <p class="text-brand-forest/70 text-sm font-medium uppercase tracking-wider">Total Poin Anda</p>
+              <div class="text-4xl font-bold bg-gradient-to-r from-brand-forest to-brand-sage bg-clip-text text-transparent counter-animation">
+                {{ totalPoin.toLocaleString('id-ID') }}
+              </div>
+              <div class="flex items-center justify-center gap-2 text-brand-sage">
+                <div class="w-2 h-2 bg-brand-sage rounded-full animate-pulse"></div>
+                <span class="text-sm font-medium">Poin Aktif</span>
+                <div class="w-2 h-2 bg-brand-sage rounded-full animate-pulse"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Redemption Methods -->
+      <div class="w-full max-w-4xl mb-12" data-aos="fade-up" data-aos-delay="300">
+        <div class="text-center mb-8">
+          <h2 class="text-2xl font-bold text-brand-forest mb-2">Pilih Metode Penukaran</h2>
+          <p class="text-brand-forest/70">Tukar poin dengan berbagai pilihan reward yang tersedia</p>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <!-- E-Wallet Card -->
+          <div class="redeem-card group" @click="openModal('ewallet')" data-aos="flip-left" data-aos-delay="400">
+            <div class="relative overflow-hidden h-full">
+              <div class="absolute inset-0 bg-gradient-to-br from-brand-yellow to-brand-sage opacity-90"></div>
+              <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full blur-xl transform translate-x-6 -translate-y-6"></div>
+              
+              <div class="relative z-10 p-8 h-full flex flex-col items-center justify-center text-center">
+                <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">E-Wallet</h3>
+                <p class="text-white/80 text-sm">DANA, OVO, GoPay, ShopeePay</p>
+                <div class="mt-4 px-4 py-2 bg-white/20 rounded-full">
+                  <span class="text-white text-xs font-medium">Mulai 500 Poin</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pulsa Card -->
+          <div class="redeem-card group" @click="openModal('pulsa')" data-aos="flip-left" data-aos-delay="500">
+            <div class="relative overflow-hidden h-full">
+              <div class="absolute inset-0 bg-gradient-to-br from-brand-sage to-brand-forest opacity-90"></div>
+              <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full blur-xl transform translate-x-6 -translate-y-6"></div>
+              
+              <div class="relative z-10 p-8 h-full flex flex-col items-center justify-center text-center">
+                <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Pulsa</h3>
+                <p class="text-white/80 text-sm">Semua Provider</p>
+                <div class="mt-4 px-4 py-2 bg-white/20 rounded-full">
+                  <span class="text-white text-xs font-medium">Mulai 600 Poin</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Token Listrik Card -->
+          <div class="redeem-card group" @click="openModal('token')" data-aos="flip-left" data-aos-delay="600">
+            <div class="relative overflow-hidden h-full">
+              <div class="absolute inset-0 bg-gradient-to-br from-brand-forest to-brand-sage opacity-90"></div>
+              <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full blur-xl transform translate-x-6 -translate-y-6"></div>
+              
+              <div class="relative z-10 p-8 h-full flex flex-col items-center justify-center text-center">
+                <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Token Listrik</h3>
+                <p class="text-white/80 text-sm">PLN Prepaid</p>
+                <div class="mt-4 px-4 py-2 bg-white/20 rounded-full">
+                  <span class="text-white text-xs font-medium">Mulai 700 Poin</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>      <!-- Modal E-Wallet -->
+      <div v-if="showModal === 'ewallet'" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4 pt-20 pb-4" @click.self="closeModal">
+        <div class="modal-card w-full max-w-md relative my-auto" @click.stop data-aos="zoom-in" data-aos-duration="300">
+          <button class="absolute -top-2 -right-2 w-10 h-10 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 z-10" @click="closeModal">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
             </svg>
-          </span>
-          <span class="text-xl font-bold text-[#386641]">{{ totalPoin.toLocaleString('id-ID') }}</span>
-          <span class="text-base font-semibold text-[#b7b7a4]">Total Poin</span>
+          </button>
+          
+          <div class="p-8">
+            <div class="text-center mb-6">
+              <div class="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 bg-gradient-to-br from-brand-yellow to-brand-sage">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                </svg>
+              </div>
+              <h2 class="text-2xl font-bold text-brand-forest mb-2">Redeem E-Wallet</h2>
+              <div class="px-4 py-2 bg-brand-cream rounded-full inline-block">
+                <span class="text-sm text-brand-forest">Sisa: <span class="font-bold text-brand-sage">{{ totalPoin.toLocaleString('id-ID') }} poin</span></span>              </div>
+            </div>            <div class="space-y-6 pb-4">
+              <div class="form-group">
+                <label class="form-label">Pilih E-Wallet</label>
+                <select v-model="selectedEwallet" class="form-select">
+                  <option disabled value="">-- Pilih E-Wallet --</option>
+                  <option value="dana">DANA</option>
+                  <option value="ovo">OVO</option>
+                  <option value="gopay">GoPay</option>
+                  <option value="shopeepay">ShopeePay</option>
+                </select>
+              </div>
+
+              <div v-if="selectedEwallet" class="form-group">
+                <label class="form-label">Nomor E-Wallet</label>
+                <input v-model="ewalletNumber" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="20" placeholder="Masukkan nomor e-wallet" class="form-input" />
+              </div>
+
+              <div v-if="selectedEwallet" class="form-group">
+                <label class="form-label">Nominal E-Wallet</label>
+                <select v-model="selectedEwalletNominal" class="form-select">
+                  <option disabled value="">-- Pilih Nominal --</option>
+                  <option v-for="nom in ewalletNominals" :key="nom.value" :value="nom.value" :disabled="totalPoin < nom.point" :class="{ 'text-gray-400': totalPoin < nom.point }">
+                    {{ nom.label }} ({{ nom.point }} poin) <span v-if="totalPoin < nom.point">- Poin tidak cukup</span>
+                  </option>
+                </select>
+              </div><div v-if="selectedEwallet" class="flex justify-center py-6">
+                <div class="w-20 h-20 bg-white rounded-xl shadow-lg flex items-center justify-center">
+                  <img :src="ewalletLogos[selectedEwallet]" alt="Logo E-Wallet" class="w-16 h-16 object-contain" />
+                </div>
+              </div>              <button v-if="selectedEwallet && selectedEwalletNominal" @click="handleRedeem('ewallet')" class="btn-submit w-full" :disabled="totalPoin < (ewalletNominals.find(n => n.value === selectedEwalletNominal)?.point || 0)">
+                <div class="btn-submit-content">
+                  <svg class="btn-submit-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                  </svg>
+                  <div class="btn-submit-text">
+                    <span class="btn-submit-title">Tukar E-Wallet</span>
+                    <span class="btn-submit-subtitle">{{ (ewalletNominals.find(n => n.value === selectedEwalletNominal)?.point || 0).toLocaleString('id-ID') }} Poin diperlukan</span>
+                  </div>
+                </div>
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-      <p class="text-secondary text-lg mb-6">Pilih metode penukaran poin Anda:</p>
-      <!-- Pilihan Redeem dengan Tombol -->
-      <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 mb-10 w-full max-w-2xl justify-center">
-        <button class="btn-redeem flex-1 min-w-[140px]" @click="openModal('ewallet')">E-Wallet</button>
-        <button class="btn-redeem flex-1 min-w-[140px]" @click="openModal('pulsa')">Pulsa</button>
-        <button class="btn-redeem flex-1 min-w-[140px]" @click="openModal('token')">Token Listrik</button>
-      </div>
-      <!-- Modal E-Wallet -->
-      <div v-if="showModal === 'ewallet'" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 px-1 sm:px-2">
-        <div class="bg-white rounded-xl shadow-lg p-3 sm:p-6 w-[95vw] max-w-xs sm:max-w-md relative overflow-y-auto max-h-[90vh]">
-          <button class="absolute top-2 right-2 sm:top-3 sm:right-3 text-gray-400 hover:text-gray-700 text-2xl w-9 h-9 flex items-center justify-center bg-gray-100 rounded-full" @click="closeModal" aria-label="Tutup">&times;</button>
-          <h2 class="text-lg sm:text-xl font-bold mb-4 text-primary text-center">Redeem E-Wallet</h2>
-          <div class="mb-2 text-sm text-gray-600 text-center">Sisa Poin Anda: <span class="font-bold text-[#386641]">{{ totalPoin.toLocaleString('id-ID') }}</span></div>
-          <div class="mb-4">
-            <label class="block text-gray-600 mb-2">Pilih E-Wallet</label>
-            <select v-model="selectedEwallet" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
-              <option disabled value="">-- Pilih E-Wallet --</option>
-              <option value="dana">DANA</option>
-              <option value="ovo">OVO</option>
-              <option value="gopay">GoPay</option>
-              <option value="shopeepay">ShopeePay</option>
-            </select>
+      </div>      <!-- Modal Pulsa -->
+      <div v-if="showModal === 'pulsa'" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4 pt-20 pb-4" @click.self="closeModal">
+        <div class="modal-card w-full max-w-md relative my-auto" @click.stop data-aos="zoom-in" data-aos-duration="300">
+          <button class="absolute -top-2 -right-2 w-10 h-10 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 z-10" @click="closeModal">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+          
+          <div class="p-8">
+            <div class="text-center mb-6">
+              <div class="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 bg-gradient-to-br from-brand-sage to-brand-forest">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                </svg>
+              </div>
+              <h2 class="text-2xl font-bold text-brand-forest mb-2">Redeem Pulsa</h2>
+              <div class="px-4 py-2 bg-brand-cream rounded-full inline-block">
+                <span class="text-sm text-brand-forest">Sisa: <span class="font-bold text-brand-sage">{{ totalPoin.toLocaleString('id-ID') }} poin</span></span>              </div>
+            </div>            <div class="space-y-6 pb-4">
+              <div class="form-group">
+                <label class="form-label">Pilih Provider</label>
+                <select v-model="selectedPulsaProvider" class="form-select">
+                  <option disabled value="">-- Pilih Provider --</option>
+                  <option v-for="prov in pulsaProviders" :key="prov.value" :value="prov.value">{{ prov.label }}</option>
+                </select>
+              </div>
+
+              <div v-if="selectedPulsaProvider" class="form-group">
+                <label class="form-label">Nomor HP</label>
+                <input v-model="pulsaNumber" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="15" placeholder="Masukkan nomor HP" class="form-input" />
+              </div>
+
+              <div v-if="selectedPulsaProvider" class="form-group">
+                <label class="form-label">Nominal Pulsa</label>
+                <select v-model="selectedPulsaNominal" class="form-select">
+                  <option disabled value="">-- Pilih Nominal --</option>
+                  <option v-for="nom in pulsaNominals" :key="nom.value" :value="nom.value" :disabled="totalPoin < nom.point" :class="{ 'text-gray-400': totalPoin < nom.point }">
+                    {{ nom.label }} ({{ nom.point }} poin) <span v-if="totalPoin < nom.point">- Poin tidak cukup</span>
+                  </option>
+                </select>
+              </div><div v-if="selectedPulsaProvider" class="flex justify-center py-6">
+                <div class="w-20 h-20 bg-white rounded-xl shadow-lg flex items-center justify-center">
+                  <img :src="pulsaProviderLogos[selectedPulsaProvider]" alt="Logo Provider" class="w-16 h-16 object-contain" />
+                </div>
+              </div>              <button v-if="selectedPulsaProvider && selectedPulsaNominal" @click="handleRedeem('pulsa')" class="btn-submit w-full" :disabled="totalPoin < (pulsaNominals.find(n => n.value === selectedPulsaNominal)?.point || 0)">
+                <div class="btn-submit-content">
+                  <svg class="btn-submit-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                  </svg>
+                  <div class="btn-submit-text">
+                    <span class="btn-submit-title">Tukar Pulsa</span>
+                    <span class="btn-submit-subtitle">{{ (pulsaNominals.find(n => n.value === selectedPulsaNominal)?.point || 0).toLocaleString('id-ID') }} Poin diperlukan</span>
+                  </div>
+                </div>
+              </button>
+            </div>
           </div>
-          <div v-if="selectedEwallet" class="mb-4">
-            <label class="block text-gray-600 mb-2">Nomor E-Wallet</label>
-            <input v-model="ewalletNumber" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="20" placeholder="Masukkan nomor e-wallet" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
-          </div>
-          <div v-if="selectedEwallet" class="mb-4">
-            <label class="block text-gray-600 mb-2">Nominal E-Wallet</label>
-            <select v-model="selectedEwalletNominal" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
-              <option disabled value="">-- Pilih Nominal --</option>
-              <option v-for="nom in ewalletNominals" :key="nom.value" :value="nom.value" :disabled="totalPoin < nom.point">
-                {{ nom.label }} ({{ nom.point }} poin) <span v-if="totalPoin < nom.point">- Poin tidak cukup</span>
-              </option>
-            </select>
-          </div>
-          <div v-if="selectedEwallet" class="flex items-center justify-center mt-2">
-            <img :src="ewalletLogos[selectedEwallet]" alt="Logo E-Wallet" class="w-14 h-14 sm:w-20 sm:h-20 object-contain" />
-          </div>
-          <button v-if="selectedEwallet && selectedEwalletNominal" @click.stop="handleRedeem('ewallet')" class="btn-redeem mt-6 w-full bg-[#626F47] hover:bg-[#4e593a] border-none" :disabled="totalPoin < (ewalletNominals.find(n => n.value === selectedEwalletNominal)?.point || 0)">Tukar E-Wallet</button>
         </div>
-      </div>
-      <!-- Modal Pulsa -->
-      <div v-if="showModal === 'pulsa'" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 px-1 sm:px-2">
-        <div class="bg-white rounded-xl shadow-lg p-3 sm:p-6 w-[95vw] max-w-xs sm:max-w-md relative overflow-y-auto max-h-[90vh]">
-          <button class="absolute top-2 right-2 sm:top-3 sm:right-3 text-gray-400 hover:text-gray-700 text-2xl w-9 h-9 flex items-center justify-center bg-gray-100 rounded-full" @click="closeModal" aria-label="Tutup">&times;</button>
-          <h2 class="text-lg sm:text-xl font-bold mb-4 text-primary text-center">Redeem Pulsa</h2>
-          <div class="mb-2 text-sm text-gray-600 text-center">Sisa Poin Anda: <span class="font-bold text-[#386641]">{{ totalPoin.toLocaleString('id-ID') }}</span></div>
-          <div class="mb-4">
-            <label class="block text-gray-600 mb-2">Pilih Provider</label>
-            <select v-model="selectedPulsaProvider" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
-              <option disabled value="">-- Pilih Provider --</option>
-              <option v-for="prov in pulsaProviders" :key="prov.value" :value="prov.value">{{ prov.label }}</option>
-            </select>
+      </div>      <!-- Modal Token Listrik -->
+      <div v-if="showModal === 'token'" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4 pt-20 pb-4" @click.self="closeModal">
+        <div class="modal-card w-full max-w-md relative my-auto" @click.stop data-aos="zoom-in" data-aos-duration="300">
+          <button class="absolute -top-2 -right-2 w-10 h-10 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 z-10" @click="closeModal">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+          
+          <div class="p-8">
+            <div class="text-center mb-6">
+              <div class="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 bg-gradient-to-br from-brand-forest to-brand-sage">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+              </div>
+              <h2 class="text-2xl font-bold text-brand-forest mb-2">Redeem Token Listrik</h2>
+              <div class="px-4 py-2 bg-brand-cream rounded-full inline-block">
+                <span class="text-sm text-brand-forest">Sisa: <span class="font-bold text-brand-sage">{{ totalPoin.toLocaleString('id-ID') }} poin</span></span>              </div>
+            </div>            <div class="space-y-6 pb-4">
+              <div class="form-group">
+                <label class="form-label">Nominal Token</label>
+                <select v-model="selectedTokenNominal" class="form-select">
+                  <option disabled value="">-- Pilih Nominal --</option>
+                  <option v-for="nom in tokenNominals" :key="nom.value" :value="nom.value" :disabled="totalPoin < nom.point" :class="{ 'text-gray-400': totalPoin < nom.point }">
+                    {{ nom.label }} ({{ nom.point }} poin) <span v-if="totalPoin < nom.point">- Poin tidak cukup</span>
+                  </option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Nomor Meter/kWh</label>
+                <input v-model="tokenNumber" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="20" minlength="20" placeholder="Masukkan nomor meter/kWh (20 digit)" class="form-input" />
+              </div><div class="flex justify-center py-6">
+                <div class="w-20 h-20 bg-white rounded-xl shadow-lg flex items-center justify-center">
+                  <img src="/logo/token-listrik/pln.png" alt="Logo PLN" class="w-16 h-16 object-contain" />
+                </div>
+              </div>              <button v-if="selectedTokenNominal" @click="handleRedeem('token')" class="btn-submit w-full" :disabled="totalPoin < (tokenNominals.find(n => n.value === selectedTokenNominal)?.point || 0)">
+                <div class="btn-submit-content">
+                  <svg class="btn-submit-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                  </svg>
+                  <div class="btn-submit-text">
+                    <span class="btn-submit-title">Tukar Token Listrik</span>
+                    <span class="btn-submit-subtitle">{{ (tokenNominals.find(n => n.value === selectedTokenNominal)?.point || 0).toLocaleString('id-ID') }} Poin diperlukan</span>
+                  </div>
+                </div>
+              </button>
+            </div>
           </div>
-          <div v-if="selectedPulsaProvider" class="mb-4">
-            <label class="block text-gray-600 mb-2">Nomor HP</label>
-            <input v-model="pulsaNumber" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="15" placeholder="Masukkan nomor HP" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
-          </div>
-          <div v-if="selectedPulsaProvider" class="mb-4">
-            <label class="block text-gray-600 mb-2">Nominal Pulsa</label>
-            <select v-model="selectedPulsaNominal" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
-              <option disabled value="">-- Pilih Nominal --</option>
-              <option v-for="nom in pulsaNominals" :key="nom.value" :value="nom.value" :disabled="totalPoin < nom.point">
-                {{ nom.label }} ({{ nom.point }} poin) <span v-if="totalPoin < nom.point">- Poin tidak cukup</span>
-              </option>
-            </select>
-          </div>
-          <div v-if="selectedPulsaProvider" class="flex items-center justify-center mt-2">
-            <img :src="pulsaProviderLogos[selectedPulsaProvider]" alt="Logo Provider" class="w-14 h-14 sm:w-20 sm:h-20 object-contain" />
-          </div>
-          <button v-if="selectedPulsaProvider && selectedPulsaNominal" @click.stop="handleRedeem('pulsa')" class="btn-redeem mt-6 w-full bg-[#626F47] hover:bg-[#4e593a] border-none" :disabled="totalPoin < (pulsaNominals.find(n => n.value === selectedPulsaNominal)?.point || 0)">Tukar Pulsa</button>
         </div>
-      </div>
-      <!-- Modal Token Listrik -->
-      <div v-if="showModal === 'token'" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 px-1 sm:px-2">
-        <div class="bg-white rounded-xl shadow-lg p-3 sm:p-6 w-[95vw] max-w-xs sm:max-w-md relative overflow-y-auto max-h-[90vh]">
-          <button class="absolute top-2 right-2 sm:top-3 sm:right-3 text-gray-400 hover:text-gray-700 text-2xl w-9 h-9 flex items-center justify-center bg-gray-100 rounded-full" @click="closeModal" aria-label="Tutup">&times;</button>
-          <h2 class="text-lg sm:text-xl font-bold mb-4 text-primary text-center">Redeem Token Listrik</h2>
-          <div class="mb-2 text-sm text-gray-600 text-center">Sisa Poin Anda: <span class="font-bold text-[#386641]">{{ totalPoin.toLocaleString('id-ID') }}</span></div>
-          <div class="mb-4">
-            <label class="block text-gray-600 mb-2">Nominal Token</label>
-            <select v-model="selectedTokenNominal" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
-              <option disabled value="">-- Pilih Nominal --</option>
-              <option v-for="nom in tokenNominals" :key="nom.value" :value="nom.value" :disabled="totalPoin < nom.point">
-                {{ nom.label }} ({{ nom.point }} poin) <span v-if="totalPoin < nom.point">- Poin tidak cukup</span>
-              </option>
-            </select>
+      </div>      <!-- History Penukaran -->
+      <div class="w-full max-w-4xl mb-12" data-aos="fade-up" data-aos-delay="700">
+        <div class="glass-card p-8 relative overflow-hidden">
+          <!-- Background decoration -->
+          <div class="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-brand-yellow/20 to-brand-sage/20 rounded-full blur-xl"></div>
+          
+          <div class="relative z-10">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-12 h-12 bg-gradient-to-br from-brand-sage to-brand-forest rounded-full flex items-center justify-center">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3"/>
+                  <circle cx="12" cy="12" r="9"/>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-2xl font-bold text-brand-forest">Riwayat Penukaran</h3>
+                <p class="text-brand-forest/70 text-sm">Lihat semua transaksi penukaran poin Anda</p>
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <div v-if="redeemLoading" class="text-center py-12">
+                <div class="inline-flex flex-col items-center gap-4">
+                  <div class="w-12 h-12 border-4 border-brand-sage/30 border-t-brand-sage rounded-full animate-spin"></div>
+                  <p class="text-brand-forest/70">Memuat riwayat penukaran...</p>
+                </div>
+              </div>
+              
+              <div v-else-if="redeemError" class="text-center py-12">
+                <div class="inline-flex flex-col items-center gap-4">
+                  <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
+                    <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4.5c-.77-.833-2.694-.833-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                    </svg>
+                  </div>
+                  <p class="text-red-600">{{ redeemError }}</p>
+                </div>
+              </div>
+              
+              <div v-else-if="mappedHistory.length === 0" class="text-center py-12">
+                <div class="inline-flex flex-col items-center gap-4">
+                  <div class="w-16 h-16 bg-brand-cream rounded-full flex items-center justify-center">
+                    <svg class="w-8 h-8 text-brand-forest/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-brand-forest/70 font-medium">Belum ada riwayat penukaran</p>
+                    <p class="text-brand-forest/50 text-sm">Mulai tukar poin Anda dengan reward menarik!</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div v-else class="space-y-3">
+                <div v-for="(item, idx) in mappedHistory" :key="idx" class="history-item group" data-aos="fade-up" :data-aos-delay="idx * 100">
+                  <div class="flex items-center justify-between p-4">
+                    <div class="flex items-center gap-4">
+                      <div class="w-12 h-12 bg-gradient-to-br from-brand-yellow to-brand-sage rounded-full flex items-center justify-center flex-shrink-0">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                      </div>
+                      <div>
+                        <h4 class="font-semibold text-brand-forest group-hover:text-brand-sage transition-colors">{{ item.tipe }}</h4>
+                        <p class="text-brand-forest/70 text-sm">{{ item.nominal }}</p>
+                        <p class="text-brand-forest/50 text-xs">{{ item.tanggal }}</p>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <div class="flex items-center gap-1 text-brand-sage font-bold">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7"/>
+                        </svg>
+                        <span>{{ item.poin }} poin</span>
+                      </div>
+                      <div class="mt-1">
+                        <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">
+                          ✅ Berhasil
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="mb-4">
-            <label class="block text-gray-600 mb-2">Nomor Meter/kWh</label>
-            <input v-model="tokenNumber" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="20" minlength="20" placeholder="Masukkan nomor meter/kWh (20 digit)" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
-          </div>
-          <div class="flex items-center justify-center mt-2">
-            <img src="/logo/token-listrik/pln.png" alt="Logo PLN" class="w-14 h-14 sm:w-20 sm:h-20 object-contain" />
-          </div>
-          <button v-if="selectedTokenNominal" @click.stop="handleRedeem('token')" class="btn-redeem mt-6 w-full bg-[#626F47] hover:bg-[#4e593a] border-none" :disabled="totalPoin < (tokenNominals.find(n => n.value === selectedTokenNominal)?.point || 0)">Tukar Token Listrik</button>
-        </div>
-      </div>
-      <!-- History Penukaran -->
-      <div class="w-full max-w-3xl mb-10">
-        <div class="bg-white rounded-xl shadow p-5 border border-[#b7b7a4]">
-          <h3 class="text-lg font-bold text-[#386641] mb-3 flex items-center gap-2">
-            <svg class="w-5 h-5 text-[#a7c957]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9.5"/></svg>
-            Riwayat Penukaran
-          </h3>
-          <ul>
-            <li v-if="redeemLoading" class="text-gray-400 text-center py-4">Memuat riwayat penukaran...</li>
-            <li v-else-if="redeemError" class="text-red-500 text-center py-4">{{ redeemError }}</li>
-            <li v-else-if="mappedHistory.length === 0" class="text-gray-400 text-center py-4">Belum ada riwayat penukaran.</li>
-            <li v-for="(item, idx) in mappedHistory" :key="idx" class="flex justify-between items-center py-2 border-b last:border-b-0">
-              <span class="font-medium text-gray-700">{{ item.tipe }} - {{ item.nominal }}</span>
-              <span class="text-sm text-gray-500">{{ item.tanggal }}</span>
-              <span class="text-sm font-semibold text-[#a7c957]">-{{ item.poin }} poin</span>
-            </li>
-          </ul>
         </div>
       </div>
     </div>
@@ -157,6 +394,8 @@ import LoadingIndicator from '../components/LoadingIndicator.vue'
 import { ref, onMounted, computed } from 'vue'
 import { useUserProfile } from '../models/userprofileModel.js'
 import { redeem, getRedeemHistory } from '../services/api.js'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 const router = useRouter()
 
@@ -270,6 +509,12 @@ async function fetchRedeemHistory() {
 }
 
 onMounted(() => {
+  AOS.init({ 
+    once: true, 
+    duration: 800,
+    offset: 100,
+    easing: 'ease-out-cubic'
+  })
   fetchUserProfile(localStorage.getItem('token'))
   fetchRedeemHistory()
 })
@@ -427,90 +672,650 @@ async function handleRedeem(type) {
 </script>
 
 <style scoped>
-.neumorphic-card {
-  background: #FEFAE0;
+/* Glass morphism cards */
+.glass-card {
+  background: rgba(254, 250, 224, 0.6);
+  backdrop-filter: blur(12px);
+  border-radius: 24px;
+  border: 1px solid rgba(164, 180, 101, 0.2);
+  box-shadow: 
+    0 20px 40px rgba(98, 111, 71, 0.1),
+    0 15px 12px rgba(98, 111, 71, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 
+    0 32px 64px rgba(98, 111, 71, 0.15),
+    0 20px 24px rgba(98, 111, 71, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* Redeem cards with gradients */
+.redeem-card {
   border-radius: 20px;
-  box-shadow:
-    20px 20px 40px rgba(196, 165, 132, 0.18),
-    -20px -20px 40px rgba(255, 255, 255, 0.8);
-  transition: all 0.25s cubic-bezier(.4,2,.3,1), box-shadow 0.18s cubic-bezier(.4,2,.3,1), outline 0.18s;
-  border: none;
-  will-change: transform, box-shadow;
+  box-shadow: 
+    0 10px 30px rgba(98, 111, 71, 0.15),
+    0 1px 8px rgba(98, 111, 71, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  overflow: hidden;
+  min-height: 200px;
 }
 
-.neumorphic-card:hover {
-  transform: translateY(-6px) scale(1.04);
-  box-shadow:
-    25px 25px 50px rgba(196, 165, 132, 0.22),
-    -25px -25px 50px rgba(255, 255, 255, 0.92);
+.redeem-card:hover {
+  transform: translateY(-12px) scale(1.05);
+  box-shadow: 
+    0 25px 50px rgba(98, 111, 71, 0.25),
+    0 10px 20px rgba(98, 111, 71, 0.15);
 }
 
-.neumorphic-card:active {
-  transform: scale(0.97) translateY(2px);
-  box-shadow:
-    10px 10px 20px rgba(196, 165, 132, 0.12),
-    -10px -10px 20px rgba(255, 255, 255, 0.7),
-    inset 5px 5px 10px rgba(196, 165, 132, 0.13),
-    inset -5px -5px 10px rgba(255, 255, 255, 0.8);
+.redeem-card:active {
+  transform: translateY(-8px) scale(1.02);
 }
 
-.neumorphic-card.selected {
-  outline: 3px solid #a7c957;
-  box-shadow:
-    0 8px 24px rgba(106, 153, 78, 0.18),
-    0 2px 4px rgba(255, 255, 255, 0.9),
-    0 0 0 6px rgba(167, 201, 87, 0.12);
-  transform: scale(1.045);
+/* Modal styling */
+.modal-card {
+  background: rgba(254, 250, 224, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  border: 1px solid rgba(164, 180, 101, 0.3);
+  box-shadow: 
+    0 25px 50px rgba(98, 111, 71, 0.25),
+    0 15px 25px rgba(98, 111, 71, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  max-height: calc(100vh - 160px);
+  overflow-y: auto;
+  margin: auto;
+  width: 100%;
+  max-width: 520px; /* Diperbesar dari 28rem ke 32.5rem */
 }
 
-.active-card {
-  box-shadow:
-    0 4px 8px rgba(0, 0, 0, 0.2),
-    0 2px 4px rgba(255, 255, 255, 0.9);
-  transform: translateY(-2px);
+/* Ensure modal doesn't overlap with header */
+@media (min-width: 768px) {
+  .modal-card {
+    max-height: calc(100vh - 120px);
+    margin-top: 60px;
+    margin-bottom: 60px;
+  }
 }
 
-h2 {
-  color: #386641;
-  letter-spacing: 0.5px;
+@media (min-width: 1024px) {
+  .modal-card {
+    max-height: calc(100vh - 140px);
+    margin-top: 70px;
+    margin-bottom: 70px;
+  }
 }
 
-label {
-  color: #6c757d;
+/* Hide scrollbar but keep functionality */
+.modal-card {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.modal-card::-webkit-scrollbar {
+  display: none; /* WebKit browsers */
+}
+
+/* Form styling */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
   font-weight: 600;
+  color: #626F47;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-select {
-  background: #fffbe6;
-  color: #386641;
-  border: 1.5px solid #b7b7a4;
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid rgba(164, 180, 101, 0.3);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.8);
+  color: #626F47;
   font-weight: 500;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
-option {
-  color: #386641;
+.form-input:focus,
+.form-select:focus {
+  outline: none;
+  border-color: #A4B465;
+  box-shadow: 
+    0 0 0 3px rgba(164, 180, 101, 0.15),
+    0 4px 12px rgba(164, 180, 101, 0.1);
+  background: rgba(255, 255, 255, 0.95);
 }
 
-/* Custom text color classes */
-.text-primary {
-  color: #386641;
-}
-.text-secondary {
-  color: #b7b7a4;
+.form-input::placeholder {
+  color: rgba(98, 111, 71, 0.5);
 }
 
-/* Button style for future use */
-.btn-redeem {
-  background: linear-gradient(90deg, #6a994e 0%, #a7c957 100%);
-  color: #fff;
+/* Clean Submit Button Styling - High Specificity */
+.btn-submit.w-full {
+  background: linear-gradient(135deg, #A4B465 0%, #7C8557 50%, #626F47 100%) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  border-radius: 18px !important;
+  padding: 0 !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 
+    0 10px 30px rgba(98, 111, 71, 0.25),
+    0 5px 15px rgba(98, 111, 71, 0.15) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  min-height: 75px !important;
+  max-height: none !important;
+  height: auto !important;
+  width: 100% !important;
+  margin-top: 1.75rem !important;
+  display: block !important;
+}
+
+.btn-submit.w-full:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 
+    0 12px 35px rgba(98, 111, 71, 0.3),
+    0 6px 20px rgba(98, 111, 71, 0.2) !important;
+  background: linear-gradient(135deg, #626F47 0%, #7C8557 50%, #A4B465 100%) !important;
+}
+
+.btn-submit.w-full:active {
+  transform: translateY(0) !important;
+  transition: all 0.1s ease !important;
+}
+
+.btn-submit.w-full:disabled {
+  opacity: 0.6 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  background: linear-gradient(135deg, #9CA3AF 0%, #6B7280 50%, #4B5563 100%) !important;
+}
+
+.btn-submit.w-full:disabled:hover {
+  transform: none !important;
+  box-shadow: 
+    0 8px 25px rgba(98, 111, 71, 0.25),
+    0 4px 12px rgba(98, 111, 71, 0.15) !important;
+}
+
+.btn-submit-content {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 1.25rem !important;
+  padding: 1.5rem 2.25rem !important;
+  position: relative !important;
+  z-index: 2 !important;
+  width: 100% !important;
+  min-height: 75px !important;
+}
+
+.btn-submit-icon {
+  width: 28px !important;
+  height: 28px !important;
+  flex-shrink: 0 !important;
+  stroke-width: 2.5 !important;
+}
+
+.btn-submit-text {
+  text-align: center !important;
+  flex: 1 !important;
+}
+
+.btn-submit-title {
+  display: block !important;
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+  margin-bottom: 3px !important;
+}
+
+.btn-submit-subtitle {
+  display: block !important;
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  opacity: 0.9 !important;
+  line-height: 1.2 !important;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 640px) {
+  .btn-submit {
+    min-height: 78px;
+    margin-top: 1.5rem;
+    border-radius: 18px;
+  }
+  
+  .btn-submit-content {
+    padding: 1.5rem 2rem;
+    gap: 1rem;
+  }
+  
+  .btn-submit-icon {
+    width: 24px;
+    height: 24px;
+  }
+    .btn-submit-title {
+    font-size: 1.125rem;
+  }
+  
+  .btn-submit-subtitle {
+    font-size: 0.875rem;
+  }
+}
+
+/* Animation for smooth button appearance */
+@keyframes btn-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.btn-submit {
+  animation: btn-appear 0.4s ease-out;
+}
+
+/* Mobile Responsive Styles for Submit Button */
+@media (max-width: 640px) {
+  .btn-submit.w-full {
+    min-height: 80px !important;
+    margin-top: 1.5rem !important;
+    border-radius: 16px !important;
+  }
+  
+  .btn-submit-content {
+    padding: 1.5rem 2rem !important;
+    gap: 1rem !important;
+    min-height: 80px !important;
+  }
+  
+  .btn-submit-icon {
+    width: 26px !important;
+    height: 26px !important;
+  }
+  
+  .btn-submit-title {
+    font-size: 1.125rem !important;
+  }
+  
+  .btn-submit-subtitle {
+    font-size: 0.875rem !important;
+  }
+}
+
+/* Button styling */
+.btn-primary {
+  background: linear-gradient(135deg, #A4B465, #626F47);
+  color: white;
   font-weight: 700;
-  border-radius: 10px;
-  padding: 0.75rem 2rem;
-  transition: background 0.3s, transform 0.2s;
-  box-shadow: 0 2px 8px rgba(106,153,78,0.08);
+  border-radius: 16px;
+  padding: 1rem 2rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 8px 20px rgba(98, 111, 71, 0.25),
+    0 4px 8px rgba(98, 111, 71, 0.15);
+  position: relative;
+  overflow: hidden;
 }
-.btn-redeem:hover {
-  background: linear-gradient(90deg, #a7c957 0%, #6a994e 100%);
-  transform: translateY(-2px) scale(1.04);
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 
+    0 12px 30px rgba(98, 111, 71, 0.3),
+    0 6px 12px rgba(98, 111, 71, 0.2);
+  background: linear-gradient(135deg, #626F47, #A4B465);
+}
+
+.btn-primary:hover::before {
+  left: 100%;
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 4px 8px rgba(98, 111, 71, 0.1);
+}
+
+/* History item styling */
+.history-item {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 16px;
+  border: 1px solid rgba(164, 180, 101, 0.2);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.history-item:hover {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(164, 180, 101, 0.3);
+  transform: translateX(8px);
+  box-shadow: 
+    0 8px 20px rgba(98, 111, 71, 0.1),
+    0 4px 8px rgba(98, 111, 71, 0.05);
+}
+
+/* Counter animation */
+.counter-animation {
+  background: linear-gradient(135deg, #626F47, #A4B465, #FFCF50);
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Floating animations */
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg); 
+  }
+  50% { 
+    transform: translateY(-20px) rotate(5deg); 
+  }
+}
+
+@keyframes float-delay {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg); 
+  }
+  50% { 
+    transform: translateY(-15px) rotate(-3deg); 
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delay {
+  animation: float-delay 8s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.animate-pulse-slow {
+  animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Modal backdrop */
+.modal-backdrop {
+  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* Modal close button styling */
+.modal-card button {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 6px 16px rgba(239, 68, 68, 0.4),
+    0 3px 6px rgba(239, 68, 68, 0.3);
+  border: 3px solid rgba(255, 255, 255, 0.9);
+}
+
+.modal-card button:hover {
+  transform: scale(1.1);
+  box-shadow: 
+    0 8px 20px rgba(239, 68, 68, 0.5),
+    0 4px 8px rgba(239, 68, 68, 0.4);
+  border-color: rgba(255, 255, 255, 1);
+}
+
+.modal-card button:active {
+  transform: scale(1.05);
+}
+
+/* Desktop close button */
+@media (min-width: 1024px) {
+  .modal-card button {
+    width: 3.5rem !important; /* 56px */
+    height: 3.5rem !important;
+    top: -1rem !important;
+    right: -1rem !important;
+  }
+
+  .modal-card button svg {
+    width: 1.75rem !important; /* 28px */
+    height: 1.75rem !important;
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .glass-card {
+    padding: 1.5rem !important;
+    border-radius: 20px;
+  }
+  
+  .redeem-card {
+    min-height: 180px;
+  }
+  
+  .modal-card {
+    margin: 1rem;
+    border-radius: 20px;
+    max-height: calc(100vh - 80px) !important;
+    max-width: calc(100vw - 2rem) !important;
+  }
+  
+  .btn-primary {
+    padding: 0.875rem 1.5rem;
+    font-size: 0.875rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem !important;
+  }
+
+  /* Mobile hero section */
+  .main-content {
+    padding-top: clamp(100px, 12vh, 140px) !important;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 8vw, 2.5rem) !important;
+    line-height: 1.2 !important;
+    padding: 1rem 0 !important;
+    margin-bottom: 1rem !important;
+  }
+  .text-center.mb-12 {
+    margin-bottom: 2rem !important;
+  }
+
+  /* Mobile modal close button */
+  .modal-card button {
+    width: 2.5rem !important; /* 40px */
+    height: 2.5rem !important;
+    top: -0.75rem !important;
+    right: -0.75rem !important;
+    border-width: 2px !important;
+  }
+
+  .modal-card button svg {
+    width: 1.25rem !important; /* 20px */
+    height: 1.25rem !important;
+  }
+
+  /* Mobile form styling */
+  .form-input,
+  .form-select {
+    padding: 0.75rem 1rem !important;
+    font-size: 0.9rem !important;
+    border-radius: 12px !important;
+  }
+
+  .form-label {
+    font-size: 0.875rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .form-group {
+    margin-bottom: 1.25rem !important;
+  }
+
+  /* Mobile modal backdrop */
+  .fixed.inset-0 {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  .modal-card {
+    min-height: auto !important;
+    max-height: calc(100vh - 100px) !important;  }
+
+  .btn-primary {
+    padding: 0.875rem 1.5rem !important;
+    font-size: 0.875rem !important;
+    min-height: auto !important;
+    border-radius: 16px !important;
+  }
+}
+
+/* Improved select dropdown */
+.form-select option {
+  background: #FEFAE0;
+  color: #626F47;
+  padding: 0.5rem;
+}
+
+.form-select option:disabled {
+  color: rgba(98, 111, 71, 0.5);
+  background: rgba(164, 180, 101, 0.1);
+}
+
+/* Success animations */
+@keyframes success-bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate3d(0,0,0);
+  }
+  40%, 43% {
+    transform: translate3d(0, -8px, 0);
+  }
+  70% {
+    transform: translate3d(0, -4px, 0);
+  }
+  90% {
+    transform: translate3d(0, -2px, 0);
+  }
+}
+
+.success-animation {
+  animation: success-bounce 0.6s ease;
+}
+
+/* Loading spinner */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Enhanced focus states */
+.form-input:focus,
+.form-select:focus,
+.btn-primary:focus {
+  outline: 2px solid rgba(164, 180, 101, 0.5);
+  outline-offset: 2px;
+}
+
+/* Improved disabled states */
+.form-select option:disabled,
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Better text selection */
+::selection {
+  background: rgba(164, 180, 101, 0.3);
+  color: #626F47;
+}
+
+::-moz-selection {
+  background: rgba(164, 180, 101, 0.3);
+  color: #626F47;
+}
+
+/* Hero section specific styling */
+.hero-title {
+  line-height: 1.1;
+  padding: 1rem 0;
+  margin: 0;
+  overflow: visible;
+}
+
+/* Ensure proper spacing for main content */
+.main-content {
+  min-height: calc(100vh - 80px);
+  padding-top: clamp(120px, 15vh, 180px);
+}
+
+/* Desktop hero spacing */
+@media (min-width: 1024px) {
+  .main-content {
+    padding-top: clamp(140px, 18vh, 200px);
+  }
+  
+  .hero-title {
+    font-size: clamp(3rem, 6vw, 4rem);
+    padding: 1.5rem 0;
+  }
+}
+
+/* Tablet hero spacing */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .main-content {
+    padding-top: clamp(130px, 16vh, 170px);
+  }
+  
+  .hero-title {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    padding: 1.25rem 0;
+  }
 }
 </style>
