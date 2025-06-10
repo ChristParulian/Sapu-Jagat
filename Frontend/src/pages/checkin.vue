@@ -204,6 +204,7 @@ function goToDashboard() {
 }
 async function fetchHistory() {
   loading.value = true
+  globalLoading.value = true // Tampilkan loading saat fetch data awal
   notif.value = ''
   try {
     const token = localStorage.getItem('token')
@@ -215,6 +216,7 @@ async function fetchHistory() {
     notifType.value = 'error'
   } finally {
     loading.value = false
+    globalLoading.value = false // Sembunyikan loading setelah selesai
   }
 }
 async function handleCheckInForDate(date) {
@@ -228,10 +230,10 @@ async function handleCheckInForDate(date) {
     const token = localStorage.getItem('token')
     if (!token) throw new Error('Token tidak ditemukan, silakan login ulang.')
     const res = await checkinPresenter.checkin(token)
-    notif.value = res.message || 'Check-in berhasil!'
+    notif.value = res.message || 'Check-in berhasil! +50 poin'
     notifType.value = 'success'
     showToast.value = true
-    toastMsg.value = 'Check-in berhasil!'
+    toastMsg.value = 'Check-in berhasil! +50 poin'
     await fetchHistory()
     await fetchUserProfile(token) // update poin & username setelah checkin
   } catch (err) {

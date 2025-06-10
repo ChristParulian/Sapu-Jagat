@@ -5,7 +5,7 @@
     
     <!-- Main Content -->
     <div class="flex-1 pt-24 lg:pt-28 xl:pt-32 p-4 sm:p-8 flex flex-col items-center">
-      <h1 class="text-3xl font-bold mb-2 text-primary">Edukasi</h1>
+      <h1 class="text-3xl font-bold mb-2 text-primary">Edukasi Jagat</h1>
       <p class="text-secondary text-lg">Belum ada konten edukasi.</p>
     </div>
     <BottomNav active="education" />
