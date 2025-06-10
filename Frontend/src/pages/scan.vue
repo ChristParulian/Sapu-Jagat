@@ -32,7 +32,17 @@
           <!-- Konten Tab -->
           <div v-if="tabMode === 'camera'">
             <!-- Dropdown Pilihan Kamera -->
-            <div v-if="cameraDevices.length > 1" class="mb-2">
+            <div v-if="isMobile" class="mb-2">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Pilih Kamera</label>
+              <select
+                v-model="mobileCameraMode"
+                class="block w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none text-gray-900 bg-white"
+              >
+                <option value="environment">Kamera Belakang</option>
+                <option value="user">Kamera Depan</option>
+              </select>
+            </div>
+            <div v-else-if="cameraDevices.length > 1" class="mb-2">
               <label class="block text-sm font-medium text-gray-700 mb-1">Pilih Kamera</label>
               <select
                 v-model="selectedDeviceId"
@@ -166,8 +176,22 @@ const capturedImage = ref(null)
 const videoRef = ref(null)
 const cameraStream = ref(null)
 
+const globalLoading = ref(false)
+
 const cameraDevices = ref([])
 const selectedDeviceId = ref('')
+const isMobile = ref(false)
+const mobileCameraMode = ref('environment') // default ke kamera belakang
+
+onMounted(() => {
+  // Deteksi mobile
+  isMobile.value = window.innerWidth <= 640 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+  fetchCameraDevices()
+  // Tidak auto startCamera
+})
+onBeforeUnmount(() => {
+  stopCamera()
+})
 
 async function fetchCameraDevices() {
   try {
@@ -183,7 +207,9 @@ async function fetchCameraDevices() {
 async function startCamera() {
   try {
     let constraints = { video: true }
-    if (selectedDeviceId.value) {
+    if (isMobile.value) {
+      constraints = { video: { facingMode: mobileCameraMode.value } }
+    } else if (selectedDeviceId.value) {
       constraints = { video: { deviceId: { exact: selectedDeviceId.value } } }
     }
     cameraStream.value = await getCameraStream(constraints)
@@ -213,10 +239,12 @@ function capturePhoto() {
   }
 }
 
+// Perubahan utama: kamera tidak otomatis menyala saat tabMode 'camera', hanya saat klik tombol
 watch(tabMode, (val) => {
   if (val === 'camera') {
     capturedImage.value = null
-    startCamera()
+    stopCamera() // pastikan kamera selalu mati saat masuk tab camera
+    // Tidak auto startCamera
   } else {
     stopCamera()
   }
@@ -225,16 +253,16 @@ watch(tabMode, (val) => {
 watch(selectedDeviceId, () => {
   if (tabMode.value === 'camera') {
     stopCamera()
-    startCamera()
+    // Tidak auto startCamera
   }
 })
 
-onMounted(() => {
-  fetchCameraDevices()
-  if (tabMode.value === 'camera') startCamera()
-})
-onBeforeUnmount(() => {
-  stopCamera()
+watch(mobileCameraMode, (val) => {
+  if (isMobile.value && cameraStream.value) {
+    // Ganti kamera langsung jika sedang aktif
+    stopCamera()
+    startCamera()
+  }
 })
 
 function handleScanSuccess() {
