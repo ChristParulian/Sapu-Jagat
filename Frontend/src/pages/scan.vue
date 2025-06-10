@@ -1,152 +1,298 @@
-<template>
-  <div class="min-h-screen flex flex-col justify-between" style="background-color: #FEFAE0; font-family: 'Montserrat', 'Open Sans', sans-serif;">
+﻿<template>
+  <div class="min-h-screen flex flex-col justify-between bg-brand-cream font-sans relative overflow-hidden">
+    <!-- Animated Background -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div class="absolute top-20 right-10 w-32 h-32 bg-brand-yellow/10 rounded-full blur-3xl animate-float"></div>
+      <div class="absolute bottom-40 left-10 w-40 h-40 bg-brand-sage/15 rounded-full blur-2xl animate-float-delay"></div>
+      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-brand-forest/5 rounded-full blur-3xl animate-pulse-slow"></div>
+    </div>
+
     <!-- Header Component -->
     <Header />
     
     <!-- Main Content -->
-    <div class="flex-1 pt-24 lg:pt-28 xl:pt-32 p-4 sm:p-8">
-      <div class="text-center mb-6">
-        <h1 class="text-2xl sm:text-3xl font-bold mb-2 text-primary">Scan Jagat</h1>
-        <p class="text-secondary text-lg">Pindai sampah untuk mendapatkan informasi pemilahan</p>
+    <div class="flex-1 pt-24 lg:pt-28 xl:pt-32 p-4 sm:p-8 relative z-10">      <!-- Hero Section -->
+      <div class="text-center mb-8" data-aos="fade-down">
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 text-brand-forest">
+          Scan Jagat
+        </h1>
+        <p class="text-brand-forest/70 text-lg sm:text-xl max-w-md mx-auto">
+          Pindai sampah untuk mendapatkan informasi pemilahan yang akurat
+        </p>
       </div>
       
       <!-- Camera Container -->
-      <div class="max-w-md mx-auto mb-6">
-        <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-          <!-- Tab Pilihan -->
-          <div class="flex mb-4 gap-2">
-            <button
-              :class="['flex-1 py-2 rounded-l-lg font-semibold', tabMode === 'camera' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700']"
-              @click="tabMode = 'camera'"
-            >
-              Scan Kamera
-            </button>
-            <button
-              :class="['flex-1 py-2 rounded-r-lg font-semibold', tabMode === 'upload' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700']"
-              @click="tabMode = 'upload'"
-            >
-              Upload File
-            </button>
-          </div>
-
-          <!-- Konten Tab -->
-          <div v-if="tabMode === 'camera'">
-            <!-- Dropdown Pilihan Kamera -->
-            <div v-if="isMobile" class="mb-2">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Pilih Kamera</label>
-              <select
-                v-model="mobileCameraMode"
-                class="block w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none text-gray-900 bg-white"
-              >
-                <option value="environment">Kamera Belakang</option>
-                <option value="user">Kamera Depan</option>
-              </select>
-            </div>
-            <div v-else-if="cameraDevices.length > 1" class="mb-2">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Pilih Kamera</label>
-              <select
-                v-model="selectedDeviceId"
-                class="block w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none text-gray-900 bg-white"
-              >
-                <option v-for="cam in cameraDevices" :key="cam.deviceId" :value="cam.deviceId" class="text-gray-900">
-                  {{ cam.label }}
-                </option>
-              </select>
-            </div>
-            <!-- Camera Preview Area -->
-            <div class="aspect-square bg-gray-100 rounded-lg mb-4 flex items-center justify-center border-2 border-dashed border-gray-300 relative overflow-hidden">
-              <template v-if="!capturedImage">
-                <video
-                  ref="videoRef"
-                  class="w-full h-full object-cover rounded-lg"
-                  autoplay
-                  playsinline
-                  muted
-                ></video>
-                <div v-if="!cameraStream" class="absolute inset-0 flex items-center justify-center bg-gray-100 bg-opacity-80">
-                  <span class="text-gray-400 text-sm">Mengakses kamera...</span>
-                </div>
-              </template>
-              <template v-else>
-                <img :src="capturedImage" alt="Captured" class="w-full h-full object-cover rounded-lg" />
-              </template>
-            </div>
-            <!-- Camera Controls -->
-            <div class="flex justify-center space-x-4">
+      <div class="max-w-lg mx-auto mb-8" data-aos="zoom-in" data-aos-delay="200">
+        <div class="glass-card p-6 sm:p-8 relative overflow-hidden group">
+          <!-- Background decoration -->
+          <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-brand-yellow/30 to-brand-sage/30 rounded-full blur-xl"></div>
+          <div class="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-tr from-brand-sage/20 to-brand-forest/20 rounded-full blur-lg"></div>
+          
+          <div class="relative z-10">
+            <!-- Tab Navigation -->
+            <div class="flex mb-6 bg-brand-cream/50 rounded-2xl p-1 backdrop-blur-sm" data-aos="fade-up" data-aos-delay="300">
               <button
-                v-if="!cameraStream"
-                class="flex-1 px-4 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-secondary transition"
-                @click="startCamera"
-                type="button"
+                :class="[
+                  'flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2',
+                  tabMode === 'camera' 
+                    ? 'bg-gradient-to-r from-brand-sage to-brand-forest text-white shadow-lg transform scale-105' 
+                    : 'text-brand-forest/70 hover:text-brand-forest hover:bg-white/50'
+                ]"
+                @click="tabMode = 'camera'"
               >
-                Buka Kamera
-              </button>
-              <button
-                v-if="cameraStream"
-                class="flex-1 px-4 py-3 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition"
-                @click="stopCamera"
-                type="button"
-              >
-                Tutup Kamera
-              </button>
-              <button
-                v-if="cameraStream && !capturedImage"
-                class="flex-1 px-4 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-secondary transition"
-                @click="capturePhoto"
-                type="button"
-              >
-                <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                 </svg>
-                Ambil Foto
+                Scan Kamera
               </button>
               <button
-                v-if="capturedImage"
-                class="flex-1 px-4 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-secondary transition"
-                @click="submitCaptured"
-                type="button"
+                :class="[
+                  'flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2',
+                  tabMode === 'upload' 
+                    ? 'bg-gradient-to-r from-brand-sage to-brand-forest text-white shadow-lg transform scale-105' 
+                    : 'text-brand-forest/70 hover:text-brand-forest hover:bg-white/50'
+                ]"
+                @click="tabMode = 'upload'"
               >
-                Scan Sampah
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                </svg>
+                Upload File
               </button>
             </div>
-            <p class="text-sm text-gray-500 mt-2 text-center">Tekan untuk memindai</p>
-          </div>
-          <div v-else>
-            <!-- Upload File Button -->
-            <div class="mb-2">
-              <label class="block mb-2 text-sm font-medium text-gray-900" for="file_input">Upload file</label>
-              <input
-                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-                id="file_input"
-                type="file"
-                accept="image/jpeg,image/png,image/jpg"
-                @change="handleFileChange"
-              >
+
+            <!-- Camera Tab Content -->
+            <div v-if="tabMode === 'camera'" class="space-y-6">
+              <!-- Camera Selection -->
+              <div v-if="isMobile" class="form-group" data-aos="fade-up" data-aos-delay="400">
+                <label class="form-label">Pilih Kamera</label>
+                <div class="relative">
+                  <select
+                    v-model="mobileCameraMode"
+                    class="form-select appearance-none cursor-pointer"
+                  >
+                    <option value="environment">📱 Kamera Belakang</option>
+                    <option value="user">🤳 Kamera Depan</option>
+                  </select>
+                  <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                    <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              
+              <div v-else-if="cameraDevices.length > 1" class="form-group" data-aos="fade-up" data-aos-delay="400">
+                <label class="form-label">Pilih Kamera</label>
+                <div class="relative">
+                  <select
+                    v-model="selectedDeviceId"
+                    class="form-select appearance-none cursor-pointer"
+                  >
+                    <option v-for="cam in cameraDevices" :key="cam.deviceId" :value="cam.deviceId">
+                      📹 {{ cam.label }}
+                    </option>
+                  </select>
+                  <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                    <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Camera Preview Area -->
+              <div class="camera-preview-container" data-aos="zoom-in" data-aos-delay="500">
+                <div class="camera-preview">
+                  <template v-if="!capturedImage">
+                    <video
+                      ref="videoRef"
+                      class="camera-video"
+                      autoplay
+                      playsinline
+                      muted
+                    ></video>
+                    <div v-if="!cameraStream" class="camera-loading">
+                      <div class="loading-spinner"></div>
+                      <span class="loading-text">Mengakses kamera...</span>
+                    </div>
+                    <!-- Camera overlay -->
+                    <div class="camera-overlay">
+                      <div class="scan-frame"></div>
+                    </div>
+                  </template>
+                  <template v-else>
+                    <img :src="capturedImage" alt="Captured" class="captured-image" />
+                    <div class="success-overlay">
+                      <div class="success-badge">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                      </div>
+                    </div>
+                  </template>
+                </div>
+              </div>
+
+              <!-- Camera Controls -->
+              <div class="camera-controls" data-aos="fade-up" data-aos-delay="600">
+                <template v-if="!cameraStream">
+                  <button
+                    class="btn-primary-large group"
+                    @click="startCamera"
+                    type="button"
+                  >
+                    <svg class="w-6 h-6 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                    </svg>
+                    Buka Kamera
+                  </button>
+                </template>
+                
+                <template v-else-if="!capturedImage">
+                  <div class="flex gap-3">
+                    <button
+                      class="btn-secondary flex-1"
+                      @click="stopCamera"
+                      type="button"
+                    >
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                      </svg>
+                      Tutup Kamera
+                    </button>
+                    <button
+                      class="btn-capture flex-1"
+                      @click="capturePhoto"
+                      type="button"
+                    >
+                      <div class="capture-ring">
+                        <div class="capture-dot"></div>
+                      </div>
+                      Ambil Foto
+                    </button>
+                  </div>
+                </template>
+
+                <template v-else>
+                  <div class="flex gap-3">
+                    <button
+                      class="btn-secondary flex-1"
+                      @click="retakePhoto"
+                      type="button"
+                    >
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                      </svg>
+                      Foto Ulang
+                    </button>
+                    <button
+                      class="btn-scan flex-1"
+                      @click="submitCaptured"
+                      type="button"
+                    >
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                      </svg>
+                      Scan Sampah
+                    </button>
+                  </div>
+                </template>
+              </div>
+
+              <div class="text-center" data-aos="fade-up" data-aos-delay="700">
+                <p class="text-sm text-brand-forest/60 flex items-center justify-center gap-2">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  Arahkan kamera ke sampah dan tekan tombol capture
+                </p>
+              </div>
             </div>
-            <p class="text-xs text-gray-400 mt-1">Pilih gambar sampah dari galeri Anda</p>
-            <button
-              v-if="selectedFile"
-              class="mt-4 w-full px-4 py-2 bg-primary text-white rounded-lg font-semibold hover:bg-secondary transition"
-              @click="submitFile"
-            >
-              Submit File
-            </button>
+
+            <!-- Upload Tab Content -->
+            <div v-else class="space-y-6">
+              <!-- Upload Area -->
+              <div class="upload-area" data-aos="fade-up" data-aos-delay="400">
+                <div class="upload-dropzone" :class="{ 'dragover': isDragOver }" @dragover.prevent="handleDragOver" @dragleave.prevent="handleDragLeave" @drop.prevent="handleDrop">
+                  <div class="upload-icon">
+                    <svg class="w-12 h-12 text-brand-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                    </svg>
+                  </div>
+                  <h3 class="upload-title">Upload Gambar Sampah</h3>
+                  <p class="upload-subtitle">Drag & drop atau klik untuk memilih file</p>
+                  <div class="upload-formats">
+                    <span class="format-badge">JPG</span>
+                    <span class="format-badge">JPEG</span>
+                    <span class="format-badge">PNG</span>
+                  </div>
+                  <input
+                    class="upload-input"
+                    id="file_input"
+                    type="file"
+                    accept="image/jpeg,image/png,image/jpg"
+                    @change="handleFileChange"
+                  >
+                </div>
+              </div>
+
+              <!-- File Preview -->
+              <div v-if="selectedFile" class="file-preview" data-aos="zoom-in" data-aos-delay="500">
+                <div class="preview-container">
+                  <img :src="filePreviewUrl" alt="Selected file" class="preview-image" />
+                  <div class="preview-overlay">
+                    <button @click="removeFile" class="remove-btn">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="file-info">
+                  <p class="file-name">📁 {{ selectedFile.name }}</p>
+                  <p class="file-size">📏 {{ formatFileSize(selectedFile.size) }}</p>
+                </div>
+              </div>
+
+              <!-- Upload Button -->
+              <div v-if="selectedFile" class="upload-submit" data-aos="fade-up" data-aos-delay="600">
+                <button
+                  class="btn-scan w-full"
+                  @click="submitFile"
+                >
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  Scan File Gambar
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       
       <!-- Results Link -->
-      <div class="text-center">
-        <router-link to="/results" class="inline-flex items-center px-6 py-3 bg-accent text-primary rounded-lg font-semibold hover:bg-secondary hover:text-white transition">
-          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-          </svg>
-          Lihat Hasil Scan
+      <div class="text-center" data-aos="fade-up" data-aos-delay="700">
+        <router-link to="/results" class="results-link group">
+          <div class="results-icon">
+            <svg class="w-6 h-6 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+          </div>
+          <div class="results-text">
+            <span class="results-title">Lihat Hasil Scan</span>
+            <span class="results-subtitle">Riwayat dan analisis sampah</span>
+          </div>
+          <div class="results-arrow">
+            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </div>
         </router-link>
       </div>
     </div>
-    
-    <!-- Bottom Navigation -->
+      <!-- Bottom Navigation -->
     <BottomNav active="scan" />
     
     <!-- Toast Notification -->
@@ -163,8 +309,10 @@ import BottomNav from '../components/BottomNav.vue'
 import Header from '../components/Header.vue'
 import Toast from '../components/Toast.vue'
 import LoadingIndicator from '../components/LoadingIndicator.vue'
-import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
+import { ref, onMounted, onBeforeUnmount, watch, computed } from 'vue'
 import { getCameraStream, captureImageFromVideo, getCameraDevices } from '../utils/camera'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 const tabMode = ref('camera')
 const showToast = ref(false)
@@ -175,8 +323,9 @@ const selectedFile = ref(null)
 const capturedImage = ref(null)
 const videoRef = ref(null)
 const cameraStream = ref(null)
-
 const globalLoading = ref(false)
+const filePreviewUrl = ref('')
+const isDragOver = ref(false)
 
 const cameraDevices = ref([])
 const selectedDeviceId = ref('')
@@ -184,13 +333,24 @@ const isMobile = ref(false)
 const mobileCameraMode = ref('environment') // default ke kamera belakang
 
 onMounted(() => {
+  // Initialize AOS
+  AOS.init({
+    duration: 800,
+    easing: 'ease-out-cubic',
+    once: true
+  })
+  
   // Deteksi mobile
   isMobile.value = window.innerWidth <= 640 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
   fetchCameraDevices()
   // Tidak auto startCamera
 })
+
 onBeforeUnmount(() => {
   stopCamera()
+  if (filePreviewUrl.value) {
+    URL.revokeObjectURL(filePreviewUrl.value)
+  }
 })
 
 async function fetchCameraDevices() {
@@ -237,6 +397,11 @@ function capturePhoto() {
     capturedImage.value = captureImageFromVideo(videoRef.value)
     stopCamera()
   }
+}
+
+function retakePhoto() {
+  capturedImage.value = null
+  startCamera()
 }
 
 // Perubahan utama: kamera tidak otomatis menyala saat tabMode 'camera', hanya saat klik tombol
@@ -286,6 +451,59 @@ function handleFileChange(e) {
   }
 
   selectedFile.value = file
+  createFilePreview(file)
+}
+
+function createFilePreview(file) {
+  if (filePreviewUrl.value) {
+    URL.revokeObjectURL(filePreviewUrl.value)
+  }
+  filePreviewUrl.value = URL.createObjectURL(file)
+}
+
+function removeFile() {
+  selectedFile.value = null
+  if (filePreviewUrl.value) {
+    URL.revokeObjectURL(filePreviewUrl.value)
+    filePreviewUrl.value = ''
+  }
+  const fileInput = document.getElementById('file_input')
+  if (fileInput) fileInput.value = ''
+}
+
+function formatFileSize(bytes) {
+  if (bytes === 0) return '0 Bytes'
+  const k = 1024
+  const sizes = ['Bytes', 'KB', 'MB', 'GB']
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
+}
+
+// Drag and drop handlers
+function handleDragOver(e) {
+  isDragOver.value = true
+}
+
+function handleDragLeave(e) {
+  isDragOver.value = false
+}
+
+function handleDrop(e) {
+  isDragOver.value = false
+  const files = e.dataTransfer.files
+  if (files.length > 0) {
+    const file = files[0]
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg']
+    if (allowedTypes.includes(file.type)) {
+      selectedFile.value = file
+      createFilePreview(file)
+    } else {
+      toastMsg.value = 'File harus berupa gambar JPG, JPEG, atau PNG'
+      toastType.value = 'error'
+      toastIcon.value = '❌'
+      showToast.value = true
+    }
+  }
 }
 
 function submitFile() {
@@ -318,3 +536,693 @@ function submitCaptured() {
 // - Navigation to results with scan data
 
 </script>
+
+<style scoped>
+/* Glass morphism cards */
+.glass-card {
+  background: rgba(254, 250, 224, 0.6);
+  backdrop-filter: blur(12px);
+  border-radius: 24px;
+  border: 1px solid rgba(164, 180, 101, 0.2);
+  box-shadow: 
+    0 20px 40px rgba(98, 111, 71, 0.1),
+    0 15px 12px rgba(98, 111, 71, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 25px 50px rgba(98, 111, 71, 0.15),
+    0 20px 20px rgba(98, 111, 71, 0.1),
+    inset 0 1px 0 rgba(164, 180, 101, 0.3);
+}
+
+/* Form styling */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  color: #626F47;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.form-select {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid rgba(164, 180, 101, 0.3);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.8);
+  color: #626F47;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.form-select:focus {
+  outline: none;
+  border-color: #A4B465;
+  box-shadow: 
+    0 0 0 3px rgba(164, 180, 101, 0.15),
+    0 4px 12px rgba(164, 180, 101, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* Camera Preview */
+.camera-preview-container {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.camera-preview {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+  border: 3px solid rgba(164, 180, 101, 0.3);
+  box-shadow: 
+    0 20px 40px rgba(98, 111, 71, 0.1),
+    inset 0 2px 4px rgba(164, 180, 101, 0.1);
+}
+
+.camera-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 17px;
+}
+
+.captured-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 17px;
+}
+
+.camera-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(243, 244, 246, 0.9);
+  backdrop-filter: blur(8px);
+  border-radius: 17px;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(164, 180, 101, 0.3);
+  border-left-color: #A4B465;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 12px;
+}
+
+.loading-text {
+  color: #626F47;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Camera Overlay */
+.camera-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scan-frame {
+  width: 60%;
+  height: 60%;
+  border: 3px solid rgba(255, 207, 80, 0.8);
+  border-radius: 20px;
+  background: rgba(255, 207, 80, 0.1);
+  animation: scan-pulse 2s ease-in-out infinite;
+  position: relative;
+}
+
+.scan-frame::before,
+.scan-frame::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #FFCF50;
+}
+
+.scan-frame::before {
+  top: -3px;
+  left: -3px;
+  border-right: none;
+  border-bottom: none;
+  border-top-left-radius: 20px;
+}
+
+.scan-frame::after {
+  bottom: -3px;
+  right: -3px;
+  border-left: none;
+  border-top: none;
+  border-bottom-right-radius: 20px;
+}
+
+/* Success Overlay */
+.success-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(34, 197, 94, 0.1);
+  backdrop-filter: blur(2px);
+  border-radius: 17px;
+}
+
+.success-badge {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 10px 30px rgba(16, 185, 129, 0.3),
+    0 4px 12px rgba(16, 185, 129, 0.2);
+  animation: success-bounce 0.6s ease;
+}
+
+/* Button Styles */
+.btn-primary-large {
+  width: 100%;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #A4B465, #626F47);
+  color: white;
+  font-weight: 700;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 8px 20px rgba(98, 111, 71, 0.25),
+    0 4px 8px rgba(98, 111, 71, 0.15);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.btn-primary-large::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-primary-large:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 
+    0 12px 30px rgba(98, 111, 71, 0.3),
+    0 6px 12px rgba(98, 111, 71, 0.2);
+  background: linear-gradient(135deg, #626F47, #A4B465);
+}
+
+.btn-primary-large:hover::before {
+  left: 100%;
+}
+
+.btn-secondary {
+  padding: 0.875rem 1.5rem;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  font-weight: 600;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 
+    0 4px 12px rgba(239, 68, 68, 0.3),
+    0 2px 6px rgba(239, 68, 68, 0.2);
+}
+
+.btn-secondary:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  box-shadow: 
+    0 6px 16px rgba(239, 68, 68, 0.4),
+    0 3px 8px rgba(239, 68, 68, 0.3);
+}
+
+.btn-capture {
+  padding: 0.875rem 1.5rem;
+  background: linear-gradient(135deg, #FFCF50, #f59e0b);
+  color: #626F47;
+  font-weight: 700;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  box-shadow: 
+    0 4px 12px rgba(255, 207, 80, 0.3),
+    0 2px 6px rgba(255, 207, 80, 0.2);
+}
+
+.btn-capture:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  box-shadow: 
+    0 6px 16px rgba(255, 207, 80, 0.4),
+    0 3px 8px rgba(255, 207, 80, 0.3);
+}
+
+.capture-ring {
+  width: 24px;
+  height: 24px;
+  border: 3px solid currentColor;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: capture-pulse 2s ease-in-out infinite;
+}
+
+.capture-dot {
+  width: 12px;
+  height: 12px;
+  background: currentColor;
+  border-radius: 50%;
+}
+
+.btn-scan {
+  padding: 0.875rem 1.5rem;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  font-weight: 700;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  box-shadow: 
+    0 4px 12px rgba(16, 185, 129, 0.3),
+    0 2px 6px rgba(16, 185, 129, 0.2);
+}
+
+.btn-scan:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, #059669, #047857);
+  box-shadow: 
+    0 6px 16px rgba(16, 185, 129, 0.4),
+    0 3px 8px rgba(16, 185, 129, 0.3);
+}
+
+/* Upload Area */
+.upload-area {
+  margin-bottom: 1.5rem;
+}
+
+.upload-dropzone {
+  border: 3px dashed rgba(164, 180, 101, 0.4);
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.upload-dropzone:hover,
+.upload-dropzone.dragover {
+  border-color: #A4B465;
+  background: rgba(164, 180, 101, 0.05);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 10px 30px rgba(164, 180, 101, 0.15),
+    0 4px 12px rgba(164, 180, 101, 0.1);
+}
+
+.upload-icon {
+  margin-bottom: 1rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+.upload-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #626F47;
+  margin-bottom: 0.5rem;
+}
+
+.upload-subtitle {
+  color: #626F47;
+  opacity: 0.7;
+  margin-bottom: 1rem;
+}
+
+.upload-formats {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.format-badge {
+  padding: 0.25rem 0.75rem;
+  background: linear-gradient(135deg, #A4B465, #626F47);
+  color: white;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.upload-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* File Preview */
+.file-preview {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid rgba(164, 180, 101, 0.2);
+  margin-bottom: 1.5rem;
+}
+
+.preview-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.preview-overlay {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+
+.remove-btn {
+  width: 32px;
+  height: 32px;
+  background: rgba(239, 68, 68, 0.9);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(8px);
+}
+
+.remove-btn:hover {
+  background: #dc2626;
+  transform: scale(1.1);
+}
+
+.file-info {
+  text-align: center;
+}
+
+.file-name,
+.file-size {
+  color: #626F47;
+  font-size: 0.875rem;
+  margin: 0.25rem 0;
+}
+
+.file-name {
+  font-weight: 600;
+}
+
+.file-size {
+  opacity: 0.7;
+}
+
+/* Results Link */
+.results-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 2rem;
+  background: rgba(255, 207, 80, 0.9);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 207, 80, 0.3);
+  color: #626F47;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 8px 25px rgba(255, 207, 80, 0.2),
+    0 4px 12px rgba(255, 207, 80, 0.15);
+}
+
+.results-link:hover {
+  transform: translateY(-3px) scale(1.02);
+  background: rgba(255, 207, 80, 1);
+  box-shadow: 
+    0 12px 35px rgba(255, 207, 80, 0.3),
+    0 6px 16px rgba(255, 207, 80, 0.2);
+}
+
+.results-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #626F47, #A4B465);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.results-text {
+  flex: 1;
+  text-align: left;
+}
+
+.results-title {
+  display: block;
+  font-weight: 700;
+  font-size: 1.125rem;
+  margin-bottom: 0.25rem;
+}
+
+.results-subtitle {
+  display: block;
+  opacity: 0.7;
+  font-size: 0.875rem;
+}
+
+.results-arrow {
+  color: #626F47;
+  opacity: 0.7;
+}
+
+/* Camera Controls */
+.camera-controls {
+  margin-top: 1.5rem;
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg); 
+  }
+  50% { 
+    transform: translateY(-10px) rotate(2deg); 
+  }
+}
+
+@keyframes float-delay {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg); 
+  }
+  50% { 
+    transform: translateY(-15px) rotate(-2deg); 
+  }
+}
+
+@keyframes animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes animate-float-delay {
+  animation: float-delay 8s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+@keyframes animate-pulse-slow {
+  animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes animate-bounce-slow {
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes scan-pulse {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes capture-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes success-bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate3d(0,0,0);
+  }
+  40%, 43% {
+    transform: translate3d(0, -8px, 0);
+  }
+  70% {
+    transform: translate3d(0, -4px, 0);
+  }
+  90% {
+    transform: translate3d(0, -2px, 0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate3d(0,0,0);
+  }
+  40%, 43% {
+    transform: translate3d(0, -30px, 0);
+  }
+  70% {
+    transform: translate3d(0, -15px, 0);
+  }
+  90% {
+    transform: translate3d(0, -4px, 0);
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+  .glass-card {
+    padding: 1.5rem !important;
+    border-radius: 20px;
+  }
+  
+  .camera-preview {
+    border-radius: 16px;
+  }
+  
+  .upload-dropzone {
+    padding: 2rem 1.5rem;
+    border-radius: 16px;
+  }
+  
+  .results-link {
+    padding: 1rem 1.5rem;
+    border-radius: 16px;
+  }
+  
+  .btn-primary-large {
+    font-size: 1rem;
+    padding: 0.875rem 1.5rem;
+  }
+  
+  .upload-title {
+    font-size: 1.125rem;
+  }
+  
+  .results-title {
+    font-size: 1rem;
+  }
+}
+
+/* Enhanced focus states */
+button:focus,
+select:focus {
+  outline: 2px solid rgba(164, 180, 101, 0.5);
+  outline-offset: 2px;
+}
+
+/* Better text selection */
+::selection {
+  background: rgba(164, 180, 101, 0.3);
+  color: #626F47;
+}
+
+::-moz-selection {
+  background: rgba(164, 180, 101, 0.3);
+  color: #626F47;
+}
+</style>

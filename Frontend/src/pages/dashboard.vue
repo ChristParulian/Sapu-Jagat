@@ -1,20 +1,19 @@
 <template>
-  <div class="min-h-screen flex flex-col justify-between" style="background-color: #FEFAE0; font-family: 'Montserrat', 'Open Sans', sans-serif;">
+  <div class="min-h-screen flex flex-col justify-between" style="background: linear-gradient(135deg, #FEFAE0 0%, #FEFAE0 40%, rgba(255, 255, 255, 0.9) 60%, #FEFAE0 100%); font-family: 'Montserrat', 'Open Sans', sans-serif;">
     <!-- Header Component -->
     <Header />
     <!-- Main Content -->
     <div class="flex-1 pt-24 lg:pt-28 xl:pt-32 p-4 sm:p-8">
       <!-- Atas: Salam & Ilustrasi -->
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
-        <!-- Salam & Scan Button -->
-        <div class="flex-1" data-aos="fade-right">
-          <h1 class="text-2xl sm:text-3xl font-bold mb-2 text-primary">
-            Selamat datang kembali, <span class="text-primary">{{ userProfile?.username || 'User' }}</span>!
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">        <!-- Salam & Button -->
+        <div class="flex-1" data-aos="fade-right">          <h1 class="text-3xl sm:text-4xl font-bold mb-4" style="color: #626F47;">
+            Selamat datang kembali, <span style="color: #A4B465;">{{ userProfile?.username || 'User' }}</span>!
           </h1>
-          <p class="text-secondary text-lg mb-4">Mulai perjalanan hijau Anda hari ini!</p>
+          <p class="text-lg mb-6" style="color: #626F47;">Mulai perjalanan hijau Anda hari ini!</p>
           <button 
             @click="goToScan"
-            class="bg-primary hover:bg-secondary text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300"
+            class="text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 transform shadow-lg"
+            style="background: linear-gradient(135deg, #A4B465, #626F47);"
           >
             Mulai Scan Sampah
           </button>
@@ -22,57 +21,107 @@
         <!-- Ilustrasi -->
         <div class="flex-1 flex justify-center" data-aos="zoom-in">
           <div class="relative w-full max-w-xs md:max-w-sm lg:max-w-md">
-            <img src="/illustrations/person-doing-selective-recycle-garbage.jpg" alt="Orang scan sampah" class="w-full drop-shadow-2xl rounded-2xl bg-[#A4B465] p-2" />
+            <img src="/illustrations/person-doing-selective-recycle-garbage.jpg" alt="Orang scan sampah" class="w-full drop-shadow-2xl rounded-2xl p-2" style="background-color: #A4B465;" />
             <div class="absolute bottom-2 left-2 bg-black bg-opacity-40 text-xs text-white px-2 py-1 rounded" style="font-size:11px;">
               Image by <a href="https://www.freepik.com/free-photo/person-doing-selective-recycle-garbage_18955511.htm" target="_blank" rel="noopener" class="underline">freepik</a>
             </div>
           </div>
         </div>
-      </div>
-      <!-- Statistik Total Sampah -->
-      <div class="flex justify-center mb-8" data-aos="fade-up">
-        <div class="neumorphic-card p-8 w-full max-w-2xl text-center">
-          <h3 class="text-lg sm:text-xl font-semibold mb-2">Statistik Total Sampah yang Sudah di Scan</h3>
-          <div class="flex flex-col sm:flex-row justify-center gap-6">
-            <div>
-              <div class="text-2xl sm:text-3xl font-bold mb-1">1,234</div>
-              <p class="text-sm">Sampah Sudah Dipilah</p>
+      </div>      <!-- Statistik Section -->
+      <div class="mb-8" data-aos="fade-up">
+        <div class="glass-card p-8 relative overflow-hidden">          <!-- Background decoration -->
+          <div class="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl" style="background: linear-gradient(135deg, rgba(255, 207, 80, 0.3), rgba(164, 180, 101, 0.3));"></div>
+          <div class="absolute bottom-0 left-0 w-24 h-24 rounded-full blur-2xl" style="background: linear-gradient(45deg, rgba(164, 180, 101, 0.2), rgba(98, 111, 71, 0.2));"></div>
+          
+          <div class="relative z-10">
+            <div class="text-center mb-8">              <div class="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 shadow-lg" style="background: linear-gradient(135deg, #FFCF50, #A4B465);">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 00-2-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                </svg>
+              </div>
+              <h3 class="text-2xl font-bold mb-2 bg-gradient-to-r bg-clip-text text-transparent" style="background-image: linear-gradient(135deg, #626F47, #A4B465);">
+                Statistik Total Sampah Yang Sudah Di Scan
+              </h3>
+              <p class="text-sm" style="color: #626F47;">Data statistik sampah yang sudah di scan oleh anda tiap bulannya</p>
+            </div>
+            
+            <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/30">
+              <canvas ref="chartCanvas" class="w-full h-64"></canvas>
             </div>
           </div>
         </div>
-      </div>
-      <!-- Jagat Aktif, Profil, Aksi -->
-      <div class="flex flex-col sm:flex-row gap-4 mb-8" data-aos="fade-up">
-        <!-- Card Jagat Aktif -->
-        <div class="flex-1 neumorphic-card p-6 flex flex-col items-center">
-          <h3 class="text-base font-semibold mb-2">Jagat Aktif</h3>
-          <button @click="goToCheckin" class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 w-full mb-2">Check In Hari Ini</button>
-          <p class="text-xs">
-            Terakhir: {{ lastCheckin ? formatDate(lastCheckin) : '-' }}
-          </p>
+      </div><!-- Jagat Aktif, Profil, Aksi -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8" data-aos="fade-up" data-aos-delay="100">        <!-- Card Jagat Aktif -->
+        <div class="group modern-card p-6 relative overflow-hidden" style="background: linear-gradient(135deg, #A4B465, #626F47);">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
+          <div class="relative z-10">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-lg font-bold text-white">Jagat Aktif</h3>
+              <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+            </div>
+            <button @click="goToCheckin" class="w-full bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border border-white/30 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg mb-3">
+              Check In Hari Ini
+            </button>
+            <p class="text-white/80 text-xs">
+              Terakhir: {{ lastCheckin ? formatDate(lastCheckin) : '-' }}
+            </p>
+          </div>
         </div>
-        <!-- Card Profil Jagat (Clickable) -->
-        <div class="flex-1 neumorphic-card p-6 flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200"
-          @click="goToProfile">
-          <h3 class="text-base font-semibold mb-2">Profil Jagat</h3>
+
+        <!-- Card Profil Jagat -->
+        <div class="group modern-card p-6 relative overflow-hidden cursor-pointer"
+          @click="goToProfile" style="background: linear-gradient(135deg, #FFCF50, #A4B465);">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
+          <div class="relative z-10 h-full flex flex-col items-center justify-center text-center">
+            <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-white">Profil Jagat</h3>
+          </div>
         </div>
-        <!-- Card Aksi Jagat (Clickable) -->
-        <div class="flex-1 neumorphic-card p-6 flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200"
-          @click="goToHistory">
-          <h3 class="text-base font-semibold mb-2">Aksi Jagat</h3>
+
+        <!-- Card Aksi Jagat -->
+        <div class="group modern-card p-6 relative overflow-hidden cursor-pointer"
+          @click="goToHistory" style="background: linear-gradient(135deg, #626F47, #A4B465);">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
+          <div class="relative z-10 h-full flex flex-col items-center justify-center text-center">
+            <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-white">Aksi Jagat</h3>
+          </div>
         </div>
-      </div>
-      <!-- Map Section -->
-      <div class="w-full flex flex-col items-center mb-8" style="background:transparent;" data-aos="fade-up">
-        <div class="flex items-center gap-2 mb-1">
-          <svg class="w-6 h-6" style="color:#A4B465" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.8 13.938h-.011a7 7 0 1 0-11.464.144h-.016l.14.171c.1.127.2.251.3.371L12 21l5.13-6.248c.194-.209.374-.429.54-.659l.13-.155Z"/>
-          </svg>
-          <span class="text-lg sm:text-xl font-bold text-gray-800">Peta Jagat</span>
+      </div>      <!-- Map Section -->
+      <div class="mb-8" data-aos="fade-up" data-aos-delay="200">
+        <div class="glass-card p-8 relative overflow-hidden">          <div class="absolute top-0 left-0 w-28 h-28 rounded-full blur-2xl" style="background: linear-gradient(135deg, rgba(164, 180, 101, 0.2), rgba(98, 111, 71, 0.2));"></div>
+          
+          <div class="relative z-10">
+            <div class="text-center mb-6">
+              <div class="inline-flex items-center justify-center w-14 h-14 rounded-full mb-4 shadow-lg" style="background: linear-gradient(135deg, #A4B465, #626F47);">
+                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+              </div>
+              <h3 class="text-2xl font-bold mb-2 bg-gradient-to-r bg-clip-text text-transparent" style="background-image: linear-gradient(135deg, #626F47, #A4B465);">
+                Peta Jagat
+              </h3>
+              <p class="text-sm" style="color: #626F47;">Temukan lokasi bank sampah terdekat</p>
+            </div>
+            
+            <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-2 shadow-xl border border-white/20">
+              <div id="map" class="w-full rounded-xl shadow-lg" style="height:350px;"></div>
+            </div>
+          </div>
         </div>
-        <div class="text-sm text-gray-600 mb-3">Temukan lokasi bank sampah terdekat</div>
-        <div id="map" class="map-bordered w-full rounded-lg" style="height:350px; max-width:1000px;"></div>
       </div>
     </div>
     <!-- Bottom Navigation -->
@@ -95,12 +144,14 @@ import LoadingIndicator from '../components/LoadingIndicator.vue'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 import { initMap } from '../utils/map.js'
+import Chart from 'chart.js/auto'
 
 const router = useRouter()
 const { username } = useUserStore()
 const { userProfile, fetchUserProfile } = useUserProfile()
 const globalLoading = ref(false)
 const lastCheckin = ref(null)
+const chartCanvas = ref(null)
 
 function goToCheckin() {
   router.push('/checkin')
@@ -116,6 +167,108 @@ function goToProfile() {
 
 function goToHistory() {
   router.push('/history')
+}
+
+function initChart() {
+  if (!chartCanvas.value) return
+  
+  const ctx = chartCanvas.value.getContext('2d')
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'],
+      datasets: [{
+        label: 'Sampah Dipilah (kg)',
+        data: [20, 25, 30, 35, 22, 40],        backgroundColor: [
+          'rgba(164, 180, 101, 0.8)',   // #A4B465
+          'rgba(255, 207, 80, 0.8)',    // #FFCF50  
+          'rgba(98, 111, 71, 0.8)',     // #626F47
+          'rgba(164, 180, 101, 0.9)',   // #A4B465
+          'rgba(255, 207, 80, 0.9)',    // #FFCF50
+          'rgba(98, 111, 71, 0.9)'      // #626F47
+        ],
+        borderColor: [
+          'rgba(164, 180, 101, 1)',     // #A4B465
+          'rgba(255, 207, 80, 1)',      // #FFCF50
+          'rgba(98, 111, 71, 1)',       // #626F47
+          'rgba(164, 180, 101, 1)',     // #A4B465
+          'rgba(255, 207, 80, 1)',      // #FFCF50
+          'rgba(98, 111, 71, 1)'        // #626F47
+        ],
+        borderWidth: 2,
+        borderRadius: 8,
+        borderSkipped: false,        hoverBackgroundColor: [
+          'rgba(164, 180, 101, 1)',     // #A4B465
+          'rgba(255, 207, 80, 1)',      // #FFCF50
+          'rgba(98, 111, 71, 1)',       // #626F47
+          'rgba(164, 180, 101, 1)',     // #A4B465
+          'rgba(255, 207, 80, 1)',      // #FFCF50
+          'rgba(98, 111, 71, 1)'        // #626F47
+        ],
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+        duration: 2000,
+        easing: 'easeInOutQuart'
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          titleColor: '#fff',
+          bodyColor: '#fff',
+          borderColor: '#A4B465',
+          borderWidth: 1,
+          cornerRadius: 8,
+          displayColors: false,
+          callbacks: {
+            label: function(context) {
+              return `${context.parsed.y} kg sampah dipilah`
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 50,
+          grid: {
+            color: 'rgba(0, 0, 0, 0.1)',
+            drawBorder: false
+          },
+          ticks: {
+            color: '#6b7280',
+            stepSize: 10,
+            font: {
+              size: 12,
+              weight: '500'
+            }
+          }
+        },
+        x: {
+          grid: {
+            display: false
+          },
+          ticks: {
+            color: '#6b7280',
+            font: {
+              size: 12,
+              weight: '600'
+            }
+          }
+        }
+      },
+      interaction: {
+        intersect: false,
+        mode: 'index'
+      }
+    }
+  })
 }
 
 async function fetchLastCheckin() {
@@ -140,6 +293,12 @@ onMounted(async () => {
   try {
     await fetchUserProfile(localStorage.getItem('token'))
     await fetchLastCheckin()
+    
+    // Initialize chart
+    setTimeout(() => {
+      initChart()
+    }, 100)
+    
     // Inisialisasi map pakai utils
     const map = initMap('map')
     // Custom icon untuk marker agar tidak broken image
@@ -197,86 +356,189 @@ Terapkan pada setiap request API utama di page ini. */
 </script>
 
 <style scoped>
-.neumorphic-card {
-  background: #A4B465;
+/* Glass morphism cards */
+.glass-card {
+  background: rgba(254, 250, 224, 0.4);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  border: 1px solid rgba(164, 180, 101, 0.2);
+  box-shadow: 
+    0 20px 40px rgba(98, 111, 71, 0.1),
+    0 15px 12px rgba(98, 111, 71, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 25px 50px rgba(98, 111, 71, 0.15),
+    0 20px 20px rgba(98, 111, 71, 0.1),
+    inset 0 1px 0 rgba(164, 180, 101, 0.3);
+}
+
+/* Modern cards with gradients */
+.modern-card {
   border-radius: 20px;
   box-shadow: 
-    20px 20px 40px #A4B46533,
-    -20px -20px 40px #A4B46580;
-  transition: all 0.3s ease;
-  border: none;
-  overflow: visible !important;
+    0 10px 30px rgba(98, 111, 71, 0.15),
+    0 1px 8px rgba(98, 111, 71, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.neumorphic-card:hover {
-  transform: translateY(-2px);
+.modern-card:hover {
+  transform: translateY(-8px) scale(1.02);
   box-shadow: 
-    25px 25px 50px #A4B46566,
-    -25px -25px 50px #A4B465e6;
+    0 20px 40px rgba(98, 111, 71, 0.25),
+    0 8px 16px rgba(98, 111, 71, 0.15);
 }
 
-.neumorphic-card:active {
-  transform: translateY(1px);
-  box-shadow: 
-    10px 10px 20px #A4B46540,
-    -10px -10px 20px #A4B465b3,
-    inset 5px 5px 10px #A4B46536,
-    inset -5px -5px 10px #A4B465cc;
+/* Animated background */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
 }
 
-/* Ubah semua warna teks di dalam card menjadi #FEFAE0 */
-.neumorphic-card,
-.neumorphic-card h1,
-.neumorphic-card h2,
-.neumorphic-card h3,
-.neumorphic-card h4,
-.neumorphic-card h5,
-.neumorphic-card h6,
-.neumorphic-card p,
-.neumorphic-card span,
-.neumorphic-card div,
-.neumorphic-card button {
-  color: #FEFAE0 !important;
+.floating {
+  animation: float 6s ease-in-out infinite;
 }
 
-/* Override warna placeholder dan input jika ada di dalam card */
-.neumorphic-card input,
-.neumorphic-card textarea {
-  color: #FEFAE0 !important;
-  background: transparent;
+/* Enhanced buttons */
+button {
+  position: relative;
+  overflow: hidden;
 }
 
-/* Override Tailwind bg-clip-text jika ada */
-.neumorphic-card [class*='text-'] {
-  color: #FEFAE0 !important;
+button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
 }
 
-.map-bordered {
-  /* border: 3px solid #A4B465; */
-  box-shadow: 0 8px 32px #A4B46566, 0 1.5px 8px #A4B46533;
-  background: #fff;
+button:hover::before {
+  left: 100%;
 }
 
+/* Chart container enhancements */
+canvas {
+  border-radius: 12px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+/* Gradient text effects */
+.gradient-text {
+  background: linear-gradient(135deg, #A4B465, #FFCF50, #626F47);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Mobile responsiveness */
 @media (max-width: 640px) {
+  .glass-card {
+    padding: 1.5rem !important;
+    border-radius: 16px;
+  }
+  
+  .modern-card {
+    padding: 1.25rem !important;
+    border-radius: 16px;
+  }
+  
   h1, h2, h3, h4, h5, h6, .text-lg, .text-xl, .text-2xl, .text-3xl {
-    font-size: 90% !important;
+    font-size: 95% !important;
   }
-  .neumorphic-card {
-    padding: 1rem !important;
-  }
+  
   button {
-    font-size: 90% !important;
-    padding: 0.5rem 1rem !important;
+    font-size: 14px !important;
+    padding: 0.75rem 1.25rem !important;
   }
+}
+
+/* Enhanced map styling */
+#map {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Loading states */
+.loading-shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Icon animations */
+.icon-bounce {
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate3d(0,0,0);
+  }
+  40%, 43% {
+    transform: translate3d(0, -8px, 0);
+  }
+  70% {
+    transform: translate3d(0, -4px, 0);
+  }
+  90% {
+    transform: translate3d(0, -2px, 0);
+  }
+}
+
+/* Hover effects for cards */
+.group:hover .group-hover\:scale-110 {
+  transform: scale(1.1);
+}
+
+/* Backdrop effects */
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+}
+
+/* Custom scrollbar for better aesthetics */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(164, 180, 101, 0.6);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(164, 180, 101, 0.8);
 }
 </style>
 
 <style>
-/* Perbaiki z-index agar map dan leaflet tile tidak tertutup elemen lain */
+/* Global map and component fixes */
 #map {
   z-index: 0;
   min-height: 300px;
 }
+
 #map .leaflet-pane,
 #map .leaflet-map-pane,
 #map .leaflet-tile,
@@ -285,14 +547,45 @@ Terapkan pada setiap request API utama di page ini. */
   z-index: 10;
 }
 
-/* Pastikan parent .neumorphic-card tidak punya overflow:hidden agar map bisa render tile */
-.neumorphic-card {
-  overflow: visible !important;
-}
-
-/* Header dan BottomNav tetap di atas map */
+/* Header dan BottomNav tetap di atas */
 header, .BottomNav {
   z-index: 50 !important;
   position: relative;
+}
+
+/* Enhanced leaflet popup styling */
+.leaflet-popup-content-wrapper {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.leaflet-popup-tip {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+/* Custom marker styling */
+.leaflet-marker-icon {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hide default scrollbars on mobile */
+@media (max-width: 768px) {
+  body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  body::-webkit-scrollbar {
+    display: none;
+  }
 }
 </style>
