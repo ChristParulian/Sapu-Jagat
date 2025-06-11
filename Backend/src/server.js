@@ -1,6 +1,8 @@
 // import necessary modules
 const Hapi = require('@hapi/hapi');
+const Inert = require('@hapi/inert');
 const routes = require('./routes');
+const { loadModel } = require('./handlers/mlHandler');
 
 // Initialize the Hapi server
 const init = async () => {
@@ -15,19 +17,37 @@ const init = async () => {
     },
   });
 
-    // Register the routes
+  // Register the Inert plugin
+  await server.register(Inert);
+
+  // Serve files from the Model directory
+  server.route({
+    method: 'GET',
+    path: '/model/{param*}',
+    handler: {
+      directory: {
+        path: __dirname + '/Model',
+        listing: true,
+      },
+    },
+  });
+
+  // Register the routes
   server.route(routes);
 
-    // Start the server
+  // Start the server
   await server.start();
   // Log the server URL
   console.log(`Server running at: ${server.info.uri}`);
+
+  // Load model SETELAH server jalan
+  await loadModel();
 };
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err) => {
   console.error(err);
-    // Exit the process with a failure code
+  // Exit the process with a failure code
   process.exit(1);
 });
 
