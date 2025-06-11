@@ -15,6 +15,7 @@
     "flowbite": "^3.1.2",
     "flowbite-vue": "^0.2.1",
     "leaflet": "^1.9.4",
+    "swiper": "^11.2.8",
     "vue": "^3.5.16",
     "vue-leaflet": "^0.1.0",
     "vue-router": "^4.5.1"
