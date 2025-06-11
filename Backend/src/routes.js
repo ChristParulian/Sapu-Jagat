@@ -2,6 +2,7 @@
 const { registerUser, loginUser, editUser, getUserProfile } = require('./handlers/userHandler');
 const { checkInUser, getCheckinHistoryByMonth, getLastCheckin } = require('./handlers/checkinHandler');
 const { redeemPoint, getRedeemHistory } = require('./handlers/redeemsHandler');
+const { predictHandler } = require('./handlers/mlHandler');
 
 // Define the routes for the application
 const routes = [
@@ -58,6 +59,21 @@ const routes = [
     method: 'GET',
     path: '/users/profile',
     handler: getUserProfile,
+  },
+  // Route for machine learning prediction
+  {
+    method: 'POST',
+    path: '/predict',
+    handler: predictHandler,
+    options: {
+      payload: {
+        output: 'stream',
+        parse: true,
+        multipart: true,
+        maxBytes: 5 * 1024 * 1024, // 5MB
+        allow: 'multipart/form-data'
+      }
+    }
   },
 ];
 
