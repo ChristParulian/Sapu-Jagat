@@ -18,13 +18,13 @@
             Mulai Scan Sampah
           </button>
         </div>
-        <!-- Ilustrasi -->
-        <div class="flex-1 flex justify-center" data-aos="zoom-in">
-          <div class="relative w-full max-w-xs md:max-w-sm lg:max-w-md">
-            <img src="/illustrations/person-doing-selective-recycle-garbage.jpg" alt="Orang scan sampah" class="w-full drop-shadow-2xl rounded-2xl p-2" style="background-color: #A4B465;" />
-            <div class="absolute bottom-2 left-2 bg-black bg-opacity-40 text-xs text-white px-2 py-1 rounded" style="font-size:11px;">
-              Image by <a href="https://www.freepik.com/free-photo/person-doing-selective-recycle-garbage_18955511.htm" target="_blank" rel="noopener" class="underline">freepik</a>
-            </div>
+        <!-- Ilustrasi Baru -->
+        <div class="flex-1 flex justify-center items-center" data-aos="zoom-in">
+          <div class="relative w-full max-w-xs md:max-w-md lg:max-w-lg">
+            <img src="/illustrations/illustrasi3.png" alt="Ilustrasi edukasi daur ulang sampah" class="w-full drop-shadow-2xl rounded-3xl p-0 bg-white/0" style="object-fit: contain; background: none;" />
+            <div class="absolute bottom-2 left-2 text-xs px-2 py-1 rounded credit-text" style="font-size:11px; pointer-events:auto;">
+      <a href="http://www.freepik.com" target="_blank" rel="noopener" style="color:#A4B465; text-decoration:underline;">Designed by pikisuperstar / Freepik</a>
+    </div>
           </div>
         </div>
       </div>      <!-- Statistik Section -->
@@ -35,15 +35,18 @@
           
           <div class="relative z-10">
             <div class="text-center mb-8">              <div class="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 shadow-lg" style="background: linear-gradient(135deg, #FFCF50, #A4B465);">
-                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 00-2-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                </svg>
-              </div>
-              <h3 class="text-2xl font-bold mb-2 bg-gradient-to-r bg-clip-text text-transparent" style="background-image: linear-gradient(135deg, #626F47, #A4B465);">
-                Statistik Total Sampah Yang Sudah Di Scan
-              </h3>
-              <p class="text-sm" style="color: #626F47;">Data statistik sampah yang sudah di scan oleh anda tiap bulannya</p>
-            </div>
+    <!-- Bar chart icon -->
+    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <rect x="3" y="10" width="4" height="8" rx="1" fill="currentColor"/>
+      <rect x="9" y="6" width="4" height="12" rx="1" fill="currentColor"/>
+      <rect x="15" y="3" width="4" height="15" rx="1" fill="currentColor"/>
+    </svg>
+  </div>
+  <h3 class="text-2xl font-bold mb-2 bg-gradient-to-r bg-clip-text text-transparent" style="background-image: linear-gradient(135deg, #626F47, #A4B465);">
+    Statistik Total Sampah Yang Sudah Di Scan
+  </h3>
+  <p class="text-sm" style="color: #626F47;">Data statistik sampah yang sudah di scan oleh anda tiap bulannya</p>
+</div>
             
             <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/30">
               <canvas ref="chartCanvas" class="w-full h-64"></canvas>
@@ -444,20 +447,28 @@ canvas {
   .glass-card {
     padding: 1.5rem !important;
     border-radius: 16px;
+    /* Remove hover/transform/box-shadow for mobile */
+    transition: none !important;
+    box-shadow: 0 4px 12px rgba(98, 111, 71, 0.08) !important;
   }
-  
+  .glass-card:hover {
+    transform: none !important;
+    box-shadow: 0 4px 12px rgba(98, 111, 71, 0.08) !important;
+  }
   .modern-card {
     padding: 1.25rem !important;
     border-radius: 16px;
+    /* Remove hover/transform/box-shadow for mobile */
+    transition: none !important;
+    box-shadow: 0 2px 8px rgba(98, 111, 71, 0.06) !important;
   }
-  
-  h1, h2, h3, h4, h5, h6, .text-lg, .text-xl, .text-2xl, .text-3xl {
-    font-size: 95% !important;
+  .modern-card:hover {
+    transform: none !important;
+    box-shadow: 0 2px 8px rgba(98, 111, 71, 0.06) !important;
   }
-  
-  button {
-    font-size: 14px !important;
-    padding: 0.75rem 1.25rem !important;
+  /* Remove icon bounce on mobile for performance */
+  .icon-bounce {
+    animation: none !important;
   }
 }
 
@@ -529,6 +540,18 @@ canvas {
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(164, 180, 101, 0.8);
+}
+
+.credit-text {
+  color: #FEFAE0 !important;
+  background: none;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.18);
+  opacity: 0.55;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+.credit-text:hover {
+  opacity: 0.85;
 }
 </style>
 

@@ -52,7 +52,6 @@
                     'bg-red-50 border-red-400': isPast(date) && !isCheckedIn(date)
                   }">
                   <div class="font-bold text-primary text-xs sm:text-base lg:text-lg mb-0.5 sm:mb-1">{{ date.getDate() }}</div>
-                  <div class="text-[10px] sm:text-sm text-secondary mb-1 text-center leading-tight">Daily<br class="sm:hidden">check-in</div>
                   <template v-if="isCheckedIn(date)">
                     <button class="border border-green-500 text-green-500 px-1 sm:px-2 py-0.5 sm:py-1 rounded text-[9px] sm:text-xs font-semibold cursor-not-allowed bg-green-100 mt-0.5 sm:mt-1" disabled>Submitted</button>
                   </template>

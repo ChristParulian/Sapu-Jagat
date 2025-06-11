@@ -314,7 +314,7 @@
               <div v-if="redeemLoading" class="text-center py-12">
                 <div class="inline-flex flex-col items-center gap-4">
                   <div class="w-12 h-12 border-4 border-brand-sage/30 border-t-brand-sage rounded-full animate-spin"></div>
-                  <p class="text-brand-forest/70">Memuat riwayat penukaran...</p>
+                  <p class="text-brand-forest/70">Memuat poin dan riwayat penukaran...</p>
                 </div>
               </div>
               
@@ -490,7 +490,7 @@ const redeemError = ref('')
 
 async function fetchRedeemHistory() {
   globalLoading.value = true
-  globalLoadingMsg.value = 'Memuat riwayat penukaran...'
+  globalLoadingMsg.value = 'Memuat poin dan riwayat penukaran....'
   redeemLoading.value = true
   redeemError.value = ''
   try {
@@ -916,6 +916,27 @@ async function handleRedeem(type) {
   .btn-submit-subtitle {
     font-size: 0.875rem;
   }
+
+  /* Nonaktifkan animasi hover dan transform pada card riwayat penukaran di mobile */
+  .history-item {
+    transition: none !important;
+    background: rgba(255,255,255,0.95) !important;
+    border-color: rgba(164, 180, 101, 0.2) !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  .history-item:hover {
+    background: rgba(255,255,255,0.95) !important;
+    border-color: rgba(164, 180, 101, 0.2) !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  /* Nonaktifkan animasi AOS pada riwayat penukaran di mobile */
+  .history-item[data-aos] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 
 /* Animation for smooth button appearance */
@@ -1146,21 +1167,6 @@ async function handleRedeem(type) {
   
   h2 {
     font-size: 1.5rem !important;
-  }
-
-  /* Mobile hero section */
-  .main-content {
-    padding-top: clamp(100px, 12vh, 140px) !important;
-  }
-
-  .hero-title {
-    font-size: clamp(2rem, 8vw, 2.5rem) !important;
-    line-height: 1.2 !important;
-    padding: 1rem 0 !important;
-    margin-bottom: 1rem !important;
-  }
-  .text-center.mb-12 {
-    margin-bottom: 2rem !important;
   }
 
   /* Mobile modal close button */
