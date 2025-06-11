@@ -272,22 +272,30 @@
       </div>
       
       <!-- Results Link -->
-      <div class="text-center" data-aos="fade-up" data-aos-delay="700">
-        <router-link to="/results" class="results-link group">
-          <div class="results-icon">
-            <svg class="w-6 h-6 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+      <div v-if="predictionResult" class="text-center my-8" data-aos="fade-up" data-aos-delay="650">
+        <div class="inline-block px-6 py-4 rounded-2xl shadow-lg bg-white/80 border border-brand-sage/30">
+          <div class="text-lg font-semibold text-brand-forest mb-2">Hasil Scan</div>
+          <div class="text-2xl font-bold text-brand-sage mb-1">{{ predictionResult.class }}</div>
+        </div>
+      </div>
+      <!-- Button to Results Page -->
+      <div class="text-center my-4">
+        <router-link to="/results" class="results-link">
+          <span class="results-icon">
+            <!-- Updated to use provided SVG icon -->
+            <svg class="w-8 h-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3M3.22302 14C4.13247 18.008 7.71683 21 12 21c4.9706 0 9-4.0294 9-9 0-4.97056-4.0294-9-9-9-3.72916 0-6.92858 2.26806-8.29409 5.5M7 9H3V5"/>
             </svg>
-          </div>
-          <div class="results-text">
-            <span class="results-title">Lihat Hasil Scan</span>
-            <span class="results-subtitle">Riwayat dan analisis sampah</span>
-          </div>
-          <div class="results-arrow">
-            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          </span>
+          <span class="results-text">
+            <span class="results-title">Riwayat Scan Anda</span>
+            <span class="results-subtitle">Lihat hasil scan sebelumnya</span>
+          </span>
+          <span class="results-arrow">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
             </svg>
-          </div>
+          </span>
         </router-link>
       </div>
     </div>
@@ -298,7 +306,7 @@
     <Toast v-model="showToast" :message="toastMsg" :type="toastType" :icon="toastIcon" />
     
     <!-- Loading Indicator -->
-    <LoadingIndicator :visible="globalLoading" />
+    <LoadingIndicator :visible="globalLoading" message="Sedang mengklasifikasikan gambar, mohon ditunggu..." />
   </div>
 </template>
 
@@ -330,6 +338,7 @@ const cameraDevices = ref([])
 const selectedDeviceId = ref('')
 const isMobile = ref(false)
 const mobileCameraMode = ref('environment') // default ke kamera belakang
+const predictionResult = ref(null)
 
 onMounted(() => {
   // Deteksi mobile
@@ -553,21 +562,109 @@ function handleDrop(e) {
   }
 }
 
-function submitFile() {
-  toastMsg.value = 'File berhasil dikirim!'
-  toastType.value = 'success'
-  toastIcon.value = '✔️'
-  showToast.value = true
+async function scanImage(imageDataUrlOrFile) {
+  try {
+    globalLoading.value = true
+    predictionResult.value = null
+    let formData = new FormData()
+    let fileObj
+    if (typeof imageDataUrlOrFile === 'string') {
+      // base64 data URL (from camera)
+      const res = await fetch(imageDataUrlOrFile)
+      const blob = await res.blob()
+      // Give a default filename
+      fileObj = new File([blob], 'camera.jpg', { type: blob.type || 'image/jpeg' })
+    } else if (imageDataUrlOrFile instanceof File) {
+      fileObj = imageDataUrlOrFile
+    } else {
+      throw new Error('Format gambar tidak valid')
+    }
+    formData.append('image', fileObj)
+    // Get JWT token
+    const token = localStorage.getItem('token')
+    if (!token) {
+      toastMsg.value = 'Anda belum login!'
+      toastType.value = 'error'
+      toastIcon.value = '❌'
+      showToast.value = true
+      globalLoading.value = false
+      return
+    }
+    // Call API
+    const apiUrl = import.meta.env.VITE_API_URL;
+    const response = await fetch(`${apiUrl}/predict`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+        // 'Content-Type' JANGAN di-set, biar browser set multipart boundary
+      },
+      body: formData
+    })
+    let data
+    try {
+      data = await response.json()
+    } catch (e) {
+      data = {}
+    }
+    let detectedLabel = null
+    let detectedConfidence = null
+    // Cek jika ada array predictions
+    if (response.ok && data.status === 'success') {
+      if (Array.isArray(data.predictions) && data.predictions.length > 0) {
+        // Pilih label dengan confidence tertinggi
+        const best = data.predictions.reduce((a, b) => (a.confidence > b.confidence ? a : b))
+        detectedLabel = best.label
+        detectedConfidence = best.confidence
+      } else if (data.detected) {
+        detectedLabel = data.detected
+        detectedConfidence = data.confidence || null
+      }
+    }
+    if (detectedLabel) {
+      predictionResult.value = { class: detectedLabel, confidence: detectedConfidence, ...data }
+      toastMsg.value = `Sampah terdeteksi: ${detectedLabel}`
+      toastType.value = 'success'
+      toastIcon.value = '✔️'
+      showToast.value = true
+    } else if (!response.ok) {
+      // Error dari API (HTTP error)
+      predictionResult.value = { class: 'Gagal scan' }
+      toastMsg.value = data.message || `Gagal scan: ${response.status} ${response.statusText}`
+      toastType.value = 'error'
+      toastIcon.value = '❌'
+      showToast.value = true
+    } else {
+      // Error dari API (status success tapi tidak ada hasil)
+      predictionResult.value = { class: 'Tidak ada sampah terdeteksi' }
+      toastMsg.value = data.message || 'Tidak ada sampah terdeteksi'
+      toastType.value = 'error'
+      toastIcon.value = '❌'
+      showToast.value = true
+    }
+  } catch (err) {
+    predictionResult.value = { class: 'Tidak ada sampah terdeteksi' }
+    toastMsg.value = err.message || 'Gagal melakukan scan'
+    toastType.value = 'error'
+    toastIcon.value = '❌'
+    showToast.value = true
+  } finally {
+    globalLoading.value = false
+  }
 }
 
-function submitCaptured() {
-  toastMsg.value = 'Scan sampah berhasil!'
-  toastType.value = 'success'
-  toastIcon.value = '✔️'
-  showToast.value = true
+async function submitCaptured() {
+  if (!capturedImage.value) return
+  await scanImage(capturedImage.value)
   // Reset ke kamera lagi
   capturedImage.value = null
   startCamera()
+}
+
+async function submitFile() {
+  if (!selectedFile.value) return
+  await scanImage(selectedFile.value)
+  // Reset file input
+  removeFile()
 }
 
 // Contoh penggunaan:
@@ -1236,33 +1333,49 @@ function submitCaptured() {
   .glass-card {
     padding: 1.5rem !important;
     border-radius: 20px;
+    transition: none !important;
+    box-shadow: 0 4px 12px rgba(98, 111, 71, 0.08) !important;
   }
-  
-  .camera-preview {
-    border-radius: 16px;
+  .glass-card:hover {
+    transform: none !important;
+    box-shadow: 0 4px 12px rgba(98, 111, 71, 0.08) !important;
   }
-  
   .upload-dropzone {
-    padding: 2rem 1.5rem;
-    border-radius: 16px;
+    transition: none !important;
+    box-shadow: none !important;
+    transform: none !important;
   }
-  
-  .results-link {
-    padding: 1rem 1.5rem;
-    border-radius: 16px;
+  .upload-dropzone:hover,
+  .upload-dropzone.dragover {
+    box-shadow: none !important;
+    transform: none !important;
   }
-  
-  .btn-primary-large {
-    font-size: 1rem;
-    padding: 0.875rem 1.5rem;
+  .btn-primary-large,
+  .btn-secondary,
+  .btn-capture,
+  .btn-scan {
+    transition: none !important;
+    box-shadow: none !important;
+    transform: none !important;
   }
-  
-  .upload-title {
-    font-size: 1.125rem;
+  .btn-primary-large:hover,
+  .btn-secondary:hover,
+  .btn-capture:hover,
+  .btn-scan:hover {
+    box-shadow: none !important;
+    transform: none !important;
   }
-  
-  .results-title {
-    font-size: 1rem;
+  .upload-icon,
+  .animate-float,
+  .animate-float-delay,
+  .animate-pulse-slow {
+    animation: none !important;
+  }
+  .success-badge {
+    animation: none !important;
+  }
+  .scan-frame {
+    animation: none !important;
   }
 }
 

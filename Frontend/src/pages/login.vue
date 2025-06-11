@@ -25,7 +25,7 @@
               <div class="text-2xl font-bold text-[#626F47]">9.9k+</div>
             </div><!-- Main illustration image -->
             <div class="mt-12 mb-8 flex justify-center relative">
-              <img src="/illustrations/40276.png"
+              <img src="/illustrations/illustrasi.png"
                 alt="Waste Sorting Illustration"
                 class="w-96 h-72 object-contain drop-shadow-lg rounded-xl"
               />
