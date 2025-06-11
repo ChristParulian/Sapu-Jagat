@@ -14,10 +14,10 @@
     <div class="flex-1 pt-24 lg:pt-28 xl:pt-32 p-4 sm:p-8 relative z-10">      <!-- Hero Section -->
       <div class="text-center mb-8" data-aos="fade-down">
         <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 text-brand-forest">
-          Scan Jagat
+          {{ tabMode === 'camera' ? 'Scan Jagat' : 'Jagat Kenal' }}
         </h1>
         <p class="text-brand-forest/70 text-lg sm:text-xl max-w-md mx-auto">
-          Pindai sampah untuk mendapatkan informasi pemilahan yang akurat
+          {{ tabMode === 'camera' ? 'Pindai sampah untuk mendapatkan informasi pemilahan yang akurat' : 'Upload gambar untuk mendapatkan informasi pemilahan yang akurat' }}
         </p>
       </div>
       
@@ -135,7 +135,7 @@
 
               <!-- Camera Controls -->
               <div class="camera-controls" data-aos="fade-up" data-aos-delay="600">
-                <template v-if="!cameraStream">
+                <template v-if="!cameraStream && !capturedImage">
                   <button
                     class="btn-primary-large group"
                     @click="startCamera"
@@ -147,8 +147,7 @@
                     Buka Kamera
                   </button>
                 </template>
-                
-                <template v-else-if="!capturedImage">
+                <template v-else-if="cameraStream && !capturedImage">
                   <div class="flex gap-3">
                     <button
                       class="btn-secondary flex-1"
@@ -172,18 +171,17 @@
                     </button>
                   </div>
                 </template>
-
-                <template v-else>
+                <template v-else-if="capturedImage">
                   <div class="flex gap-3">
                     <button
                       class="btn-secondary flex-1"
-                      @click="retakePhoto"
+                      @click="retakePhotoWithCamera"
                       type="button"
                     >
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                       </svg>
-                      Foto Ulang
+                      Ambil Ulang & Buka Kamera
                     </button>
                     <button
                       class="btn-scan flex-1"
@@ -395,12 +393,18 @@ async function startCamera() {
 }
 
 function stopCamera() {
-  if (cameraStream.value) {
-    cameraStream.value.getTracks().forEach(track => track.stop())
-    cameraStream.value = null
-  }
+  // Segera hapus srcObject sebelum pause agar video element langsung blank
   if (videoRef.value) {
-    videoRef.value.srcObject = null
+    videoRef.value.srcObject = null;
+    videoRef.value.pause();
+  }
+  if (cameraStream.value) {
+    cameraStream.value.getTracks().forEach(track => {
+      try {
+        track.stop();
+      } catch (e) {}
+    });
+    cameraStream.value = null
   }
 }
 
@@ -449,6 +453,11 @@ async function capturePhoto() {
 function retakePhoto() {
   capturedImage.value = null
   startCamera()
+}
+
+function retakePhotoWithCamera() {
+  capturedImage.value = null;
+  startCamera();
 }
 
 // Perubahan utama: kamera tidak otomatis menyala saat tabMode 'camera', hanya saat klik tombol
@@ -752,9 +761,6 @@ async function submitFile() {
   overflow: hidden;
   background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
   border: 3px solid rgba(164, 180, 101, 0.3);
-  box-shadow: 
-    0 20px 40px rgba(98, 111, 71, 0.1),
-    inset 0 2px 4px rgba(164, 180, 101, 0.1);
 }
 
 .camera-video {
@@ -769,6 +775,8 @@ async function submitFile() {
   height: 100%;
   object-fit: cover;
   border-radius: 17px;
+  /* Hilangkan blur dan overlay saat foto sudah diambil */
+  filter: none !important;
 }
 
 .camera-loading {
@@ -812,59 +820,16 @@ async function submitFile() {
 
 /* Camera Overlay */
 .camera-overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: none;
 }
 
 .scan-frame {
-  width: 60%;
-  height: 60%;
-  border: 3px solid rgba(255, 207, 80, 0.8);
-  border-radius: 20px;
-  background: rgba(255, 207, 80, 0.1);
-  animation: scan-pulse 2s ease-in-out infinite;
-  position: relative;
-}
-
-.scan-frame::before,
-.scan-frame::after {
-  content: '';
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  border: 3px solid #FFCF50;
-}
-
-.scan-frame::before {
-  top: -3px;
-  left: -3px;
-  border-right: none;
-  border-bottom: none;
-  border-top-left-radius: 20px;
-}
-
-.scan-frame::after {
-  bottom: -3px;
-  right: -3px;
-  border-left: none;
-  border-top: none;
-  border-bottom-right-radius: 20px;
+  display: none;
 }
 
 /* Success Overlay */
 .success-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(34, 197, 94, 0.1);
-  backdrop-filter: blur(2px);
-  border-radius: 17px;
+  display: none;
 }
 
 .success-badge {
@@ -1376,6 +1341,41 @@ async function submitFile() {
   }
   .scan-frame {
     animation: none !important;
+  }
+}
+
+/* Tambahan responsif untuk kamera di mobile */
+@media (max-width: 640px) {
+  .camera-preview-container {
+    margin-bottom: 1.5rem;
+  }
+  .camera-preview {
+    aspect-ratio: 1;
+    min-height: unset;
+    max-height: unset;
+    width: 100%;
+    border-radius: 20px;
+    border-width: 3px;
+    padding: 0;
+  }
+  .camera-video,
+  .captured-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 17px;
+  }
+  /* Hanya kamera yang diubah, card dan button tetap kecil */
+  .glass-card,
+  .btn-primary-large,
+  .btn-secondary,
+  .btn-capture,
+  .btn-scan {
+    font-size: 1rem !important;
+    padding: 0.75rem 1rem !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+    transition: none !important;
   }
 }
 

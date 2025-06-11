@@ -121,7 +121,7 @@
       </div>      <!-- Modal E-Wallet -->
       <div v-if="showModal === 'ewallet'" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4 pt-20 pb-4" @click.self="closeModal">
         <div class="modal-card w-full max-w-md relative my-auto" @click.stop data-aos="zoom-in" data-aos-duration="300">
-          <button class="absolute -top-2 -right-2 w-10 h-10 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 z-10" @click="closeModal">
+          <button class="absolute top-6 right-6 w-10 h-10 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 z-10" @click="closeModal">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
             </svg>
@@ -183,7 +183,7 @@
       </div>      <!-- Modal Pulsa -->
       <div v-if="showModal === 'pulsa'" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4 pt-20 pb-4" @click.self="closeModal">
         <div class="modal-card w-full max-w-md relative my-auto" @click.stop data-aos="zoom-in" data-aos-duration="300">
-          <button class="absolute -top-2 -right-2 w-10 h-10 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 z-10" @click="closeModal">
+          <button class="absolute top-6 right-6 w-10 h-10 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 z-10" @click="closeModal">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
             </svg>
@@ -242,7 +242,7 @@
       </div>      <!-- Modal Token Listrik -->
       <div v-if="showModal === 'token'" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4 pt-20 pb-4" @click.self="closeModal">
         <div class="modal-card w-full max-w-md relative my-auto" @click.stop data-aos="zoom-in" data-aos-duration="300">
-          <button class="absolute -top-2 -right-2 w-10 h-10 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 z-10" @click="closeModal">
+          <button class="absolute top-6 right-6 w-10 h-10 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 z-10" @click="closeModal">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
             </svg>
@@ -344,18 +344,18 @@
               </div>
               
               <div v-else class="space-y-3">
-                <div v-for="(item, idx) in mappedHistory" :key="idx" class="history-item group" data-aos="fade-up" :data-aos-delay="idx * 100">
+                <div v-for="(item, idx) in redeemHistory" :key="idx" class="history-item group" data-aos="fade-up" :data-aos-delay="idx * 100">
                   <div class="flex items-center justify-between p-4">
                     <div class="flex items-center gap-4">
-                      <div class="w-12 h-12 bg-gradient-to-br from-brand-yellow to-brand-sage rounded-full flex items-center justify-center flex-shrink-0">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                        </svg>
+                      <div class="w-12 h-12 bg-gradient-to-br from-brand-yellow to-brand-sage rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden">
+                        <span v-html="getHistoryIconSvg(item)"></span>
                       </div>
                       <div>
-                        <h4 class="font-semibold text-brand-forest group-hover:text-brand-sage transition-colors">{{ item.tipe }}</h4>
-                        <p class="text-brand-forest/70 text-sm">{{ item.nominal }}</p>
-                        <p class="text-brand-forest/50 text-xs">{{ item.tanggal }}</p>
+                        <h4 class="font-semibold text-brand-forest group-hover:text-brand-sage transition-colors">
+                          {{ item.type === 'ewallet' ? `E-Wallet (${item.provider || '-'})` : item.type === 'pulsa' ? `Pulsa (${item.provider || '-'})` : 'Token Listrik' }}
+                        </h4>
+                        <p class="text-brand-forest/70 text-sm">{{ item.amount ? `Rp${item.amount.toLocaleString('id-ID')}` : '-' }}</p>
+                        <p class="text-brand-forest/50 text-xs">{{ item.date || (item.created_at ? item.created_at.slice(0,10) : '-') }}</p>
                       </div>
                     </div>
                     <div class="text-right">
@@ -363,7 +363,7 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7"/>
                         </svg>
-                        <span>{{ item.poin }} poin</span>
+                        <span>{{ item.points || '-' }} poin</span>
                       </div>
                       <div class="mt-1">
                         <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">
@@ -669,6 +669,22 @@ async function handleRedeem(type) {
     globalLoadingMsg.value = ''
   }
 }
+
+// Fungsi untuk mendapatkan SVG icon sesuai tipe riwayat
+const getHistoryIconSvg = (item) => {
+  if (item.type === 'ewallet') {
+    // Icon dompet (ewallet)
+    return `<svg class='w-6 h-6 text-white' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z'/></svg>`
+  } else if (item.type === 'pulsa') {
+    // Icon telepon (pulsa)
+    return `<svg class='w-6 h-6 text-white' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z'/></svg>`
+  } else if (item.type === 'token') {
+    // Icon petir (token listrik)
+    return `<svg class='w-6 h-6 text-white' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M13 10V3L4 14h7v7l9-11h-7z'/></svg>`
+  }
+  // Default icon
+  return `<svg class='w-6 h-6 text-white' fill='none' stroke='currentColor' viewBox='0 0 24 24'><circle cx='12' cy='12' r='9'/></svg>`
+}
 </script>
 
 <style scoped>
@@ -954,7 +970,7 @@ async function handleRedeem(type) {
 .btn-submit {
   animation: btn-appear 0.4s ease-out;
 }
-
+s
 /* Mobile Responsive Styles for Submit Button */
 @media (max-width: 640px) {
   .btn-submit.w-full {

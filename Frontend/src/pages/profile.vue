@@ -11,7 +11,7 @@
           <p class="text-secondary text-base">Kelola informasi akun Anda</p>
         </div>
         <div class="flex justify-center">
-          <form class="w-full max-w-2xl bg-white rounded-2xl shadow-lg p-5 sm:p-14 border border-gray-200 flex flex-col gap-5 sm:gap-12" @submit.prevent="handleEditProfile">
+          <form class="w-full max-w-2xl glass-card rounded-2xl shadow-lg p-5 sm:p-14 border border-gray-200 flex flex-col gap-5 sm:gap-12" @submit.prevent="handleEditProfile">
             <div class="flex flex-col items-center mb-2">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 sm:w-20 sm:h-20 text-primary mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" />
@@ -208,3 +208,25 @@ const handleEditProfile = async () => {
   }
 };
 </script>
+
+<style scoped>
+.glass-card {
+  background: rgba(254, 250, 224, 0.7);
+  backdrop-filter: blur(12px);
+  border-radius: 24px;
+  border: 1px solid rgba(164, 180, 101, 0.2);
+  box-shadow:
+    0 20px 40px rgba(98, 111, 71, 0.10),
+    0 15px 12px rgba(98, 111, 71, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 25px 50px rgba(98, 111, 71, 0.15),
+    0 20px 20px rgba(98, 111, 71, 0.10),
+    inset 0 1px 0 rgba(164, 180, 101, 0.3);
+}
+</style>
