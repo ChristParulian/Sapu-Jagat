@@ -30,13 +30,13 @@
           
           <div class="relative z-10">
             <!-- Tab Navigation -->
-            <div class="flex mb-6 bg-brand-cream/50 rounded-2xl p-1 backdrop-blur-sm" data-aos="fade-up" data-aos-delay="300">
+            <div class="flex mb-6 bg-brand-cream/50 rounded-2xl p-1 backdrop-blur-sm gap-3 glass-tab-group" data-aos="fade-up" data-aos-delay="300">
               <button
                 :class="[
-                  'flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2',
+                  'flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 glass-tab',
                   tabMode === 'camera' 
-                    ? 'bg-gradient-to-r from-brand-sage to-brand-forest text-white shadow-lg transform scale-105' 
-                    : 'text-brand-forest/70 hover:text-brand-forest hover:bg-white/50'
+                    ? 'bg-gradient-to-r from-brand-sage to-brand-forest text-white shadow-lg transform scale-105 glass-tab-active' 
+                    : 'text-brand-forest/70 hover:text-brand-forest hover:bg-white/50 glass-tab-inactive'
                 ]"
                 @click="tabMode = 'camera'"
               >
@@ -47,10 +47,10 @@
               </button>
               <button
                 :class="[
-                  'flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2',
+                  'flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 glass-tab',
                   tabMode === 'upload' 
-                    ? 'bg-gradient-to-r from-brand-sage to-brand-forest text-white shadow-lg transform scale-105' 
-                    : 'text-brand-forest/70 hover:text-brand-forest hover:bg-white/50'
+                    ? 'bg-gradient-to-r from-brand-sage to-brand-forest text-white shadow-lg transform scale-105 glass-tab-active' 
+                    : 'text-brand-forest/70 hover:text-brand-forest hover:bg-white/50 glass-tab-inactive'
                 ]"
                 @click="tabMode = 'upload'"
               >
@@ -112,9 +112,8 @@
                       playsinline
                       muted
                     ></video>
-                    <div v-if="!cameraStream" class="camera-loading">
-                      <div class="loading-spinner"></div>
-                      <span class="loading-text">Mengakses kamera...</span>
+                    <div v-if="!cameraStream" class="camera-loading no-anim">
+                      <span class="loading-text">Kamera belum dibuka</span>
                     </div>
                     <!-- Camera overlay -->
                     <div class="camera-overlay">
@@ -205,7 +204,7 @@
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>
-                  Arahkan kamera ke sampah dan tekan tombol capture
+                  Arahkan kamera ke sampah dan tekan tombol ambil foto
                 </p>
               </div>
             </div>
@@ -333,15 +332,16 @@ const isMobile = ref(false)
 const mobileCameraMode = ref('environment') // default ke kamera belakang
 
 onMounted(() => {
-  // Initialize AOS
-  AOS.init({
-    duration: 800,
-    easing: 'ease-out-cubic',
-    once: true
-  })
-  
   // Deteksi mobile
   isMobile.value = window.innerWidth <= 640 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+  // Initialize AOS hanya jika bukan mobile
+  if (!isMobile.value) {
+    AOS.init({
+      duration: 800,
+      easing: 'ease-out-cubic',
+      once: true
+    })
+  }
   fetchCameraDevices()
   // Tidak auto startCamera
 })
@@ -390,12 +390,50 @@ function stopCamera() {
     cameraStream.value.getTracks().forEach(track => track.stop())
     cameraStream.value = null
   }
+  if (videoRef.value) {
+    videoRef.value.srcObject = null
+  }
 }
 
-function capturePhoto() {
+async function resizeImage(base64, maxSize = 640) {
+  return new Promise((resolve) => {
+    const img = new window.Image()
+    img.onload = function () {
+      let width = img.width
+      let height = img.height
+      if (width > height) {
+        if (width > maxSize) {
+          height = Math.round(height * (maxSize / width))
+          width = maxSize
+        }
+      } else {
+        if (height > maxSize) {
+          width = Math.round(width * (maxSize / height))
+          height = maxSize
+        }
+      }
+      const canvas = document.createElement('canvas')
+      canvas.width = width
+      canvas.height = height
+      const ctx = canvas.getContext('2d')
+      ctx.drawImage(img, 0, 0, width, height)
+      resolve(canvas.toDataURL('image/jpeg', 0.85))
+    }
+    img.src = base64
+  })
+}
+
+async function capturePhoto() {
   if (videoRef.value) {
-    capturedImage.value = captureImageFromVideo(videoRef.value)
+    let raw = captureImageFromVideo(videoRef.value)
+    // Resize jika mobile
+    if (isMobile.value) {
+      capturedImage.value = await resizeImage(raw, 640)
+    } else {
+      capturedImage.value = raw
+    }
     stopCamera()
+    // Tidak langsung scan, hanya tampilkan preview
   }
 }
 
@@ -458,7 +496,16 @@ function createFilePreview(file) {
   if (filePreviewUrl.value) {
     URL.revokeObjectURL(filePreviewUrl.value)
   }
-  filePreviewUrl.value = URL.createObjectURL(file)
+  // Untuk mobile, compress preview agar lebih ringan
+  if (isMobile.value && file.type.startsWith('image/')) {
+    const reader = new FileReader()
+    reader.onload = async (e) => {
+      filePreviewUrl.value = await resizeImage(e.target.result, 640)
+    }
+    reader.readAsDataURL(file)
+  } else {
+    filePreviewUrl.value = URL.createObjectURL(file)
+  }
 }
 
 function removeFile() {
@@ -637,6 +684,17 @@ function submitCaptured() {
   background: rgba(243, 244, 246, 0.9);
   backdrop-filter: blur(8px);
   border-radius: 17px;
+}
+
+.camera-loading.no-anim {
+  background: rgba(243, 244, 246, 0.9);
+  backdrop-filter: blur(8px);
+  border-radius: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 80px;
 }
 
 .loading-spinner {
@@ -1224,5 +1282,44 @@ select:focus {
 ::-moz-selection {
   background: rgba(164, 180, 101, 0.3);
   color: #626F47;
+}
+
+.glass-tab-group {
+  background: rgba(254, 250, 224, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px 0 rgba(98, 111, 71, 0.08);
+  padding: 0.25rem;
+  gap: 1rem;
+}
+.glass-tab {
+  background: rgba(255,255,255,0.25);
+  border: none;
+  box-shadow: 0 2px 8px 0 rgba(98, 111, 71, 0.04);
+  transition: all 0.2s;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.glass-tab-active {
+  background: linear-gradient(90deg, #A4B465 0%, #626F47 100%);
+  color: #fff !important;
+  box-shadow: 0 4px 16px 0 rgba(98, 111, 71, 0.12);
+  transform: scale(1.05);
+}
+.glass-tab-inactive {
+  background: rgba(255,255,255,0.15);
+  color: #626F47 !important;
+}
+@media (max-width: 640px) {
+  .glass-tab-group {
+    gap: 0.75rem;
+    padding: 0.15rem;
+  }
+  .glass-tab {
+    font-size: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
 }
 </style>

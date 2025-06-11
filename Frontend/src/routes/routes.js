@@ -33,4 +33,30 @@ const router = createRouter({
   routes,
 })
 
+// Navigation guard: redirect to /login if not authenticated
+const publicPages = ['/login', '/register']
+
+router.beforeEach((to, from, next) => {
+  const isLoggedIn = !!localStorage.getItem('token')
+  const authRequired = !publicPages.includes(to.path)
+
+  // Jika user belum login dan sedang di halaman login/register,
+  // tapi path tidak persis /login atau /register, arahkan ke 404
+  if (!isLoggedIn && (from.path === '/login' || from.path === '/register') && !publicPages.includes(to.path) && to.matched.length === 0) {
+    return next({ name: 'NotFound' })
+  }
+
+  // Jika path tidak ditemukan (tidak match route manapun), arahkan ke 404
+  if (to.matched.length === 0) {
+    return next({ name: 'NotFound' })
+  }
+
+  // Jika user belum login dan akses halaman private, redirect ke login
+  if (authRequired && !isLoggedIn) {
+    return next('/login')
+  }
+
+  next()
+})
+
 export default router
