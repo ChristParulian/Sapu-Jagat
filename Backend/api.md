@@ -393,44 +393,47 @@ axios.get('/checkin/history', {
 
 ---
 
-## 17. Submit Kuis
-- **Endpoint:** `POST /quiz/submit`
-- **Header:**
-  - `Authorization: Bearer <jwt_token>`
-- **Body:**
-  - (Opsional, jika ingin kirim jawaban, tambahkan di body sesuai kebutuhan frontend)
-- **Response Sukses:**
-  ```json
-  {
-    "status": "success",
-    "message": "Kuis berhasil disubmit",
-    "points_added": 500,
-    "current_points": 1500
-  }
-  ```
-- **Error jika user sudah pernah submit:**
-  ```json
-  {
-    "status": "fail",
-    "message": "Kuis sudah pernah dikerjakan"
-  }
-  ```
+## Quiz API
 
----
+### Submit Quiz
+- **POST** `/quiz/submit`
+- **Headers:**
+  - `Authorization: Bearer <token>`
+- **Body:** JSON
+  - `quiz_id` (integer, required): ID kuis yang disubmit
+- **Response (success):**
+```json
+{
+  "status": "success",
+  "message": "Kuis berhasil disubmit",
+  "points_added": 500,
+  "current_points": 1500
+}
+```
+- **Response (fail, sudah pernah submit):**
+```json
+{
+  "status": "fail",
+  "message": "Kuis ini sudah pernah dikerjakan"
+}
+```
 
-## 18. Cek Status Kuis
-- **Endpoint:** `GET /quiz/status`
-- **Header:**
-  - `Authorization: Bearer <jwt_token>`
-- **Response Sukses:**
-  ```json
-  {
-    "status": "success",
-    "done": true // atau false jika belum pernah submit
-  }
-  ```
-- **Catatan:**
-  - Jika `done: true`, user tidak bisa submit kuis lagi.
+### Get Quiz Status
+- **GET** `/quiz/status`
+- **Headers:**
+  - `Authorization: Bearer <token>`
+- **Response:**
+```json
+{
+  "status": "success",
+  "done": [1, 2] // array quiz_id yang sudah dikerjakan user
+}
+```
+
+### Catatan
+- `quiz_id` harus dikirim oleh frontend saat submit kuis.
+- Backend akan menolak submit jika user sudah pernah mengerjakan kuis dengan quiz_id yang sama.
+- Endpoint status mengembalikan array quiz_id yang sudah dikerjakan user, cocok untuk frontend statis.
 
 ---
 
