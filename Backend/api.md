@@ -392,3 +392,44 @@ axios.get('/checkin/history', {
   - Data diurutkan dari yang terbaru ke terlama.
 
 ---
+
+## 17. Submit Kuis
+- **Endpoint:** `POST /quiz/submit`
+- **Header:**
+  - `Authorization: Bearer <jwt_token>`
+- **Body:**
+  - (Opsional, jika ingin kirim jawaban, tambahkan di body sesuai kebutuhan frontend)
+- **Response Sukses:**
+  ```json
+  {
+    "status": "success",
+    "message": "Kuis berhasil disubmit",
+    "points_added": 500,
+    "current_points": 1500
+  }
+  ```
+- **Error jika user sudah pernah submit:**
+  ```json
+  {
+    "status": "fail",
+    "message": "Kuis sudah pernah dikerjakan"
+  }
+  ```
+
+---
+
+## 18. Cek Status Kuis
+- **Endpoint:** `GET /quiz/status`
+- **Header:**
+  - `Authorization: Bearer <jwt_token>`
+- **Response Sukses:**
+  ```json
+  {
+    "status": "success",
+    "done": true // atau false jika belum pernah submit
+  }
+  ```
+- **Catatan:**
+  - Jika `done: true`, user tidak bisa submit kuis lagi.
+
+---

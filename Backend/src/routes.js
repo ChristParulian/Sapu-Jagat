@@ -4,6 +4,7 @@ const { checkInUser, getCheckinHistoryByMonth, getLastCheckin } = require('./han
 const { redeemPoint, getRedeemHistory } = require('./handlers/redeemsHandler');
 const { predictHandler } = require('./handlers/mlHandler');
 const { getPredictHistory } = require('./handlers/predictHistoryHandler');
+const { submitQuizHandler, getQuizStatusHandler } = require('./handlers/quizHandler');
 
 // Define the routes for the application
 const routes = [
@@ -81,6 +82,18 @@ const routes = [
     method: 'GET',
     path: '/predict/history',
     handler: getPredictHistory,
+  },
+  // Route for submit quiz
+  {
+    method: 'POST',
+    path: '/quiz/submit',
+    handler: submitQuizHandler,
+  },
+  // Route for get quiz status
+  {
+    method: 'GET',
+    path: '/quiz/status',
+    handler: getQuizStatusHandler,
   },
 ];
 
