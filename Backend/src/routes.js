@@ -5,6 +5,7 @@ const { redeemPoint, getRedeemHistory } = require('./handlers/redeemsHandler');
 const { predictHandler } = require('./handlers/mlHandler');
 const { getPredictHistory } = require('./handlers/predictHistoryHandler');
 const { submitQuizHandler, getQuizStatusHandler } = require('./handlers/quizHandler');
+const { submitWasteValidation, getWasteValidationHistory, deleteWasteValidation } = require('./handlers/wasteValidationHandler');
 
 // Define the routes for the application
 const routes = [
@@ -95,6 +96,33 @@ const routes = [
     path: '/quiz/status',
     handler: getQuizStatusHandler,
   },
+  // Route for submit waste validation
+  {
+    method: 'POST',
+    path: '/waste-validation',
+    handler: submitWasteValidation,
+    options: {
+      payload: {
+        output: 'stream',
+        parse: true,
+        multipart: true,
+        maxBytes: 10 * 1024 * 1024, // 10MB
+        allow: 'multipart/form-data'
+      }
+    }
+  },
+  // Route for get waste validation history
+  {
+    method: 'GET',
+    path: '/waste-validation/history',
+    handler: getWasteValidationHistory,
+  },
+  // Route for delete waste validation
+  {
+    method: 'DELETE',
+    path: '/waste-validation/{id}',
+    handler: deleteWasteValidation,
+  }
 ];
 
 // Export the routes for use in the server
