@@ -335,3 +335,60 @@ axios.get('/checkin/history', {
 - **Catatan:**
   - Mengembalikan tanggal check-in terakhir milik user yang sedang login (berdasarkan token JWT).
   - Jika user belum pernah check-in, maka `last_checkin` bernilai null.
+
+---
+
+## 15. Prediksi Sampah (ML Predict)
+- **Endpoint:** `POST /predict`
+- **Header:**
+  - `Authorization: Bearer <jwt_token>`
+- **Body:**  
+  - Form-data, key: `image` (type: File), value: file gambar yang ingin diprediksi.
+- **Response Sukses:**
+  ```json
+  {
+    "status": "success",
+    "detected": "Plastik",
+    "points_added": 250,
+    "current_points": 1250,
+    "results": [
+      {
+        "class": "Plastik",
+        "confidence": 0.28,
+        "bbox": [16, 64, 323, 573]
+      }
+      // ...deteksi lain jika ada
+    ]
+  }
+  ```
+- **Catatan:**
+  - Setiap kali prediksi berhasil, user akan mendapatkan 250 poin.
+  - Hasil deteksi dengan confidence tertinggi akan disimpan ke tabel `history`.
+
+---
+
+## 16. Riwayat Prediksi (Predict History)
+- **Endpoint:** `GET /predict/history`
+- **Header:**
+  - `Authorization: Bearer <jwt_token>`
+- **Response Sukses:**
+  ```json
+  {
+    "status": "success",
+    "history": [
+      {
+        "id": 1,
+        "filename": "contoh.jpg",
+        "detected": "Plastik",
+        "date": "2024-06-11",
+        "created_at": "2024-06-11T13:00:00.000Z"
+      }
+      // ...riwayat lain
+    ]
+  }
+  ```
+- **Catatan:**
+  - Hanya menampilkan riwayat prediksi milik user yang sedang login (berdasarkan token JWT).
+  - Data diurutkan dari yang terbaru ke terlama.
+
+---
