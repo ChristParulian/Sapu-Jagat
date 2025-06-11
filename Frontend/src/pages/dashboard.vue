@@ -45,7 +45,7 @@
   <h3 class="text-2xl font-bold mb-2 bg-gradient-to-r bg-clip-text text-transparent" style="background-image: linear-gradient(135deg, #626F47, #A4B465);">
     Statistik Total Sampah Yang Sudah Di Scan
   </h3>
-  <p class="text-sm" style="color: #626F47;">Data statistik sampah yang sudah di scan oleh anda tiap bulannya</p>
+  <p class="text-sm" style="color: #626F47;">Data statistik sampah yang sudah di scan oleh anda tiap harinya!</p>
 </div>
             
             <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/30">
@@ -54,7 +54,7 @@
           </div>
         </div>
       </div><!-- Jagat Aktif, Profil, Aksi -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8" data-aos="fade-up" data-aos-delay="100">        <!-- Card Jagat Aktif -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8 w-full px-0 -mx-4 sm:mx-0" data-aos="fade-up" data-aos-delay="100">        <!-- Card Jagat Aktif -->
         <div class="group modern-card p-6 relative overflow-hidden" style="background: linear-gradient(135deg, #A4B465, #626F47);">
           <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
           <div class="relative z-10">
@@ -66,7 +66,10 @@
                 </svg>
               </div>
             </div>
-            <button @click="goToCheckin" class="w-full bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border border-white/30 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg mb-3">
+            <button @click="goToCheckin"
+              class="w-full py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg mb-3 border border-white/30"
+              style="background:#FFCF50; color:#626F47;"
+            >
               Check In Hari Ini
             </button>
             <p class="text-white/80 text-xs">
@@ -155,6 +158,7 @@ const { userProfile, fetchUserProfile } = useUserProfile()
 const globalLoading = ref(false)
 const lastCheckin = ref(null)
 const chartCanvas = ref(null)
+const scanStats = ref([])
 
 function goToCheckin() {
   router.push('/checkin')
@@ -172,41 +176,89 @@ function goToHistory() {
   router.push('/history')
 }
 
+async function fetchScanStats() {
+  try {
+    const token = localStorage.getItem('token')
+    if (!token) return
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/predict/history`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    const data = await res.json()
+    if (data.status === 'success' && Array.isArray(data.history)) {
+      scanStats.value = data.history
+    }
+  } catch (e) {
+    scanStats.value = []
+  }
+}
+
+function getWeeklyScanStats() {
+  // Kembalikan array jumlah scan per hari (Senin-Minggu, minggu ini)
+  const now = new Date()
+  // Cari hari Senin minggu ini
+  const dayOfWeek = now.getDay() === 0 ? 7 : now.getDay() // Minggu=0, Senin=1
+  const monday = new Date(now)
+  monday.setDate(now.getDate() - dayOfWeek + 1)
+  const days = []
+  const hari = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday)
+    d.setDate(monday.getDate() + i)
+    days.push({
+      label: hari[i],
+      date: d.toISOString().slice(0, 10),
+      count: 0
+    })
+  }
+  scanStats.value.forEach(item => {
+    const date = new Date(item.date || item.created_at)
+    const dateStr = date.toISOString().slice(0, 10)
+    const day = days.find(d => d.date === dateStr)
+    if (day) day.count++
+  })
+  return days
+}
+
 function initChart() {
   if (!chartCanvas.value) return
-  
   const ctx = chartCanvas.value.getContext('2d')
+  const weekly = getWeeklyScanStats()
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'],
+      labels: weekly.map(d => d.label),
       datasets: [{
-        label: 'Sampah Dipilah (kg)',
-        data: [20, 25, 30, 35, 22, 40],        backgroundColor: [
-          'rgba(164, 180, 101, 0.8)',   // #A4B465
-          'rgba(255, 207, 80, 0.8)',    // #FFCF50  
-          'rgba(98, 111, 71, 0.8)',     // #626F47
-          'rgba(164, 180, 101, 0.9)',   // #A4B465
-          'rgba(255, 207, 80, 0.9)',    // #FFCF50
-          'rgba(98, 111, 71, 0.9)'      // #626F47
+        label: 'Jumlah Scan',
+        data: weekly.map(d => d.count),
+        backgroundColor: [
+          'rgba(164, 180, 101, 0.8)',
+          'rgba(255, 207, 80, 0.8)',
+          'rgba(98, 111, 71, 0.8)',
+          'rgba(164, 180, 101, 0.9)',
+          'rgba(255, 207, 80, 0.9)',
+          'rgba(98, 111, 71, 0.9)',
+          'rgba(164, 180, 101, 0.7)'
         ],
         borderColor: [
-          'rgba(164, 180, 101, 1)',     // #A4B465
-          'rgba(255, 207, 80, 1)',      // #FFCF50
-          'rgba(98, 111, 71, 1)',       // #626F47
-          'rgba(164, 180, 101, 1)',     // #A4B465
-          'rgba(255, 207, 80, 1)',      // #FFCF50
-          'rgba(98, 111, 71, 1)'        // #626F47
+          'rgba(164, 180, 101, 1)',
+          'rgba(255, 207, 80, 1)',
+          'rgba(98, 111, 71, 1)',
+          'rgba(164, 180, 101, 1)',
+          'rgba(255, 207, 80, 1)',
+          'rgba(98, 111, 71, 1)',
+          'rgba(164, 180, 101, 1)'
         ],
         borderWidth: 2,
         borderRadius: 8,
-        borderSkipped: false,        hoverBackgroundColor: [
-          'rgba(164, 180, 101, 1)',     // #A4B465
-          'rgba(255, 207, 80, 1)',      // #FFCF50
-          'rgba(98, 111, 71, 1)',       // #626F47
-          'rgba(164, 180, 101, 1)',     // #A4B465
-          'rgba(255, 207, 80, 1)',      // #FFCF50
-          'rgba(98, 111, 71, 1)'        // #626F47
+        borderSkipped: false,
+        hoverBackgroundColor: [
+          'rgba(164, 180, 101, 1)',
+          'rgba(255, 207, 80, 1)',
+          'rgba(98, 111, 71, 1)',
+          'rgba(164, 180, 101, 1)',
+          'rgba(255, 207, 80, 1)',
+          'rgba(98, 111, 71, 1)',
+          'rgba(164, 180, 101, 1)'
         ],
       }]
     },
@@ -218,9 +270,7 @@ function initChart() {
         easing: 'easeInOutQuart'
       },
       plugins: {
-        legend: {
-          display: false
-        },
+        legend: { display: false },
         tooltip: {
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
           titleColor: '#fff',
@@ -231,7 +281,7 @@ function initChart() {
           displayColors: false,
           callbacks: {
             label: function(context) {
-              return `${context.parsed.y} kg sampah dipilah`
+              return `${context.parsed.y} scan`;
             }
           }
         }
@@ -239,37 +289,15 @@ function initChart() {
       scales: {
         y: {
           beginAtZero: true,
-          max: 50,
-          grid: {
-            color: 'rgba(0, 0, 0, 0.1)',
-            drawBorder: false
-          },
-          ticks: {
-            color: '#6b7280',
-            stepSize: 10,
-            font: {
-              size: 12,
-              weight: '500'
-            }
-          }
+          grid: { color: 'rgba(0, 0, 0, 0.1)', drawBorder: false },
+          ticks: { color: '#6b7280', stepSize: 1, font: { size: 12, weight: '500' } }
         },
         x: {
-          grid: {
-            display: false
-          },
-          ticks: {
-            color: '#6b7280',
-            font: {
-              size: 12,
-              weight: '600'
-            }
-          }
+          grid: { display: false },
+          ticks: { color: '#6b7280', font: { size: 12, weight: '600' } }
         }
       },
-      interaction: {
-        intersect: false,
-        mode: 'index'
-      }
+      interaction: { intersect: false, mode: 'index' }
     }
   })
 }
@@ -296,12 +324,8 @@ onMounted(async () => {
   try {
     await fetchUserProfile(localStorage.getItem('token'))
     await fetchLastCheckin()
-    
-    // Initialize chart
-    setTimeout(() => {
-      initChart()
-    }, 100)
-    
+    await fetchScanStats()
+    setTimeout(() => { initChart() }, 100)
     // Inisialisasi map pakai utils
     const map = initMap('map')
     // Custom icon untuk marker agar tidak broken image
@@ -447,7 +471,6 @@ canvas {
   .glass-card {
     padding: 1.5rem !important;
     border-radius: 16px;
-    /* Remove hover/transform/box-shadow for mobile */
     transition: none !important;
     box-shadow: 0 4px 12px rgba(98, 111, 71, 0.08) !important;
   }
@@ -458,17 +481,32 @@ canvas {
   .modern-card {
     padding: 1.25rem !important;
     border-radius: 16px;
-    /* Remove hover/transform/box-shadow for mobile */
     transition: none !important;
     box-shadow: 0 2px 8px rgba(98, 111, 71, 0.06) !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .modern-card:hover {
     transform: none !important;
     box-shadow: 0 2px 8px rgba(98, 111, 71, 0.06) !important;
   }
-  /* Remove icon bounce on mobile for performance */
-  .icon-bounce {
-    animation: none !important;
+  .grid.grid-cols-1 {
+    justify-items: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  .flex-1.pt-24 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 }
 
