@@ -3,6 +3,7 @@ const { registerUser, loginUser, editUser, getUserProfile } = require('./handler
 const { checkInUser, getCheckinHistoryByMonth, getLastCheckin } = require('./handlers/checkinHandler');
 const { redeemPoint, getRedeemHistory } = require('./handlers/redeemsHandler');
 const { predictHandler } = require('./handlers/mlHandler');
+const { getPredictHistory } = require('./handlers/predictHistoryHandler');
 
 // Define the routes for the application
 const routes = [
@@ -74,6 +75,12 @@ const routes = [
         allow: 'multipart/form-data'
       }
     }
+  },
+  // Route for get predict history
+  {
+    method: 'GET',
+    path: '/predict/history',
+    handler: getPredictHistory,
   },
 ];
 

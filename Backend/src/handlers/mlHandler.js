@@ -1,5 +1,8 @@
 const tf = require('@tensorflow/tfjs');
 const Jimp = require('jimp');
+const supabase = require('../supabaseClient');
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET || 'secret_key';
 
 let model;
 
@@ -19,6 +22,20 @@ const IOU_THRESHOLD = 0.45; // Threshold untuk NMS
 
 const predictHandler = async (request, h) => {
   try {
+    // Ambil user_id dari JWT
+    const authHeader = request.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return h.response({ status: 'fail', message: 'Token tidak ditemukan' }).code(401);
+    }
+    const token = authHeader.split(' ')[1];
+    let payload;
+    try {
+      payload = jwt.verify(token, JWT_SECRET);
+    } catch {
+      return h.response({ status: 'fail', message: 'Token tidak valid' }).code(401);
+    }
+    const userId = payload.id;
+
     // Ambil buffer gambar dari payload (form-data key: 'image')
     const imageBuffer = request.payload.image._data || request.payload.image;
     // Baca dan resize gambar pakai Jimp
@@ -102,7 +119,47 @@ const predictHandler = async (request, h) => {
       scoresTensor.dispose();
       nmsIndices.dispose();
     }
-    return h.response({ results }).code(200);
+
+    // Ambil hasil deteksi dengan confidence tertinggi
+    let bestResult = null;
+    let maxScore = -1;
+    for (const result of results) {
+      if (result.confidence > maxScore) {
+        maxScore = result.confidence;
+        bestResult = result;
+      }
+    }
+    const detectedClass = bestResult ? bestResult.class : null;
+
+    // Tambahkan 250 poin ke user
+    // Ambil poin lama
+    const { data: userData, error: userError } = await supabase.from('users').select('points').eq('id', userId).single();
+    if (userError) {
+      return h.response({ status: 'fail', message: 'Gagal mengambil data user' }).code(500);
+    }
+    const newPoints = (userData?.points || 0) + 250;
+    const { error: updateError } = await supabase.from('users').update({ points: newPoints }).eq('id', userId);
+    if (updateError) {
+      return h.response({ status: 'fail', message: 'Gagal menambah poin user' }).code(500);
+    }
+
+    // Simpan ke history (hanya class dengan score tertinggi)
+    await supabase
+      .from('history')
+      .insert([{
+        user_id: userId,
+        filename: request.payload.image.hapi?.filename || null,
+        detected: detectedClass,
+        date: new Date().toISOString().slice(0, 10)
+      }]);
+
+    return h.response({
+      status: 'success',
+      detected: detectedClass,
+      points_added: 250,
+      current_points: newPoints,
+      results
+    }).code(200);
   } catch (err) {
     return h.response({ status: 'fail', message: err.message }).code(500);
   }
