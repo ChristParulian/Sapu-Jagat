@@ -433,3 +433,76 @@ axios.get('/checkin/history', {
   - Jika `done: true`, user tidak bisa submit kuis lagi.
 
 ---
+
+## Waste Validation API
+
+### Submit Waste Validation
+- **POST** `/waste-validation`
+- **Headers:**
+  - `Authorization: Bearer <token>`
+- **Body:** `multipart/form-data`
+  - `image` (file, required): Foto sampah
+  - `waste_type` (string, required): Jenis sampah
+  - `description` (string, required): Deskripsi
+  - `time` (string, required): Waktu (format: HH:mm:ss)
+  - `date` (string, required): Tanggal (format: YYYY-MM-DD)
+- **Response:**
+```json
+{
+  "status": "success",
+  "message": "Data validasi berhasil disimpan",
+  "photoPath": "uploads/waste-xxx.jpg"
+}
+```
+
+### Get Waste Validation History
+- **GET** `/waste-validation/history`
+- **Headers:**
+  - `Authorization: Bearer <token>`
+- **Response:**
+```json
+{
+  "status": "success",
+  "history": [
+    {
+      "id": "...",
+      "photo": "uploads/waste-xxx.jpg",
+      "waste_type": "Plastik",
+      "description": "Mengelola sampah plastik",
+      "time": "14:30:00",
+      "date": "2024-06-11",
+      "created_at": "2025-06-11T16:07:59.018228+00:00"
+    }
+  ]
+}
+```
+
+### Delete Waste Validation
+- **DELETE** `/waste-validation/{id}`
+- **Headers:**
+  - `Authorization: Bearer <token>`
+- **Response (success):**
+```json
+{
+  "status": "success",
+  "message": "Data dan foto berhasil dihapus"
+}
+```
+- **Response (fail):**
+```json
+{
+  "status": "fail",
+  "message": "Data tidak ditemukan"
+}
+// atau
+{
+  "status": "fail",
+  "message": "Tidak diizinkan menghapus data user lain"
+}
+```
+
+### Catatan
+- File foto akan disimpan di folder `uploads/` pada server backend.
+- Jika ukuran file > 500KB, file akan otomatis dikompres sebelum disimpan.
+- Path foto yang dikembalikan adalah path relatif dari root backend.
+- Untuk mengakses file dari frontend, gunakan endpoint static file jika diperlukan.
