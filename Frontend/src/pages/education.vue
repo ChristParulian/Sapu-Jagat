@@ -8,10 +8,8 @@
     </div>
     
     <!-- Header Component -->
-    <Header />
-
-    <!-- Main Content -->
-    <div class="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-6 pt-20 lg:pt-24 xl:pt-28 pb-8">
+    <Header />    <!-- Main Content -->
+    <main class="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-6 pt-20 lg:pt-24 xl:pt-28 pb-8">
       <!-- Hero Section -->
       <div class="text-center mb-12 w-full" data-aos="fade-down">
         <h1 class="hero-title text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-brand-forest via-brand-sage to-brand-forest bg-clip-text text-transparent">
@@ -43,26 +41,28 @@
             <div class="modern-card p-6 relative overflow-hidden cursor-pointer bg-gradient-to-br from-green-50 to-green-100">
               <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
               <div class="relative z-10">
-                <div class="flex items-center mb-3">
-                  <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mb-3">
-                    <span class="text-2xl">🌱</span>
+                <div class="flex items-center mb-3">                  <div class="w-10 h-10 bg-brand-sage/20 rounded-full flex items-center justify-center mb-3">
+                    <svg class="w-6 h-6 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/>
+                    </svg>
                   </div>
-                  <h3 class="font-semibold text-green-800 ml-3">Sampah Organik</h3>
+                  <h3 class="font-semibold text-brand-forest ml-3">Sampah Organik</h3>
                 </div>
-                <p class="text-sm text-green-700">Sampah yang dapat terurai seperti sisa makanan, daun, dan limbah dapur. Bisa dijadikan pupuk kompos.</p>
+                <p class="text-sm text-green-900">Sampah yang dapat terurai seperti sisa makanan, daun, dan limbah dapur. Bisa dijadikan pupuk kompos.</p>
               </div>
             </div>
 
             <div class="modern-card p-6 relative overflow-hidden cursor-pointer bg-gradient-to-br from-yellow-50 to-yellow-100">
               <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
               <div class="relative z-10">
-                <div class="flex items-center mb-3">
-                  <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center mb-3">
-                    <span class="text-2xl">♻️</span>
+                <div class="flex items-center mb-3">                  <div class="w-10 h-10 bg-brand-sage/20 rounded-full flex items-center justify-center mb-3">
+                    <svg class="w-6 h-6 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    </svg>
                   </div>
-                  <h3 class="font-semibold text-yellow-800 ml-3">Sampah Anorganik</h3>
+                  <h3 class="font-semibold text-brand-forest ml-3">Sampah Anorganik</h3>
                 </div>
-                <p class="text-sm text-yellow-700">Seperti plastik, logam, dan kaca. Sulit terurai, namun bisa didaur ulang jika dipisahkan dengan benar.</p>
+                <p class="text-sm text-yellow-900">Seperti plastik, logam, dan kaca. Sulit terurai, namun bisa didaur ulang jika dipisahkan dengan benar.</p>
               </div>
             </div>
 
@@ -70,12 +70,13 @@
               <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
               <div class="relative z-10">
                 <div class="flex items-center mb-3">
-                  <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
-                    <span class="text-2xl">⚠️</span>
+                  <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                    </svg>
                   </div>
                   <h3 class="font-semibold text-blue-800 ml-3">Sampah B3</h3>
                 </div>
-                <p class="text-sm text-blue-700">Limbah Bahan Berbahaya dan Beracun seperti baterai, cat, dan obat. Harus dibuang ke tempat khusus.</p>
+                <p class="text-sm text-blue-900">Limbah Bahan Berbahaya dan Beracun seperti baterai, cat, dan obat. Harus dibuang ke tempat khusus.</p>
               </div>
             </div>
           </div>
@@ -85,12 +86,13 @@
             <div class="absolute top-0 right-0 w-24 h-24 bg-brand-sage/5 rounded-full blur-xl"></div>
             <div class="relative z-10">
               <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center">
-                  <span class="text-2xl">🌐</span>
+                <div class="w-12 h-12 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center">                  <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
                 </div>
                 <h3 class="font-semibold text-brand-forest ml-4 text-lg">Dampak Buruk Sampah Tidak Terpilah</h3>
               </div>
-              <ul class="list-none ml-4 text-base text-brand-forest/80 space-y-3">
+              <ul class="list-none ml-4 text-base text-brand-forest space-y-3">
                 <li class="flex items-center">
                   <svg class="w-5 h-5 text-red-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
@@ -122,16 +124,25 @@
           <!-- Cara Mendaur Ulang Section -->
           <div class="mb-8" data-aos="fade-up" data-aos-delay="100">
             <div class="flex items-center mb-6">
-              <div class="w-12 h-12 bg-gradient-to-br from-brand-sage to-brand-forest rounded-full flex items-center justify-center">
-                <span class="text-2xl text-white">🗂️</span>
+              <div class="w-12 h-12 bg-gradient-to-br from-brand-sage to-brand-forest rounded-full flex items-center justify-center">                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                </svg>
               </div>
-              <h3 class="font-semibold text-brand-forest ml-4 text-xl">Cara Mendaur Ulang Sampah</h3>
+              <div class="flex items-center">
+                <div class="w-10 h-10 bg-brand-sage/20 rounded-full flex items-center justify-center">
+                  <svg class="w-6 h-6 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6-3v13m6-13l-5.447-2.724A1 1 0 0115.618 3v10.764a1 1 0 001.447.894L22 12V4.618a1 1 0 00-1.447-.894L15 6.382" />
+                  </svg>
+                </div>
+                <h3 class="font-semibold text-brand-forest ml-3 text-xl">Cara Mendaur Ulang Sampah</h3>
+              </div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <div class="modern-card p-5 bg-gradient-to-br from-white to-brand-cream/50">
                 <div class="flex items-center mb-3">
-                  <div class="w-8 h-8 bg-brand-sage/10 rounded-full flex items-center justify-center">
-                    <span class="text-xl">♻️</span>
+                  <div class="w-8 h-8 bg-brand-sage/10 rounded-full flex items-center justify-center">                    <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    </svg>
                   </div>
                   <h4 class="font-semibold ml-3 text-brand-forest">Plastik</h4>
                 </div>
@@ -139,8 +150,9 @@
               </div>
               <div class="modern-card p-5 bg-gradient-to-br from-white to-brand-cream/50">
                 <div class="flex items-center mb-3">
-                  <div class="w-8 h-8 bg-brand-sage/10 rounded-full flex items-center justify-center">
-                    <span class="text-xl">📄</span>
+                  <div class="w-8 h-8 bg-brand-sage/10 rounded-full flex items-center justify-center">                    <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7V3a1 1 0 011-1h8a1 1 0 011 1v18a1 1 0 01-1 1H8a1 1 0 01-1-1v-4m0-8h10m-10 4h6"/>
+                    </svg>
                   </div>
                   <h4 class="font-semibold ml-3 text-brand-forest">Kertas</h4>
                 </div>
@@ -148,8 +160,10 @@
               </div>
               <div class="modern-card p-5 bg-gradient-to-br from-white to-brand-cream/50">
                 <div class="flex items-center mb-3">
-                  <div class="w-8 h-8 bg-brand-sage/10 rounded-full flex items-center justify-center">
-                    <span class="text-xl">🪟</span>
+                  <div class="w-8 h-8 bg-brand-sage/10 rounded-full flex items-center justify-center">                    <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2H6zm0 2h12v10H6V7z"/>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7v10M15 7v10M6 11h12"/>
+                    </svg>
                   </div>
                   <h4 class="font-semibold ml-3 text-brand-forest">Kaca</h4>
                 </div>
@@ -157,8 +171,9 @@
               </div>
               <div class="modern-card p-5 bg-gradient-to-br from-white to-brand-cream/50">
                 <div class="flex items-center mb-3">
-                  <div class="w-8 h-8 bg-brand-sage/10 rounded-full flex items-center justify-center">
-                    <span class="text-xl">🌱</span>
+                  <div class="w-8 h-8 bg-brand-sage/10 rounded-full flex items-center justify-center">                    <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                    </svg>
                   </div>
                   <h4 class="font-semibold ml-3 text-brand-forest">Organik</h4>
                 </div>
@@ -168,211 +183,241 @@
           </div>
 
           <!-- Peran Kita Section -->
-          <div class="modern-card bg-gradient-to-br from-brand-cream to-white p-6 mb-8 relative overflow-hidden" data-aos="fade-up" data-aos-delay="200">
-            <div class="absolute top-0 right-0 w-24 h-24 bg-brand-sage/5 rounded-full blur-xl"></div>
+          <div class="glass-card p-6 sm:p-8 relative overflow-hidden mb-8" data-aos="fade-up" data-aos-delay="200">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-brand-yellow/20 to-brand-sage/20 rounded-full blur-xl"></div>
             <div class="relative z-10">
-              <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-gradient-to-br from-brand-sage to-brand-forest rounded-full flex items-center justify-center">
-                  <span class="text-2xl text-white">🧑‍🤝‍🧑</span>
-                </div>
-                <h3 class="font-semibold text-brand-forest ml-4 text-xl">Peran Kita dalam Pengelolaan Sampah</h3>
-              </div>
-              <div class="space-y-3">
-                <div class="flex items-center bg-white/50 rounded-lg p-3 transition-all hover:bg-white hover:shadow-md">
-                  <div class="w-8 h-8 bg-brand-sage/10 rounded-full flex items-center justify-center mr-3">
-                    <span class="text-lg">1️⃣</span>
-                  </div>
-                  <p class="text-brand-forest/80">Mulai memilah sampah dari rumah</p>
-                </div>
-                <div class="flex items-center bg-white/50 rounded-lg p-3 transition-all hover:bg-white hover:shadow-md">
-                  <div class="w-8 h-8 bg-brand-sage/10 rounded-full flex items-center justify-center mr-3">
-                    <span class="text-lg">2️⃣</span>
-                  </div>
-                  <p class="text-brand-forest/80">Mengurangi konsumsi plastik sekali pakai</p>
-                </div>
-                <div class="flex items-center bg-white/50 rounded-lg p-3 transition-all hover:bg-white hover:shadow-md">
-                  <div class="w-8 h-8 bg-brand-sage/10 rounded-full flex items-center justify-center mr-3">
-                    <span class="text-lg">3️⃣</span>
-                  </div>
-                  <p class="text-brand-forest/80">Mendaur ulang barang-barang yang masih bisa digunakan</p>
-                </div>
-                <div class="flex items-center bg-white/50 rounded-lg p-3 transition-all hover:bg-white hover:shadow-md">
-                  <div class="w-8 h-8 bg-brand-sage/10 rounded-full flex items-center justify-center mr-3">
-                    <span class="text-lg">4️⃣</span>
-                  </div>
-                  <p class="text-brand-forest/80">Mendukung bank sampah dan kegiatan lingkungan sekitar</p>
-                </div>
-                <div class="flex items-center bg-white/50 rounded-lg p-3 transition-all hover:bg-white hover:shadow-md">
-                  <div class="w-8 h-8 bg-brand-sage/10 rounded-full flex items-center justify-center mr-3">
-                    <span class="text-lg">5️⃣</span>
-                  </div>
-                  <p class="text-brand-forest/80">Menyebarkan edukasi kepada keluarga & tetangga</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Quote Section -->
-          <div class="text-center p-6 border-t border-brand-sage/20" data-aos="fade-up" data-aos-delay="300">
-            <p class="italic text-brand-forest/70 text-lg font-light">
-              "Sampah bukan hanya untuk dibuang, tapi juga untuk dimanfaatkan dengan bijak demi bumi yang lebih bersih."
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Quiz Section -->
-      <div class="glass-card p-8 relative overflow-hidden" data-aos="fade-up" data-aos-delay="400">
-        <!-- Background decoration -->
-        <div class="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-brand-yellow/20 to-brand-sage/20 rounded-full blur-xl"></div>
-        
-        <div class="relative z-10">
-          <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 bg-gradient-to-br from-brand-sage to-brand-forest">
-              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
-            </div>
-            <h2 class="text-2xl sm:text-3xl font-bold text-brand-forest mb-4">Kuis Edukasi</h2>
-            <p class="text-brand-forest/70 text-lg">Uji pemahaman Anda tentang pengelolaan sampah!</p>
-          </div>
-
-          <!-- Quiz Selection -->
-          <div v-if="!quizSelected" class="space-y-3 sm:space-y-4">
-            <button 
-              v-for="quiz in quizzes" 
-              :key="quiz.title" 
-              @click="selectQuiz(quizzes.indexOf(quiz) + 1)"
-              :disabled="completedQuizzes.includes(quizzes.indexOf(quiz) + 1)"
-              :class="[
-                'w-full py-3 sm:py-4 px-4 sm:px-6 modern-card transition-all duration-300 text-sm sm:text-base font-medium flex items-center justify-between',
-                completedQuizzes.includes(quizzes.indexOf(quiz) + 1)
-                  ? 'bg-gray-50 text-gray-500 cursor-not-allowed opacity-75'
-                  : 'bg-gradient-to-r from-brand-sage to-brand-forest text-white hover:shadow-lg hover:-translate-y-1'
-              ]"
-            >
-              <span class="flex items-center">
-                <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                    :d="completedQuizzes.includes(quizzes.indexOf(quiz) + 1) 
-                      ? 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
-                      : 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253'"/>
-                </svg>
-                <span class="text-sm sm:text-base">{{ quiz.title }}</span>
-              </span>
-              <span v-if="completedQuizzes.includes(quizzes.indexOf(quiz) + 1)" 
-                    class="inline-flex items-center px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm bg-gray-200/50 text-gray-600">
-                <svg class="w-3 h-3 sm:w-4 sm:h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                </svg>
-                Selesai
-              </span>
-            </button>
-          </div>
-
-          <!-- Quiz Content -->
-          <div v-else class="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-4 sm:p-6 md:p-8">
-            <h2 class="text-lg sm:text-xl md:text-2xl font-bold mb-4 sm:mb-6 text-brand-forest text-center">{{ currentQuizTitle }}</h2>
-
-            <!-- Question Navigation -->
-            <div v-if="!quizCompleted" class="space-y-4 sm:space-y-6">
-              <div v-if="currentQuestions[currentQuestion - 1].image" class="mb-4 sm:mb-6">
-                <img :src="currentQuestions[currentQuestion - 1].image" 
-                     alt="Question Image" 
-                     class="w-full rounded-lg shadow-md max-h-[200px] sm:max-h-[250px] md:max-h-[300px] object-contain mx-auto" />
-              </div>
-              
-              <div class="bg-white/50 backdrop-blur-sm rounded-lg p-3 sm:p-4 shadow-sm border border-brand-sage/10">
-                <p class="text-base sm:text-lg text-brand-forest font-medium">
-                  {{ currentQuestion }}. {{ currentQuestions[currentQuestion - 1].question }}
+              <div class="text-center mb-6">
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-brand-forest mb-4">Peran Kita dalam Pengelolaan Sampah</h2>
+                <p class="text-brand-forest/80 text-sm sm:text-base lg:text-lg max-w-2xl mx-auto">
+                  Mari berkontribusi dalam menjaga lingkungan dengan menerapkan langkah-langkah pengelolaan sampah yang efektif.
                 </p>
               </div>
 
-              <div class="space-y-2 sm:space-y-3">
-                <button 
-                  v-for="(option, index) in currentQuestions[currentQuestion - 1].options" 
-                  :key="index" 
-                  @click="checkAnswer(index)" 
-                  class="w-full p-3 sm:p-4 modern-card bg-gradient-to-r from-white to-brand-cream/50 hover:from-brand-sage hover:to-brand-forest hover:text-white transition-all duration-300 text-left text-sm sm:text-base flex items-center gap-2 sm:gap-3"
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                <div class="modern-card p-4 sm:p-6 relative overflow-hidden bg-gradient-to-br from-green-50 to-green-100">
+                  <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 bg-brand-sage/20 rounded-full flex items-center justify-center">                      <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="9" stroke-width="2"/>
+                        <text x="12" y="16" text-anchor="middle" font-size="12" font-weight="bold" fill="currentColor">1</text>
+                      </svg>
+                    </div>
+                    <h3 class="font-semibold text-brand-forest ml-3">Memilah Sampah</h3>
+                  </div>
+                  <p class="text-brand-forest/80 text-sm">Memisahkan sampah berdasarkan jenisnya: organik dan anorganik.</p>
+                </div>
+
+                <div class="modern-card p-4 sm:p-6 relative overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100">
+                  <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 bg-brand-sage/20 rounded-full flex items-center justify-center">                      <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="9" stroke-width="2"/>
+                        <text x="12" y="16" text-anchor="middle" font-size="12" font-weight="bold" fill="currentColor">2</text>
+                      </svg>
+                    </div>
+                    <h3 class="font-semibold text-brand-forest ml-3">Mengurangi Sampah</h3>
+                  </div>
+                  <p class="text-brand-forest/80 text-sm">Mengurangi penggunaan barang sekali pakai dan lebih memilih produk ramah lingkungan.</p>
+                </div>
+
+                <div class="modern-card p-4 sm:p-6 relative overflow-hidden bg-gradient-to-br from-yellow-50 to-yellow-100">
+                  <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 bg-brand-sage/20 rounded-full flex items-center justify-center">                      <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="9" stroke-width="2"/>
+                        <text x="12" y="16" text-anchor="middle" font-size="12" font-weight="bold" fill="currentColor">3</text>
+                      </svg>
+                    </div>
+                    <h3 class="font-semibold text-brand-forest ml-3">Mendaur Ulang</h3>
+                  </div>
+                  <p class="text-brand-forest/80 text-sm">Mendaur ulang barang-barang yang masih bisa digunakan untuk mengurangi limbah.</p>
+                </div>
+
+                <div class="modern-card p-4 sm:p-6 relative overflow-hidden bg-gradient-to-br from-purple-50 to-purple-100">
+                  <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 bg-brand-sage/20 rounded-full flex items-center justify-center">                      <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="9" stroke-width="2"/>
+                        <text x="12" y="16" text-anchor="middle" font-size="12" font-weight="bold" fill="currentColor">4</text>
+                      </svg>
+                    </div>
+                    <h3 class="font-semibold text-brand-forest ml-3">Berpartisipasi Aktif</h3>
+                  </div>
+                  <p class="text-brand-forest/80 text-sm">Mendukung bank sampah dan kegiatan lingkungan di sekitar kita.</p>
+                </div>
+
+                <div class="modern-card p-4 sm:p-6 relative overflow-hidden bg-gradient-to-br from-red-50 to-red-100 sm:col-span-2">
+                  <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 bg-brand-sage/20 rounded-full flex items-center justify-center">                      <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="9" stroke-width="2"/>
+                        <text x="12" y="16" text-anchor="middle" font-size="12" font-weight="bold" fill="currentColor">5</text>
+                      </svg>
+                    </div>
+                    <h3 class="font-semibold text-brand-forest ml-3">Edukasi</h3>
+                  </div>
+                  <p class="text-brand-forest/80 text-sm">Menyebarkan edukasi kepada keluarga dan tetangga tentang pentingnya pengelolaan sampah.</p>
+                </div>
+              </div>
+
+              <!-- Quote Section -->
+              <div class="mt-8 text-center p-6 border-t border-brand-sage/20" data-aos="fade-up" data-aos-delay="300">
+                <p class="italic text-brand-forest/70 text-sm sm:text-base lg:text-lg font-light">
+                  "Sampah bukan hanya untuk dibuang, tapi juga untuk dimanfaatkan dengan bijak demi bumi yang lebih bersih."
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quiz Section -->
+          <div class="glass-card p-8 relative overflow-hidden" data-aos="fade-up" data-aos-delay="400">
+            <!-- Background decoration -->
+            <div class="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-brand-yellow/20 to-brand-sage/20 rounded-full blur-xl"></div>
+            
+            <div class="relative z-10">
+              <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 bg-gradient-to-br from-brand-sage to-brand-forest">
+                  <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-brand-forest mb-4">Kuis Edukasi</h2>
+                <p class="text-brand-forest/70 text-lg">Uji pemahaman Anda tentang pengelolaan sampah!</p>
+              </div>
+
+              <!-- Quiz Selection -->
+              <div v-if="!quizSelected" class="space-y-3 sm:space-y-4">
+                <button   
+                  v-for="quiz in quizzes" 
+                  :key="quiz.title" 
+                  @click="selectQuiz(quizzes.indexOf(quiz) + 1)"
+                  :disabled="completedQuizzes.includes(quizzes.indexOf(quiz) + 1)"
+                  :class="[
+                    'w-full py-3 sm:py-4 px-4 sm:px-6 modern-card transition-all duration-300 text-sm sm:text-base font-medium flex items-center justify-between',
+                    completedQuizzes.includes(quizzes.indexOf(quiz) + 1)
+                      ? 'bg-gray-50 text-gray-500 cursor-not-allowed opacity-75'
+                      : 'bg-gradient-to-r from-brand-sage to-brand-forest text-white hover:shadow-lg hover:-translate-y-1'
+                  ]"
                 >
-                  <span class="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-brand-sage/10 flex items-center justify-center text-brand-forest text-sm sm:text-base group-hover:bg-white/20 group-hover:text-white">
-                    {{ String.fromCharCode(65 + index) }}
+                  <span class="flex items-center">
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                        :d="completedQuizzes.includes(quizzes.indexOf(quiz) + 1) 
+                          ? 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
+                          : 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253'"/>
+                    </svg>
+                    <span class="text-sm sm:text-base font-bold text-brand-forest">{{ quiz.title }}</span>
                   </span>
-                  <span>{{ option }}</span>
+                  <span v-if="completedQuizzes.includes(quizzes.indexOf(quiz) + 1)" 
+                        class="inline-flex items-center px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm bg-gray-200/50 text-gray-600">
+                    <svg class="w-3 h-3 sm:w-4 sm:h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    Selesai
+                  </span>
                 </button>
               </div>
-            </div>
 
-            <!-- Score Display -->
-            <div v-if="quizCompleted" class="text-center space-y-6">
-              <div class="inline-flex items-center justify-center w-20 h-20 rounded-full mb-4 bg-gradient-to-br from-brand-sage to-brand-forest">
-                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-              </div>
-              <h2 class="text-2xl font-bold text-brand-forest">Hasil Kuis</h2>
-              <div class="space-y-3">
-                <p class="text-lg text-brand-forest/80">
-                  Jawaban Benar: <span class="font-bold text-brand-forest">{{ correctAnswers }}</span>
-                </p>
-                <p class="text-lg text-brand-forest/80">
-                  Jawaban Salah: <span class="font-bold text-brand-forest">{{ totalQuestions - correctAnswers }}</span>
-                </p>
-              </div>
-              <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8">
-                <button @click="restartQuiz" 
-                        class="btn-primary bg-gradient-to-r from-brand-sage to-brand-forest text-white py-3 px-6 rounded-lg hover:shadow-lg transition-all duration-300">
-                  Coba Lagi
-                </button>
-                <button @click="goToMainPage" 
-                        class="btn-secondary bg-gradient-to-r from-gray-500 to-gray-600 text-white py-3 px-6 rounded-lg hover:shadow-lg transition-all duration-300">
-                  Kembali
-                </button>
-              </div>
-            </div>
+              <!-- Quiz Content -->
+              <div v-else class="bg-white/95 backdrop-blur-sm rounded-xl shadow-lg p-6 sm:p-8">
+                <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-6 text-brand-forest text-center">{{ currentQuizTitle }}</h2>
 
-            <!-- Navigation Buttons -->
-            <div v-if="!quizCompleted" class="flex justify-between mt-6 sm:mt-8">
-              <button 
-                v-if="currentQuestion > 1 && answered" 
-                @click="currentQuestion--" 
-                class="flex items-center gap-1 sm:gap-2 py-2 px-3 sm:px-4 rounded-lg bg-gray-100 text-brand-forest hover:bg-gray-200 transition-all duration-300 disabled:opacity-50 text-sm sm:text-base"
-                :disabled="!answered"
-              >
-                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                </svg>
-                <span class="hidden sm:inline">Sebelumnya</span>
-              </button>
-              <div class="flex-1"></div>
-              <button 
-                v-if="currentQuestion < totalQuestions && answered" 
-                @click="currentQuestion++" 
-                class="flex items-center gap-1 sm:gap-2 py-2 px-3 sm:px-4 rounded-lg bg-gradient-to-r from-brand-sage to-brand-forest text-white hover:shadow-lg transition-all duration-300 disabled:opacity-50 text-sm sm:text-base"
-                :disabled="!answered"
-              >
-                <span class="hidden sm:inline">Selanjutnya</span>
-                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                </svg>
-              </button>
-              <button 
-                v-if="currentQuestion === totalQuestions && answered" 
-                @click="showConfirmationDialog = true" 
-                class="flex items-center gap-1 sm:gap-2 py-2 px-3 sm:px-4 rounded-lg bg-gradient-to-r from-brand-sage to-brand-forest text-white hover:shadow-lg transition-all duration-300 disabled:opacity-50 text-sm sm:text-base"
-                :disabled="!answered"
-              >
-                <span>Selesai</span>
-                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                </svg>
-              </button>
-            </div>
-          </div>
+                <!-- Question Navigation -->
+                <div v-if="!quizCompleted" class="space-y-6">
+                  <!-- Image if exists -->
+                  <div v-if="currentQuestions[currentQuestion - 1].image" class="mb-4">
+                    <img :src="currentQuestions[currentQuestion - 1].image" 
+                         alt="Question Image" 
+                         class="w-full rounded-lg shadow-md max-h-[250px] object-contain mx-auto bg-white p-4" />
+                  </div>
+                  
+                  <!-- Question text -->
+                  <div class="bg-brand-cream rounded-lg p-4 sm:p-5 shadow-sm">
+                    <p class="text-lg text-brand-forest font-medium">
+                      {{ currentQuestion }}. {{ currentQuestions[currentQuestion - 1].question }}
+                    </p>
+                  </div>
+
+                  <!-- Answer options -->
+                  <div class="space-y-3">
+                    <button 
+                      v-for="(option, index) in currentQuestions[currentQuestion - 1].options" 
+                      :key="index" 
+                      @click="checkAnswer(index)" 
+                      class="w-full p-4 rounded-lg bg-white border border-brand-sage/30 hover:border-brand-forest
+                             hover:bg-brand-cream/20 transition-all duration-300 text-left text-base 
+                             flex items-start gap-3 shadow-sm hover:shadow-md quiz-option"
+                    >
+                      <span class="w-8 h-8 rounded-full bg-brand-sage/20 flex items-center justify-center 
+                                   text-brand-forest text-lg font-medium shrink-0 mt-0.5">
+                        {{ String.fromCharCode(65 + index) }}
+                      </span>
+                      <span class="text-brand-forest font-medium leading-relaxed">{{ option }}</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Score Display -->
+                <div v-if="quizCompleted" class="text-center space-y-6">
+                  <div class="inline-flex items-center justify-center w-20 h-20 rounded-full mb-4 bg-gradient-to-br from-brand-sage to-brand-forest">
+                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                  </div>
+                  <h2 class="text-2xl font-bold text-brand-forest">Hasil Kuis</h2>
+                  <div class="space-y-3">
+                    <p class="text-lg text-brand-forest/80">
+                      Jawaban Benar: <span class="font-bold text-brand-forest">{{ correctAnswers }}</span>
+                    </p>
+                    <p class="text-lg text-brand-forest/80">
+                      Jawaban Salah: <span class="font-bold text-brand-forest">{{ totalQuestions - correctAnswers }}</span>
+                    </p>
+                  </div>
+                  <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8">
+                    <button @click="goToMainPage" 
+                            class="btn-secondary bg-gradient-to-r from-gray-500 to-gray-600 text-white py-3 px-6 rounded-lg hover:shadow-lg transition-all duration-300">
+                      Kembali
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div v-if="!quizCompleted" class="flex justify-between mt-8">
+                  <button 
+                    v-if="currentQuestion > 1 && answered" 
+                    @click="currentQuestion--" 
+                    class="flex items-center gap-2 py-2.5 px-4 rounded-lg bg-brand-cream text-brand-forest 
+                           hover:bg-brand-cream/80 transition-all duration-300 text-base font-medium"
+                  >
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                    <span>Sebelumnya</span>
+                  </button>
+                  <div class="flex-1"></div>
+                  <button 
+                    v-if="currentQuestion < totalQuestions && answered" 
+                    @click="currentQuestion++" 
+                    class="flex items-center gap-2 py-2.5 px-4 rounded-lg bg-brand-forest text-white 
+                           hover:bg-brand-forest/90 transition-all duration-300 text-base font-medium"
+                  >
+                    <span>Selanjutnya</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                  </button>
+                  <button 
+                    v-if="currentQuestion === totalQuestions && answered" 
+                    @click="showConfirmationDialog = true" 
+                    class="flex items-center gap-2 py-2.5 px-4 rounded-lg bg-brand-forest text-white 
+                           hover:bg-brand-forest/90 transition-all duration-300 text-base font-medium"
+                  >
+                    <span>Selesai</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>          </div>
         </div>
       </div>
-
-    </div>
+    </main>
 
     <BottomNav active="education" />
     <LoadingIndicator :visible="globalLoading" />
@@ -407,6 +452,8 @@ import axios from 'axios';
 import BottomNav from '../components/BottomNav.vue';
 import Header from '../components/Header.vue';
 import LoadingIndicator from '../components/LoadingIndicator.vue';
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 const router = useRouter();
 const globalLoading = ref(false);
@@ -422,6 +469,7 @@ const answered = ref(false);
 const showConfirmationDialog = ref(false); // New reactive ref for confirmation dialog
 const completedQuizzes = ref([]); // Track completed quizzes
 const token = ref(localStorage.getItem('token') || '');
+const selectedAnswers = ref({}); // Track selected answers
 
 // Fetch quiz status from backend
 async function fetchQuizStatus() {
@@ -739,7 +787,7 @@ const quizzes = [
         correctIndex: 3,
       },
       {
-        question: 'Apa Kepanjangan dari TPS?',
+        question: "Apa Kepanjangan dari TPS?",
         options: [
           'Tempat Pengolahan Sementara',
           'Tempat Pemilahan Sementara',
@@ -803,6 +851,11 @@ watch(completedQuizzes, (val) => {
   localStorage.setItem('completedQuizzes', JSON.stringify(val));
 }, { deep: true });
 
+onMounted(() => {
+  AOS.init({ once: false, duration: 800 })
+  setTimeout(() => { AOS.refresh() }, 100)
+})
+
 function selectQuiz(quizIndex) {
   quizSelected.value = true;
   currentQuiz.value = quizIndex;
@@ -815,7 +868,9 @@ function selectQuiz(quizIndex) {
 }
 
 function checkAnswer(selectedIndex) {
-  if (currentQuestions.value[currentQuestion.value - 1].correctIndex === selectedIndex) {
+  selectedAnswers.value[currentQuestion.value] = selectedIndex;
+  
+  if (selectedIndex === currentQuestions.value[currentQuestion.value - 1].correctIndex) {
     correctAnswers.value++;
   }
 
@@ -835,12 +890,12 @@ async function confirmEndQuiz() {
     if (res.data.status === 'success') {
       toastMsg.value = 'Kuis berhasil disubmit! +500 poin';
       toastType.value = 'success';
-      // Hanya tandai kuis yang sedang dikerjakan sebagai selesai
       if (!completedQuizzes.value.includes(currentQuiz.value)) {
         completedQuizzes.value = [...completedQuizzes.value, currentQuiz.value].filter((v, i, arr) => arr.indexOf(v) === i);
       }
-      // Refetch status to sync with backend
       await fetchQuizStatus();
+      // Tambahkan reload halaman agar status kuis langsung terupdate
+      window.location.reload();
     } else {
       toastMsg.value = res.data.message || 'Gagal submit kuis';
       toastType.value = 'error';
@@ -853,16 +908,8 @@ async function confirmEndQuiz() {
   }
 }
 
-function restartQuiz() {
-  currentQuestion.value = 1;
-  correctAnswers.value = 0;
-  quizCompleted.value = false;
-  answered.value = false; // Reset answered state
-}
-
-function goToMainPage() {
-  quizSelected.value = false;
-  answered.value = false;
+const goToMainPage = () => {
+  window.location.reload();
 }
 </script>
 
@@ -1064,60 +1111,107 @@ function goToMainPage() {
   }
 }
 
-/* Quiz button responsiveness */
-@media (max-width: 375px) {
-  .quiz-button {
-    font-size: 0.875rem !important;
-    padding: 0.75rem 1rem !important;
-  }
-
-  .quiz-button svg {
-    width: 1.25rem !important;
-    height: 1.25rem !important;
-  }
-
-  .quiz-option {
-    padding: 0.75rem !important;
-  }
-
-  .quiz-option-text {
-    font-size: 0.875rem !important;
-  }
+/* Quiz specific styles */
+.quiz-content {
+  max-width: 48rem;
+  margin: 2rem auto;
+  padding: 0 1rem;
 }
 
-/* Main content spacing */
-.main-content {
-  min-height: calc(100vh - 80px);
-  padding-top: clamp(80px, 12vh, 120px);
-  padding-bottom: clamp(60px, 8vh, 80px);
+.quiz-question {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: #2C3E50;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-/* Button styling */
-.btn-primary {
-  color: white;
-  font-weight: 700;
-  border-radius: 0.5rem;
-  transition: all 0.3s;
-  padding: clamp(0.5rem, 2vw, 1rem) clamp(1rem, 4vw, 2rem);
-  font-size: clamp(0.875rem, 2vw, 1rem);
-  background: linear-gradient(135deg, var(--brand-sage), var(--brand-forest));
+.quiz-option {
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 2px solid rgba(164, 180, 101, 0.2);
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.btn-primary:hover {
+.quiz-option:hover {
   transform: translateY(-2px);
-  box-shadow: 
-    0 12px 30px rgba(98, 111, 71, 0.3),
-    0 6px 12px rgba(98, 111, 71, 0.2);
+  border-color: #A4B465;
+  box-shadow: 0 4px 6px rgba(164, 180, 101, 0.1);
 }
 
-.btn-primary:active {
-  transform: translateY(0);
+.quiz-option.selected {
+  background-color: #A4B465;
+  color: white;
+  border-color: #626F47;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(98, 111, 71, 0.2);
 }
 
-.btn-primary:disabled {
+/* Question counter styling */
+.question-counter {
+  font-size: 0.875rem;
+  color: #626F47;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Quiz navigation buttons */
+.quiz-nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  gap: 1rem;
+}
+
+.quiz-button {
+  padding: 0.875rem 1.5rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, #A4B465, #626F47);
+  color: white;
+  transition: all 0.2s ease;
+  border: none;
+  min-width: 120px;
+  text-align: center;
+}
+
+.quiz-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(98, 111, 71, 0.2);
+}
+
+.quiz-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
+}
+
+/* Quiz results styling */
+.quiz-results {
+  text-align: center;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-score {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #626F47;
+  margin: 1rem 0;
 }
 
 /* Confirmation dialog responsiveness */
@@ -1148,5 +1242,14 @@ function goToMainPage() {
     font-size: 0.875rem !important;
     padding: 0.75rem 1rem !important;
   }
+}
+
+/* Image styling in quiz */
+.quiz-image {
+  width: 100%;
+  max-width: 480px;
+  margin: 1rem auto;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 </style>
