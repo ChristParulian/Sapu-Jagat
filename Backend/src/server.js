@@ -3,6 +3,7 @@ const Hapi = require('@hapi/hapi');
 const Inert = require('@hapi/inert');
 const routes = require('./routes');
 const { loadModel } = require('./handlers/mlHandler');
+const Path = require('path');
 
 // Initialize the Hapi server
 const init = async () => {
@@ -28,6 +29,20 @@ const init = async () => {
       directory: {
         path: __dirname + '/Model',
         listing: true,
+      },
+    },
+  });
+
+  // Serve files from the uploads directory
+  server.route({
+    method: 'GET',
+    path: '/uploads/{param*}',
+    options: { auth: false },
+    handler: {
+      directory: {
+        path: Path.resolve(process.cwd(), 'uploads'),
+        listing: false,
+        index: false,
       },
     },
   });
