@@ -21,18 +21,8 @@
           class="flex items-center justify-between bg-white/90 border border-brand-sage/20 rounded-xl shadow-md px-5 py-4 hover:shadow-lg transition-all"
         >
           <div class="flex items-center gap-4">
-            <div class="w-12 h-12 flex items-center justify-center rounded-full bg-brand-sage/10 border border-brand-sage/20">
-              <svg v-if="item.detected === 'Plastik'" class="w-7 h-7 text-brand-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M4 7l2 12a2 2 0 002 2h8a2 2 0 002-2l2-12M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3" />
-              </svg>
-              <svg v-else-if="item.detected === 'Kertas'" class="w-7 h-7 text-brand-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7V3a1 1 0 011-1h8a1 1 0 011 1v18a1 1 0 01-1 1H8a1 1 0 01-1-1v-4" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h10M7 11h10M7 15h6" />
-              </svg>
-              <svg v-else class="w-7 h-7 text-brand-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" stroke-width="2" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h8" />
-              </svg>
+            <div class="w-12 h-12 flex items-center justify-center rounded-full bg-brand-sage/10 border border-brand-sage/20 text-2xl">
+              {{ getWasteEmoji(item.detected) }}
             </div>
             <div>
               <div class="flex items-center gap-2">
@@ -84,6 +74,22 @@ function formatDate(dateStr) {
     hour: '2-digit',
     minute: '2-digit'
   })
+}
+
+function getWasteEmoji(type) {
+  switch (type) {
+    case 'Plastik': return '🧴'
+    case 'Kertas': return '📄'
+    case 'Kaca': return '🥛'
+    case 'Logam': return '🥫'
+    case 'Kayu': return '🪵'
+    case 'Karet': return '🛞'
+    case 'Styrofoam': return '📦'
+    case 'Tekstil': return '👕'
+    case 'Sisa Makanan': return '🍎'
+    case 'Daun': return '🍃'
+    default: return '🗑️'
+  }
 }
 
 async function fetchScanHistory() {

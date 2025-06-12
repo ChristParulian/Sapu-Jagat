@@ -1,3 +1,9 @@
+/* Fallback keyframes for hash-named animations to suppress build warnings */
+@keyframes float-6f4e4c52 { from { transform: none; } to { transform: none; } }
+@keyframes float-delay-6f4e4c52 { from { transform: none; } to { transform: none; } }
+@keyframes pulse-6f4e4c52 { from { transform: none; } to { transform: none; } }
+@keyframes bounce-6f4e4c52 { from { transform: none; } to { transform: none; } }
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -319,6 +325,19 @@ h1 {
 .card-hover:hover {
   transform: translateY(-8px) scale(1.02);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure modern-card and its children are always clickable */
+.modern-card {
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+}
+.modern-card .flex,
+.modern-card .flex-1,
+.modern-card button {
+  pointer-events: auto;
+  z-index: 20;
 }
 
 /* ===============================

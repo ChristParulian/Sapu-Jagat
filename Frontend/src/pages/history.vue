@@ -7,160 +7,164 @@
       <div class="text-xs mt-2">{{ renderError }}</div>
     </div>
     <!-- Main Content -->
-    <div v-else class="flex-1 main-content pt-24 lg:pt-28 xl:pt-32 p-4 sm:p-8 relative z-10 flex flex-col items-center">
-      <div class="text-center mb-8" data-aos="fade-down">
-        <h1 class="text-3xl sm:text-4xl font-bold mb-2 text-brand-forest animate-fade-in">Aksi Jagat</h1>
-        <p class="text-brand-forest/70 text-lg sm:text-xl max-w-md mx-auto animate-fade-in delay-100">Upload foto sampah, pilih jenis, dan dapatkan rekomendasi penanganan terbaik!</p>
+    <div v-else class="flex-1 main-content pt-24 lg:pt-28 xl:pt-32 px-2 sm:px-8 relative z-10 flex flex-col items-center justify-center w-full min-h-[80vh]">
+      <div class="text-center mb-6 sm:mb-8 w-full flex flex-col items-center justify-center" data-aos="fade-down">
+        <h1 class="text-2xl sm:text-4xl font-bold mb-2 text-brand-forest animate-fade-in">Aksi Jagat</h1>
+        <p class="text-brand-forest/70 text-base sm:text-xl max-w-md mx-auto animate-fade-in delay-100">Upload foto sampah, pilih jenis, dan dapatkan rekomendasi penanganan terbaik!</p>
       </div>
-      <div class="max-w-lg w-full mx-auto mb-8" data-aos="zoom-in" data-aos-delay="200">
-        <div class="glass-card p-6 sm:p-8 relative overflow-hidden group bg-gradient-to-br from-brand-yellow/80 via-brand-cream/90 to-white/90 border border-brand-sage/30 shadow-2xl text-brand-forest rounded-2xl animate-fade-in-up">
-          <!-- Upload Area -->
-          <div class="upload-area mb-6">
-            <div
-              class="upload-dropzone flex flex-col items-center justify-center border-2 border-dashed border-brand-sage/50 rounded-xl p-6 bg-white/60 transition-all duration-300 hover:shadow-lg hover:bg-brand-sage/10 cursor-pointer"
-              :class="{ 'ring-2 ring-brand-yellow': isDragOver }"
-              @dragover.prevent="handleDragOver"
-              @dragleave.prevent="handleDragLeave"
-              @drop.prevent="handleDrop"
-              @click="triggerFileInput"
-            >
-              <div class="upload-icon mb-2">
-                <svg class="w-14 h-14 text-brand-yellow drop-shadow-lg animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-                </svg>
+      <div class="w-full flex flex-col items-center justify-center">
+        <div class="max-w-lg w-full mb-6 sm:mb-8 flex items-center justify-center px-0 sm:px-0">
+          <div class="glass-card w-full p-4 sm:p-8 relative overflow-hidden group bg-gradient-to-br from-brand-yellow/80 via-brand-cream/90 to-white/90 border border-brand-sage/30 shadow-2xl text-brand-forest rounded-2xl animate-fade-in-up mb-6 sm:mb-8 flex flex-col items-center">
+            <!-- Upload Area -->
+            <div class="upload-area mb-6">
+              <div
+                class="upload-dropzone flex flex-col items-center justify-center border-2 border-dashed border-brand-sage/50 rounded-xl p-6 bg-white/60 transition-all duration-300 hover:shadow-lg hover:bg-brand-sage/10 cursor-pointer"
+                :class="{ 'ring-2 ring-brand-yellow': isDragOver }"
+                @dragover.prevent="handleDragOver"
+                @dragleave.prevent="handleDragLeave"
+                @drop.prevent="handleDrop"
+                @click="triggerFileInput"
+              >
+                <div class="upload-icon mb-2">
+                  <svg class="w-14 h-14 text-brand-yellow drop-shadow-lg animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                  </svg>
+                </div>
+                <h3 class="upload-title text-lg font-semibold text-brand-forest">Upload Foto Sampah</h3>
+                <p class="upload-subtitle text-brand-forest/70 text-sm mb-2">Drag & drop atau klik untuk memilih file gambar</p>
+                <div class="upload-formats flex gap-2 mb-2">
+                  <span class="format-badge bg-brand-sage/30 text-brand-forest px-2 py-0.5 rounded text-xs">JPG</span>
+                  <span class="format-badge bg-brand-sage/30 text-brand-forest px-2 py-0.5 rounded text-xs">JPEG</span>
+                  <span class="format-badge bg-brand-sage/30 text-brand-forest px-2 py-0.5 rounded text-xs">PNG</span>
+                </div>
+                <input class="upload-input hidden" id="file_input" type="file" accept="image/jpeg,image/png,image/jpg" @change="handleFileChange">
               </div>
-              <h3 class="upload-title text-lg font-semibold text-brand-forest">Upload Foto Sampah</h3>
-              <p class="upload-subtitle text-brand-forest/70 text-sm mb-2">Drag & drop atau klik untuk memilih file gambar</p>
-              <div class="upload-formats flex gap-2 mb-2">
-                <span class="format-badge bg-brand-sage/30 text-brand-forest px-2 py-0.5 rounded text-xs">JPG</span>
-                <span class="format-badge bg-brand-sage/30 text-brand-forest px-2 py-0.5 rounded text-xs">JPEG</span>
-                <span class="format-badge bg-brand-sage/30 text-brand-forest px-2 py-0.5 rounded text-xs">PNG</span>
-              </div>
-              <input class="upload-input hidden" id="file_input" type="file" accept="image/jpeg,image/png,image/jpg" @change="handleFileChange">
             </div>
+            <!-- File Preview -->
+            <transition name="fade">
+              <div v-if="selectedFile" class="file-preview animate-fade-in-up" data-aos="zoom-in" data-aos-delay="500">
+                <div class="preview-container flex flex-col items-center gap-2">
+                  <img :src="filePreviewUrl" alt="Selected file" class="preview-image w-28 h-28 object-cover rounded-xl border border-brand-sage/30 shadow-md" />
+                  <div class="preview-overlay">
+                    <button @click="removeFile" class="remove-btn absolute top-2 right-2 bg-brand-yellow/80 hover:bg-brand-yellow text-brand-forest rounded-full p-1 shadow transition">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="file-info text-xs text-brand-forest/70">
+                    <p class="file-name">📁 {{ selectedFile.name }}</p>
+                    <p class="file-size">📏 {{ formatFileSize(selectedFile.size) }}</p>
+                  </div>
+                </div>
+              </div>
+            </transition>
+            <!-- Waste Validation Form -->
+            <form @submit.prevent="submitWasteValidation" class="space-y-4 mt-4 animate-fade-in-up delay-200">
+              <div class="form-group">
+                <label class="form-label font-semibold text-brand-forest">Jenis Sampah</label>
+                <select v-model="wasteType" class="form-select w-full rounded-lg border border-brand-sage/40 px-3 py-2 focus:ring-2 focus:ring-brand-yellow focus:border-brand-yellow transition" required>
+                  <option value="">Pilih Jenis Sampah</option>
+                  <option value="Daun">Daun</option>
+                  <option value="Kaca">Kaca</option>
+                  <option value="Karet">Karet</option>
+                  <option value="Kayu">Kayu</option>
+                  <option value="Kertas">Kertas</option>
+                  <option value="Logam">Logam</option>
+                  <option value="Plastik">Plastik</option>
+                  <option value="Styrofoam">Styrofoam</option>
+                  <option value="Tekstil">Tekstil</option>
+                  <option value="Sisa Makanan">Sisa Makanan</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label font-semibold text-brand-forest">Deskripsi Singkat</label>
+                <input v-model="description" class="form-input w-full rounded-lg border border-brand-sage/40 px-3 py-2 focus:ring-2 focus:ring-brand-yellow focus:border-brand-yellow transition" type="text" placeholder="Contoh: Botol plastik bekas minuman" required />
+              </div>
+              <div class="form-group flex gap-2">
+                <div class="flex-1">
+                  <label class="form-label font-semibold text-brand-forest">Tanggal</label>
+                  <input v-model="date" class="form-input w-full rounded-lg border border-brand-sage/40 px-3 py-2 focus:ring-2 focus:ring-brand-yellow focus:border-brand-yellow transition cursor-not-allowed bg-gray-100 text-gray-500" type="date" required readonly tabindex="-1" />
+                </div>
+                <div class="flex-1">
+                  <label class="form-label font-semibold text-brand-forest">Waktu</label>
+                  <input v-model="time" class="form-input w-full rounded-lg border border-brand-sage/40 px-3 py-2 focus:ring-2 focus:ring-brand-yellow focus:border-brand-yellow transition cursor-not-allowed bg-gray-100 text-gray-500" type="time" required readonly tabindex="-1" />
+                </div>
+              </div>
+              <div class="flex gap-2">
+                <button class="btn-primary-large flex-1 bg-gradient-to-r from-brand-yellow to-brand-sage text-brand-forest hover:from-brand-sage hover:to-brand-yellow font-bold shadow-lg transition-all duration-300 transform hover:-translate-y-1" type="submit" :disabled="!selectedFile || !wasteType || !description || !date || !time || submitting">
+                  Validasi Sampah
+                </button>
+                <button v-if="selectedFile" class="btn-secondary bg-brand-sage/80 hover:bg-brand-yellow text-brand-forest font-bold shadow transition" type="button" @click="removeFile">
+                  <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                  </svg>
+                  Hapus
+                </button>
+              </div>
+            </form>
+            <!-- Rekomendasi Penanganan -->
+            <transition name="fade">
+              <div v-if="recommendation" class="mt-6 animate-fade-in-up">
+                <div class="inline-block px-6 py-4 rounded-2xl shadow-lg bg-white/80 border border-brand-sage/30">
+                  <div class="text-lg font-semibold text-brand-forest mb-2">Rekomendasi Penanganan</div>
+                  <div class="text-base text-brand-sage mb-1">{{ recommendation }}</div>
+                </div>
+              </div>
+            </transition>
           </div>
-          <!-- File Preview -->
-          <transition name="fade">
-            <div v-if="selectedFile" class="file-preview animate-fade-in-up" data-aos="zoom-in" data-aos-delay="500">
-              <div class="preview-container flex flex-col items-center gap-2">
-                <img :src="filePreviewUrl" alt="Selected file" class="preview-image w-28 h-28 object-cover rounded-xl border border-brand-sage/30 shadow-md" />
-                <div class="preview-overlay">
-                  <button @click="removeFile" class="remove-btn absolute top-2 right-2 bg-brand-yellow/80 hover:bg-brand-yellow text-brand-forest rounded-full p-1 shadow transition">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                  </button>
-                </div>
-                <div class="file-info text-xs text-brand-forest/70">
-                  <p class="file-name">📁 {{ selectedFile.name }}</p>
-                  <p class="file-size">📏 {{ formatFileSize(selectedFile.size) }}</p>
-                </div>
-              </div>
-            </div>
-          </transition>
-          <!-- Waste Validation Form -->
-          <form @submit.prevent="submitWasteValidation" class="space-y-4 mt-4 animate-fade-in-up delay-200">
-            <div class="form-group">
-              <label class="form-label font-semibold text-brand-forest">Jenis Sampah</label>
-              <select v-model="wasteType" class="form-select w-full rounded-lg border border-brand-sage/40 px-3 py-2 focus:ring-2 focus:ring-brand-yellow focus:border-brand-yellow transition" required>
-                <option value="">Pilih Jenis Sampah</option>
-                <option value="Daun">Daun</option>
-                <option value="Kaca">Kaca</option>
-                <option value="Karet">Karet</option>
-                <option value="Kayu">Kayu</option>
-                <option value="Kertas">Kertas</option>
-                <option value="Logam">Logam</option>
-                <option value="Plastik">Plastik</option>
-                <option value="Styrofoam">Styrofoam</option>
-                <option value="Tekstil">Tekstil</option>
-                <option value="Sisa Makanan">Sisa Makanan</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label font-semibold text-brand-forest">Deskripsi Singkat</label>
-              <input v-model="description" class="form-input w-full rounded-lg border border-brand-sage/40 px-3 py-2 focus:ring-2 focus:ring-brand-yellow focus:border-brand-yellow transition" type="text" placeholder="Contoh: Botol plastik bekas minuman" required />
-            </div>
-            <div class="form-group flex gap-2">
-              <div class="flex-1">
-                <label class="form-label font-semibold text-brand-forest">Tanggal</label>
-                <input v-model="date" class="form-input w-full rounded-lg border border-brand-sage/40 px-3 py-2 focus:ring-2 focus:ring-brand-yellow focus:border-brand-yellow transition cursor-not-allowed bg-gray-100 text-gray-500" type="date" required readonly tabindex="-1" />
-              </div>
-              <div class="flex-1">
-                <label class="form-label font-semibold text-brand-forest">Waktu</label>
-                <input v-model="time" class="form-input w-full rounded-lg border border-brand-sage/40 px-3 py-2 focus:ring-2 focus:ring-brand-yellow focus:border-brand-yellow transition cursor-not-allowed bg-gray-100 text-gray-500" type="time" required readonly tabindex="-1" />
-              </div>
-            </div>
-            <div class="flex gap-2">
-              <button class="btn-primary-large flex-1 bg-gradient-to-r from-brand-yellow to-brand-sage text-brand-forest hover:from-brand-sage hover:to-brand-yellow font-bold shadow-lg transition-all duration-300 transform hover:-translate-y-1" type="submit" :disabled="!selectedFile || !wasteType || !description || !date || !time || submitting">
-                Validasi Sampah
-              </button>
-              <button v-if="selectedFile" class="btn-secondary bg-brand-sage/80 hover:bg-brand-yellow text-brand-forest font-bold shadow transition" type="button" @click="removeFile">
-                <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-                Hapus
-              </button>
-            </div>
-          </form>
-          <!-- Rekomendasi Penanganan -->
-          <transition name="fade">
-            <div v-if="recommendation" class="mt-6 animate-fade-in-up">
-              <div class="inline-block px-6 py-4 rounded-2xl shadow-lg bg-white/80 border border-brand-sage/30">
-                <div class="text-lg font-semibold text-brand-forest mb-2">Rekomendasi Penanganan</div>
-                <div class="text-base text-brand-sage mb-1">{{ recommendation }}</div>
-              </div>
-            </div>
-          </transition>
         </div>
-      </div>
-      <!-- Riwayat Validasi -->
-      <div class="max-w-2xl w-full mx-auto mt-10 flex flex-col items-center px-2 sm:px-0">
-        <h2 class="text-xl font-bold mb-4 text-brand-forest animate-fade-in text-center w-full">Riwayat Validasi Sampah</h2>
-        <div v-if="loadingHistory" class="text-center py-8 w-full">
-          <LoadingIndicator :visible="true" message="Mengambil riwayat validasi..." />
-        </div>
-        <div v-else-if="historyError" class="bg-white rounded-lg shadow-md p-6 border border-red-200 text-center animate-fade-in-up w-full max-w-lg mx-auto">
-          <svg class="w-16 h-16 mx-auto mb-4 text-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-12.728 12.728M5.636 5.636l12.728 12.728"/>
-          </svg>
-          <h3 class="text-lg font-semibold text-red-600 mb-2">Gagal Mengambil Riwayat</h3>
-          <p class="text-red-500">{{ historyError }}</p>
-        </div>
-        <div v-else-if="wasteHistory.length === 0" class="bg-white rounded-lg shadow-md p-6 border border-gray-200 text-center animate-fade-in-up w-full max-w-lg mx-auto">
-          <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-          </svg>
-          <h3 class="text-lg font-semibold text-gray-600 mb-2">Belum Ada Validasi</h3>
-          <p class="text-gray-500">Riwayat validasi sampah Anda akan muncul di sini.</p>
-        </div>
-        <transition-group name="fade-list" tag="div" class="space-y-6 w-full flex flex-col items-center">
-          <div v-for="item in wasteHistory" :key="item.id" class="modern-card w-full max-w-lg flex flex-col sm:flex-row items-center gap-4 p-6 bg-gradient-to-br from-brand-yellow/80 via-brand-cream/90 to-white/90 border border-brand-sage/40 shadow-xl rounded-2xl animate-fade-in-up hover:shadow-2xl transition-all duration-300">
-            <img :src="getPhotoUrl(item.photo)" alt="Foto Sampah" class="w-24 h-24 object-cover rounded-xl border-2 border-brand-sage/40 shadow-md transition-transform duration-300 hover:scale-105" />
-            <div class="flex-1 w-full">
-              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
-                <div class="font-bold text-brand-forest text-lg sm:text-xl flex items-center gap-2">
-                  <span class="inline-block px-3 py-1 rounded-full bg-brand-sage/20 text-brand-forest/80 text-xs font-semibold tracking-wide border border-brand-sage/40">{{ item.waste_type }}</span>
-                  <span class="text-xs text-brand-forest/50">{{ formatDate(item.date) }} {{ item.time }}</span>
-                </div>
-                <div class="flex gap-2 mt-2 sm:mt-0">
-                  <button class="btn-secondary bg-brand-sage/90 hover:bg-brand-yellow text-brand-forest font-bold shadow transition px-4 py-2 rounded-lg flex items-center gap-1 text-xs" @click="deleteWaste(item.id)">
-                    <svg class="w-6 h-6 text-brand-forest" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
-                    </svg>
-                    Hapus
-                  </button>
-                  <button class="btn-primary bg-brand-yellow/90 hover:bg-brand-sage text-brand-forest font-bold shadow transition px-4 py-2 rounded-lg flex items-center gap-2 text-xs" @click="openRecommendation(item.waste_type)">
-                    <svg class="w-6 h-6 text-brand-forest" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                    </svg>
-                    Rekomendasi Penanganan
-                  </button>
+        <!-- Pisahkan Card Riwayat -->
+        <div class="max-w-2xl w-full flex flex-col items-center justify-center px-0 sm:px-0">
+          <div class="glass-card w-full p-4 sm:p-8 relative overflow-hidden group bg-gradient-to-br from-white/90 via-brand-cream/90 to-brand-yellow/80 border border-brand-sage/30 shadow-2xl text-brand-forest rounded-2xl animate-fade-in-up flex flex-col items-center">
+            <h2 class="text-lg sm:text-xl font-bold mb-4 text-brand-forest animate-fade-in text-center w-full">Riwayat Validasi Sampah</h2>
+            <div v-if="loadingHistory" class="text-center py-8 w-full">
+              <LoadingIndicator :visible="true" message="Mengambil riwayat validasi..." />
+            </div>
+            <div v-else-if="historyError" class="bg-white rounded-lg shadow-md p-6 border border-red-200 text-center animate-fade-in-up w-full max-w-lg mx-auto">
+              <svg class="w-16 h-16 mx-auto mb-4 text-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-12.728 12.728M5.636 5.636l12.728 12.728"/>
+              </svg>
+              <h3 class="text-lg font-semibold text-red-600 mb-2">Gagal Mengambil Riwayat</h3>
+              <p class="text-red-500">{{ historyError }}</p>
+            </div>
+            <div v-else-if="wasteHistory.length === 0" class="bg-white rounded-lg shadow-md p-6 border border-gray-200 text-center animate-fade-in-up w-full max-w-lg mx-auto">
+              <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              <h3 class="text-lg font-semibold text-gray-600 mb-2">Belum Ada Validasi</h3>
+              <p class="text-gray-500">Riwayat validasi sampah Anda akan muncul di sini.</p>
+            </div>
+            <transition-group name="fade-list" tag="div" class="space-y-6 w-full flex flex-col items-center">
+              <div v-for="item in wasteHistory" :key="item.id" class="modern-card w-full max-w-lg flex flex-col sm:flex-row items-center gap-4 p-6 bg-gradient-to-br from-brand-yellow/80 via-brand-cream/90 to-white/90 border border-brand-sage/40 shadow-xl rounded-2xl animate-fade-in-up hover:shadow-2xl transition-all duration-300">
+                <img :src="getPhotoUrl(item.photo)" alt="Foto Sampah" class="w-24 h-24 object-cover rounded-xl border-2 border-brand-sage/40 shadow-md transition-transform duration-300 hover:scale-105" />
+                <div class="flex-1 w-full">
+                  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+                    <div class="font-bold text-brand-forest text-lg sm:text-xl flex items-center gap-2">
+                      <span class="inline-block px-3 py-1 rounded-full bg-brand-sage/20 text-brand-forest/80 text-xs font-semibold tracking-wide border border-brand-sage/40">{{ item.waste_type }}</span>
+                      <span class="text-xs text-brand-forest/50">{{ formatDate(item.date) }} {{ item.time }}</span>
+                    </div>
+                    <div class="flex gap-2 mt-2 sm:mt-0">
+                      <button class="btn-secondary bg-brand-sage/90 hover:bg-brand-yellow text-brand-forest font-bold shadow transition px-4 py-2 rounded-lg flex items-center gap-1 text-xs" @click="askDelete(item.id)">
+                        <svg class="w-6 h-6 text-brand-forest" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
+                        </svg>
+                        Hapus
+                      </button>
+                      <button class="btn-primary bg-brand-yellow/90 hover:bg-brand-sage text-brand-forest font-bold shadow transition px-2 py-2 rounded-lg flex items-center gap-1 text-xs w-auto text-left" @click="openRecommendation(item.waste_type)">
+                        <svg class="w-5 h-5 text-brand-forest flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                        </svg>
+                        Rekomendasi Penanganan
+                      </button>
+                    </div>
+                  </div>
+                  <div class="text-sm text-brand-forest/80 mb-1 font-medium">{{ item.description }}</div>
                 </div>
               </div>
-              <div class="text-sm text-brand-forest/80 mb-1 font-medium">{{ item.description }}</div>
-            </div>
+            </transition-group>
           </div>
-        </transition-group>
+        </div>
       </div>
     </div>
     <!-- Bottom Navigation -->
@@ -181,6 +185,9 @@
         </div>
       </div>
     </transition>
+
+    <!-- Confirm Dialog -->
+    <ConfirmDialog :visible="showConfirmDialog" :message="confirmMessage" @ok="onConfirmDelete" @cancel="onCancelDelete" />
   </div>
 </template>
 
@@ -190,11 +197,12 @@ import { ref, onMounted } from 'vue'
 import BottomNav from '../components/BottomNav.vue'
 import Header from '../components/Header.vue'
 import LoadingIndicator from '../components/LoadingIndicator.vue'
+import ConfirmDialog from '../components/ConfirmDialog.vue'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
 const renderError = ref('')
-const globalLoading = ref(false)
+const globalLoading = ref(true)
 const selectedFile = ref(null)
 const filePreviewUrl = ref('')
 const isDragOver = ref(false)
@@ -213,6 +221,12 @@ const recommendation = ref('')
 const wasteHistory = ref([])
 const loadingHistory = ref(false)
 const historyError = ref('')
+
+const showRecommendationModal = ref(false)
+const selectedRecommendation = ref({ title: '', content: '' })
+const showConfirmDialog = ref(false)
+const itemToDelete = ref(null)
+const confirmMessage = ref('')
 
 const wasteRecommendations = {
   'Kaca': {
@@ -549,9 +563,6 @@ const wasteRecommendations = {
 `}
 }
 
-const showRecommendationModal = ref(false)
-const selectedRecommendation = ref({ title: '', content: '' })
-
 function formatFileSize(bytes) {
   if (bytes === 0) return '0 Bytes'
   const k = 1024
@@ -661,10 +672,10 @@ async function fetchRecommendation() {
     if (data.status === 'success' && data.recommendation) {
       recommendation.value = data.recommendation
     } else {
-      recommendation.value = 'Pisahkan dan kelola sampah sesuai jenisnya.'
+      recommendation.value = '' // Jangan tampilkan fallback generic
     }
   } catch {
-    recommendation.value = 'Pisahkan dan kelola sampah sesuai jenisnya.'
+    recommendation.value = '' // Jangan tampilkan fallback generic
   }
 }
 
@@ -700,11 +711,11 @@ async function fetchWasteHistory() {
     wasteHistory.value = []
   } finally {
     loadingHistory.value = false
+    globalLoading.value = false // pastikan loading global dimatikan setelah fetch selesai
   }
 }
 
 async function deleteWaste(id) {
-  if (!confirm('Hapus data validasi ini?')) return
   globalLoading.value = true
   try {
     const token = localStorage.getItem('token')
@@ -742,6 +753,23 @@ function closeRecommendation() {
   showRecommendationModal.value = false
 }
 
+function askDelete(itemId) {
+  itemToDelete.value = itemId
+  confirmMessage.value = 'Apakah Anda yakin ingin menghapus riwayat ini?'
+  showConfirmDialog.value = true
+}
+function onConfirmDelete() {
+  if (itemToDelete.value) {
+    deleteWaste(itemToDelete.value)
+  }
+  showConfirmDialog.value = false
+  itemToDelete.value = null
+}
+function onCancelDelete() {
+  showConfirmDialog.value = false
+  itemToDelete.value = null
+}
+
 onMounted(() => {
   fetchWasteHistory()
   AOS.init({ once: true }) // Inisialisasi AOS agar animasi muncul setelah reload
@@ -749,5 +777,18 @@ onMounted(() => {
 </script>
 
 <style>
+html, body, #app {
+  width: 100vw;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+.main-content {
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+.glass-card {
+  box-sizing: border-box;
+}
 /* Tambahkan style khusus jika diperlukan */
 </style>

@@ -41,10 +41,9 @@
             <div class="modern-card p-6 relative overflow-hidden cursor-pointer bg-gradient-to-br from-green-50 to-green-100">
               <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
               <div class="relative z-10">
-                <div class="flex items-center mb-3">                  <div class="w-10 h-10 bg-brand-sage/20 rounded-full flex items-center justify-center mb-3">
-                    <svg class="w-6 h-6 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/>
-                    </svg>
+                <div class="flex items-center mb-3">
+                  <div class="w-10 h-10 bg-brand-sage/20 rounded-full flex items-center justify-center mb-3 text-2xl">
+                    🍃
                   </div>
                   <h3 class="font-semibold text-brand-forest ml-3">Sampah Organik</h3>
                 </div>
@@ -55,10 +54,9 @@
             <div class="modern-card p-6 relative overflow-hidden cursor-pointer bg-gradient-to-br from-yellow-50 to-yellow-100">
               <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
               <div class="relative z-10">
-                <div class="flex items-center mb-3">                  <div class="w-10 h-10 bg-brand-sage/20 rounded-full flex items-center justify-center mb-3">
-                    <svg class="w-6 h-6 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-                    </svg>
+                <div class="flex items-center mb-3">
+                  <div class="w-10 h-10 bg-brand-sage/20 rounded-full flex items-center justify-center mb-3 text-2xl">
+                    ♻️
                   </div>
                   <h3 class="font-semibold text-brand-forest ml-3">Sampah Anorganik</h3>
                 </div>
@@ -70,9 +68,8 @@
               <div class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
               <div class="relative z-10">
                 <div class="flex items-center mb-3">
-                  <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                    </svg>
+                  <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3 text-2xl">
+                    ⚠️
                   </div>
                   <h3 class="font-semibold text-blue-800 ml-3">Sampah B3</h3>
                 </div>
@@ -86,35 +83,26 @@
             <div class="absolute top-0 right-0 w-24 h-24 bg-brand-sage/5 rounded-full blur-xl"></div>
             <div class="relative z-10">
               <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center">                  <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                  </svg>
+                <div class="w-12 h-12 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center text-2xl">
+                  🌍
                 </div>
                 <h3 class="font-semibold text-brand-forest ml-4 text-lg">Dampak Buruk Sampah Tidak Terpilah</h3>
               </div>
               <ul class="list-none ml-4 text-base text-brand-forest space-y-3">
                 <li class="flex items-center">
-                  <svg class="w-5 h-5 text-red-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                  </svg>
+                  <span class="text-red-500 mr-3 flex-shrink-0 text-xl">⚠️</span>
                   <span>Pencemaran tanah, air, dan udara</span>
                 </li>
                 <li class="flex items-center">
-                  <svg class="w-5 h-5 text-red-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                  </svg>
+                  <span class="text-red-500 mr-3 flex-shrink-0 text-xl">⚠️</span>
                   <span>Menimbulkan bau dan sumber penyakit</span>
                 </li>
                 <li class="flex items-center">
-                  <svg class="w-5 h-5 text-red-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                  </svg>
+                  <span class="text-red-500 mr-3 flex-shrink-0 text-xl">⚠️</span>
                   <span>Mengancam kehidupan laut</span>
                 </li>
                 <li class="flex items-center">
-                  <svg class="w-5 h-5 text-red-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                  </svg>
+                  <span class="text-red-500 mr-3 flex-shrink-0 text-xl">⚠️</span>
                   <span>Menurunkan kualitas hidup masyarakat</span>
                 </li>
               </ul>
@@ -124,25 +112,18 @@
           <!-- Cara Mendaur Ulang Section -->
           <div class="mb-8" data-aos="fade-up" data-aos-delay="100">
             <div class="flex items-center mb-6">
-              <div class="w-12 h-12 bg-gradient-to-br from-brand-sage to-brand-forest rounded-full flex items-center justify-center">                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-                </svg>
+              <div class="w-12 h-12 bg-gradient-to-br from-brand-sage to-brand-forest rounded-full flex items-center justify-center">
+                🗑️
               </div>
               <div class="flex items-center">
-                <div class="w-10 h-10 bg-brand-sage/20 rounded-full flex items-center justify-center">
-                  <svg class="w-6 h-6 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6-3v13m6-13l-5.447-2.724A1 1 0 0115.618 3v10.764a1 1 0 001.447.894L22 12V4.618a1 1 0 00-1.447-.894L15 6.382" />
-                  </svg>
-                </div>
                 <h3 class="font-semibold text-brand-forest ml-3 text-xl">Cara Mendaur Ulang Sampah</h3>
               </div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <div class="modern-card p-5 bg-gradient-to-br from-white to-brand-cream/50">
                 <div class="flex items-center mb-3">
-                  <div class="w-8 h-8 bg-brand-sage/10 rounded-full flex items-center justify-center">                    <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-                    </svg>
+                  <div class="w-8 h-8 bg-brand-sage/10 rounded-full flex items-center justify-center text-xl">
+                    🧴
                   </div>
                   <h4 class="font-semibold ml-3 text-brand-forest">Plastik</h4>
                 </div>
@@ -150,9 +131,8 @@
               </div>
               <div class="modern-card p-5 bg-gradient-to-br from-white to-brand-cream/50">
                 <div class="flex items-center mb-3">
-                  <div class="w-8 h-8 bg-brand-sage/10 rounded-full flex items-center justify-center">                    <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7V3a1 1 0 011-1h8a1 1 0 011 1v18a1 1 0 01-1 1H8a1 1 0 01-1-1v-4m0-8h10m-10 4h6"/>
-                    </svg>
+                  <div class="w-8 h-8 bg-brand-sage/10 rounded-full flex items-center justify-center text-xl">
+                    📄
                   </div>
                   <h4 class="font-semibold ml-3 text-brand-forest">Kertas</h4>
                 </div>
@@ -160,10 +140,8 @@
               </div>
               <div class="modern-card p-5 bg-gradient-to-br from-white to-brand-cream/50">
                 <div class="flex items-center mb-3">
-                  <div class="w-8 h-8 bg-brand-sage/10 rounded-full flex items-center justify-center">                    <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2H6zm0 2h12v10H6V7z"/>
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7v10M15 7v10M6 11h12"/>
-                    </svg>
+                  <div class="w-8 h-8 bg-brand-sage/10 rounded-full flex items-center justify-center text-xl">
+                    🥛
                   </div>
                   <h4 class="font-semibold ml-3 text-brand-forest">Kaca</h4>
                 </div>
@@ -171,9 +149,8 @@
               </div>
               <div class="modern-card p-5 bg-gradient-to-br from-white to-brand-cream/50">
                 <div class="flex items-center mb-3">
-                  <div class="w-8 h-8 bg-brand-sage/10 rounded-full flex items-center justify-center">                    <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                    </svg>
+                  <div class="w-8 h-8 bg-brand-sage/10 rounded-full flex items-center justify-center text-xl">
+                    🍂
                   </div>
                   <h4 class="font-semibold ml-3 text-brand-forest">Organik</h4>
                 </div>
@@ -196,7 +173,8 @@
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div class="modern-card p-4 sm:p-6 relative overflow-hidden bg-gradient-to-br from-green-50 to-green-100">
                   <div class="flex items-center mb-3">
-                    <div class="w-10 h-10 bg-brand-sage/20 rounded-full flex items-center justify-center">                      <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-10 h-10 bg-brand-sage/20 rounded-full flex items-center justify-center">
+                      <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <circle cx="12" cy="12" r="9" stroke-width="2"/>
                         <text x="12" y="16" text-anchor="middle" font-size="12" font-weight="bold" fill="currentColor">1</text>
                       </svg>
@@ -208,7 +186,8 @@
 
                 <div class="modern-card p-4 sm:p-6 relative overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100">
                   <div class="flex items-center mb-3">
-                    <div class="w-10 h-10 bg-brand-sage/20 rounded-full flex items-center justify-center">                      <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-10 h-10 bg-brand-sage/20 rounded-full flex items-center justify-center">
+                      <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <circle cx="12" cy="12" r="9" stroke-width="2"/>
                         <text x="12" y="16" text-anchor="middle" font-size="12" font-weight="bold" fill="currentColor">2</text>
                       </svg>
@@ -220,7 +199,8 @@
 
                 <div class="modern-card p-4 sm:p-6 relative overflow-hidden bg-gradient-to-br from-yellow-50 to-yellow-100">
                   <div class="flex items-center mb-3">
-                    <div class="w-10 h-10 bg-brand-sage/20 rounded-full flex items-center justify-center">                      <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-10 h-10 bg-brand-sage/20 rounded-full flex items-center justify-center">
+                      <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <circle cx="12" cy="12" r="9" stroke-width="2"/>
                         <text x="12" y="16" text-anchor="middle" font-size="12" font-weight="bold" fill="currentColor">3</text>
                       </svg>
@@ -232,7 +212,8 @@
 
                 <div class="modern-card p-4 sm:p-6 relative overflow-hidden bg-gradient-to-br from-purple-50 to-purple-100">
                   <div class="flex items-center mb-3">
-                    <div class="w-10 h-10 bg-brand-sage/20 rounded-full flex items-center justify-center">                      <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-10 h-10 bg-brand-sage/20 rounded-full flex items-center justify-center">
+                      <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <circle cx="12" cy="12" r="9" stroke-width="2"/>
                         <text x="12" y="16" text-anchor="middle" font-size="12" font-weight="bold" fill="currentColor">4</text>
                       </svg>
@@ -244,7 +225,8 @@
 
                 <div class="modern-card p-4 sm:p-6 relative overflow-hidden bg-gradient-to-br from-red-50 to-red-100 sm:col-span-2">
                   <div class="flex items-center mb-3">
-                    <div class="w-10 h-10 bg-brand-sage/20 rounded-full flex items-center justify-center">                      <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-10 h-10 bg-brand-sage/20 rounded-full flex items-center justify-center">
+                      <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <circle cx="12" cy="12" r="9" stroke-width="2"/>
                         <text x="12" y="16" text-anchor="middle" font-size="12" font-weight="bold" fill="currentColor">5</text>
                       </svg>
@@ -420,7 +402,7 @@
     </main>
 
     <BottomNav active="education" />
-    <LoadingIndicator :visible="globalLoading" />
+    <LoadingIndicator :visible="globalLoading" message="Memuat Edukasi Jagat..." />
 
     <!-- Confirmation Dialog -->
     <div v-if="showConfirmationDialog" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4 z-50">
@@ -456,7 +438,7 @@ import AOS from 'aos'
 import 'aos/dist/aos.css'
 
 const router = useRouter();
-const globalLoading = ref(false);
+const globalLoading = ref(true);
 const quizSelected = ref(false);
 const currentQuiz = ref(1);
 const currentQuizTitle = ref('');
@@ -920,6 +902,11 @@ function goToPrevQuestion() {
   currentQuestion.value--;
   answered.value = false;
 }
+
+// Simulate loading for demo purposes
+setTimeout(() => {
+  globalLoading.value = false;
+}, 600);
 </script>
 
 <style scoped>
