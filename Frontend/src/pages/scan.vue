@@ -11,7 +11,8 @@
     <Header />
     
     <!-- Main Content -->
-    <div class="flex-1 pt-24 lg:pt-28 xl:pt-32 p-4 sm:p-8 relative z-10">      <!-- Hero Section -->
+    <div class="flex-1 main-content pt-24 lg:pt-28 xl:pt-32 p-4 sm:p-8 relative z-10">
+      <!-- Hero Section -->
       <div class="text-center mb-8" data-aos="fade-down">
         <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 text-brand-forest">
           {{ tabMode === 'camera' ? 'Scan Jagat' : 'Jagat Kenal' }}
@@ -304,7 +305,7 @@
     <Toast v-model="showToast" :message="toastMsg" :type="toastType" :icon="toastIcon" />
     
     <!-- Loading Indicator -->
-    <LoadingIndicator :visible="globalLoading" message="Sedang mengklasifikasikan gambar, mohon ditunggu..." />
+    <LoadingIndicator :visible="globalLoading" message="Memuat Scan Jagat..." />
   </div>
 </template>
 
@@ -338,7 +339,13 @@ const isMobile = ref(false)
 const mobileCameraMode = ref('environment') // default ke kamera belakang
 const predictionResult = ref(null)
 
+// Tampilkan loading saat pertama kali masuk halaman scan
 onMounted(() => {
+  globalLoading.value = true;
+  setTimeout(() => {
+    globalLoading.value = false;
+  }, 600);
+
   // Deteksi mobile
   isMobile.value = window.innerWidth <= 640 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
   // Initialize AOS hanya jika bukan mobile
@@ -710,6 +717,34 @@ async function submitFile() {
     0 25px 50px rgba(98, 111, 71, 0.15),
     0 20px 20px rgba(98, 111, 71, 0.1),
     inset 0 1px 0 rgba(164, 180, 101, 0.3);
+}
+
+/* Disable card hover/timbul animation on mobile */
+@media (max-width: 640px) {
+  .glass-card,
+  .glass-card:hover {
+    transform: none !important;
+    box-shadow: 0 4px 12px rgba(98, 111, 71, 0.08) !important;
+    transition: none !important;
+  }
+}
+
+/* Ensure proper spacing for main content agar tidak tertutup header */
+.main-content {
+  min-height: calc(100vh - 80px);
+  padding-top: clamp(120px, 15vh, 180px);
+}
+
+@media (min-width: 1024px) {
+  .main-content {
+    padding-top: clamp(140px, 18vh, 200px);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .main-content {
+    padding-top: clamp(130px, 16vh, 170px);
+  }
 }
 
 /* Form styling */

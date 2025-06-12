@@ -66,7 +66,7 @@
     </div>
     <BottomNav active="profile" />
     <Toast v-model="showToast" :message="toastMsg" :type="toastType" :icon="toastIcon" />
-    <LoadingIndicator :visible="globalLoading" />
+    <LoadingIndicator :visible="globalLoading" message="Memuat Profil Jagat..." />
   </div>
 </template>
 
@@ -121,6 +121,11 @@ function showNotification(message, type = 'success', icon = '✔️') {
 }
 
 onMounted(() => {
+  globalLoading.value = true;
+  setTimeout(() => {
+    globalLoading.value = false;
+  }, 600);
+
   const user = localStorage.getItem('user');
   if (user) {
     try {
