@@ -241,8 +241,8 @@
                   <img :src="filePreviewUrl" alt="Selected file" class="preview-image" />
                   <div class="preview-overlay">
                     <button @click="removeFile" class="remove-btn">
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                      <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                       </svg>
                     </button>
                   </div>
@@ -1121,21 +1121,27 @@ async function submitFile() {
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
 }
 
 .remove-btn {
-  width: 32px;
-  height: 32px;
-  background: rgba(239, 68, 68, 0.9);
+  width: 36px;
+  height: 36px;
+  background: #ef4444;
   color: white;
-  border: none;
+  border: 2px solid #fff;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.18);
+  z-index: 3;
+  padding: 0;
 }
 
 .remove-btn:hover {

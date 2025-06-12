@@ -1,4 +1,5 @@
 <template>
+  <LoadingIndicator :visible="globalLoading" message="Memuat Tentang Sapu Jagat..." class="fixed inset-0 z-[9999]" />
   <div class="min-h-screen flex flex-col justify-between bg-[#FEFAE0] font-['Montserrat','Open Sans',sans-serif]">
     <!-- Removed Animated Background -->
     <Header />
@@ -183,6 +184,9 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import BottomNav from '../components/BottomNav.vue';
 import Header from '../components/Header.vue';
+import LoadingIndicator from '../components/LoadingIndicator.vue';
+
+const globalLoading = ref(true)
 
 onMounted(() => {
   AOS.init({
@@ -191,7 +195,8 @@ onMounted(() => {
   });
   setTimeout(() => {
     AOS.refresh();
-  }, 100);
+    globalLoading.value = false
+  }, 600);
 });
 
 const teamMembers = [

@@ -1,11 +1,11 @@
 <template>
-  <div class="flex flex-col min-h-[100dvh] bg-bg font-primary" style="background-color: #FEFAE0; font-family: 'Montserrat', 'Open Sans', sans-serif;">
+  <div class="flex flex-col min-h-[100dvh] bg-bg font-primary items-center justify-center" style="background-color: #FEFAE0; font-family: 'Montserrat', 'Open Sans', sans-serif;">
     <!-- Header Component -->
     <Header />
-    <div class="flex-1 w-full max-w-5xl p-1.5 sm:p-4 md:p-8 mt-1.5 sm:mt-4 mb-24 mx-0.5 sm:mx-4 bg-white rounded-2xl shadow-lg border-2 border-secondary">
-      <div class="flex flex-col sm:flex-row items-center justify-between mb-3 gap-1.5 sm:gap-2">
+    <div class="flex-1 w-full max-w-5xl p-1.5 sm:p-4 md:p-8 mt-16 sm:mt-24 mb-24 mx-0.5 sm:mx-4 bg-white rounded-2xl shadow-lg border-2 border-secondary flex flex-col items-center justify-center relative">
+      <div class="w-full flex flex-col sm:flex-row items-center sm:items-start justify-between mb-3 gap-1.5 sm:gap-2 relative">
         <!-- Tombol Kembali ke Dashboard: Selalu tampil di desktop, dan di mobile tampil di bawah kalender -->
-        <div class="flex items-center gap-1" v-if="!isMobile">
+        <div class="flex items-center gap-1 absolute left-4 top-4 z-20" v-if="!isMobile">
           <button @click="goToDashboard" class="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-2 bg-primary hover:bg-secondary text-bg rounded-lg transition-all duration-300 transform hover:scale-105 font-opensans text-xs sm:text-sm">
             <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
@@ -261,6 +261,16 @@ watch(selectedMonth, fetchHistory)
   .calendar-cell-btn {
     margin-top: 0.5rem !important;
     margin-bottom: 0.5rem !important;
+  }
+}
+@media (min-width: 1024px) {
+  .flex-1.w-full.max-w-5xl {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 }
 </style>
