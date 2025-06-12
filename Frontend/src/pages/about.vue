@@ -25,7 +25,7 @@
           <div class="relative">
             <!-- Removed animated/blurred background -->
             <img 
-              src="/public/illustrations/illustrasi3.png" 
+              src="/public/illustrations/illustrasi2.png" 
               alt="Ilustrasi Sapu Jagat" 
               class="relative w-36 h-36 sm:w-48 sm:h-48 lg:w-56 lg:h-56 xl:w-64 xl:h-64 object-contain rounded-2xl shadow-lg bg-brand-sage/20 p-3"
             />
