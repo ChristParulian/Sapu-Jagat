@@ -32,11 +32,10 @@
           <div class="flex flex-col items-center justify-center relative w-full h-full">
             <router-link to="/scan"
               :class="[
-                'inline-flex flex-col items-center justify-center w-14 h-14 rounded-full border-4 border-[#626F47] shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 group',
-                active==='scan' ? 'bg-yellow-400' : 'bg-accent'
+                'inline-flex flex-col items-center justify-center w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-[#626F47] shadow-2xl transition-all duration-300 group bg-yellow-400 z-20',
               ]"
-              style="z-index:2; margin-top:0;">
-              <svg class="w-6 h-6 transition-all duration-300 group-hover:scale-110" :style="'color: #A4B465'" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              style="z-index:20; margin-top:-2.2rem; box-shadow: 0 12px 40px 0 rgba(164,180,101,0.30), 0 2px 8px 0 rgba(164,180,101,0.12);">
+              <svg class="w-10 h-10 sm:w-12 sm:h-12 transition-all duration-300 group-hover:scale-130" :style="'color: #A4B465'" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
               </svg>
@@ -125,6 +124,67 @@ onUnmounted(() => {
   .nav-label--active, .nav-label-scan {
     display: inline !important;
   }
+  .z-50.fixed.bottom-4 {
+    bottom: 0.5rem !important;
+    width: 98vw !important;
+    max-width: 24rem !important;
+    padding-left: 0.2rem !important;
+    padding-right: 0.2rem !important;
+  }
+  .bg-\[\#626F47\].h-20 {
+    height: 3.4rem !important;
+    min-height: 3.4rem !important;
+    border-radius: 1.5rem !important;
+  }
+  .grid.h-full.max-w-lg.grid-cols-5.mx-auto.font-medium.items-center {
+    height: 3.4rem !important;
+    min-height: 3.4rem !important;
+  }
+  .inline-flex.flex-col.items-center.justify-center.px-5,
+  .inline-flex.flex-col.items-center.justify-center.px-5.rounded-s-full,
+  .inline-flex.flex-col.items-center.justify-center.px-5.rounded-e-full {
+    padding-left: 0.1rem !important;
+    padding-right: 0.1rem !important;
+  }
+  .w-6.h-6 {
+    width: 1.1rem !important;
+    height: 1.1rem !important;
+    margin-bottom: 0.1rem !important;
+  }
+  .w-20.h-20 {
+    width: 3.2rem !important;
+    height: 3.2rem !important;
+    min-width: 3.2rem !important;
+    min-height: 3.2rem !important;
+    border-width: 4px !important;
+    margin-top: -1.7rem !important;
+    box-shadow: 0 12px 32px 0 rgba(164,180,101,0.24), 0 2px 8px 0 rgba(164,180,101,0.10) !important;
+  }
+  .w-10.h-10 {
+    width: 1.6rem !important;
+    height: 1.6rem !important;
+  }
+  .nav-label, .nav-label-scan {
+    font-size: 0.6rem !important;
+    margin-top: 0 !important;
+    padding: 0 !important;
+    white-space: nowrap !important;
+    max-width: 4.5rem;
+    overflow: visible;
+    text-overflow: unset;
+    line-height: 1 !important;
+  }
+  .nav-label-scan {
+    font-size: 0.7rem !important;
+    margin-top: 0.1rem !important;
+    max-width: 3.5rem !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.1 !important;
+    display: inline-block !important;
+    text-align: center;
+  }
 }
 @media (min-width: 641px) {
   .nav-label, .nav-label-scan {
@@ -132,6 +192,24 @@ onUnmounted(() => {
   }
   .nav-label--active, .nav-label-scan {
     display: inline !important;
+  }
+  .w-20.h-20, .sm\:w-24.sm\:h-24 {
+    width: 6.2rem !important;
+    height: 6.2rem !important;
+    min-width: 6.2rem !important;
+    min-height: 6.2rem !important;
+    border-width: 5px !important;
+    margin-top: -2.7rem !important;
+    box-shadow: 0 24px 70px 0 rgba(164,180,101,0.34), 0 3px 12px 0 rgba(164,180,101,0.13) !important;
+  }
+  .w-10.h-10, .sm\:w-12.sm\:h-12 {
+    width: 3rem !important;
+    height: 3rem !important;
+  }
+  .nav-label-scan {
+    max-width: 4.5rem !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 .nav-label-scan {

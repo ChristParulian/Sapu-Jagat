@@ -96,7 +96,7 @@
     </div>
     <BottomNav active="home" />
     <Toast v-model="showToast" :message="toastMsg" type="success" icon="✔️" />
-    <LoadingIndicator :visible="globalLoading" />
+    <LoadingIndicator :visible="globalLoading" message="Memuat Kalender Jagat Aktif..." />
   </div>
 </template>
 

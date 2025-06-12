@@ -3,7 +3,7 @@
     <!-- Header Component -->
     <Header />
     <!-- Main Content -->
-    <div class="flex-1 pt-24 lg:pt-28 xl:pt-32 p-4 sm:p-8">
+    <div class="flex-1 main-content pt-24 lg:pt-28 xl:pt-32 p-4 sm:p-8">
       <!-- Atas: Salam & Ilustrasi -->
       <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">        <!-- Salam & Button -->
         <div class="flex-1" data-aos="fade-right">          <h1 class="text-3xl sm:text-4xl font-bold mb-4" style="color: #626F47;">
@@ -133,7 +133,7 @@
     <!-- Bottom Navigation -->
     <BottomNav active="dashboard" />
     <!-- Loading Indicator -->
-    <LoadingIndicator :visible="globalLoading" />
+    <LoadingIndicator :visible="globalLoading" message="Memuat Beranda Jagat..." />
   </div>
 </template>
 
@@ -507,6 +507,24 @@ canvas {
   .flex-1.pt-24 {
     padding-left: 0 !important;
     padding-right: 0 !important;
+  }
+}
+
+/* Ensure proper spacing for main content agar tidak tertutup header */
+.main-content {
+  min-height: calc(100vh - 80px);
+  padding-top: clamp(120px, 15vh, 180px);
+}
+
+@media (min-width: 1024px) {
+  .main-content {
+    padding-top: clamp(140px, 18vh, 200px);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .main-content {
+    padding-top: clamp(130px, 16vh, 170px);
   }
 }
 

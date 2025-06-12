@@ -7,5 +7,9 @@ export default defineConfig({
   server: {
     port: 7000,
     host: 'localhost',
+    // Tambahkan fallback untuk SPA
+    middlewareMode: false,
+    fs: { allow: ['.'] },
+    historyApiFallback: true,
   },
 })
