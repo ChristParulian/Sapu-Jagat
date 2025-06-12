@@ -380,7 +380,7 @@
                 <div v-if="!quizCompleted" class="flex justify-between mt-8">
                   <button 
                     v-if="currentQuestion > 1 && answered" 
-                    @click="currentQuestion--" 
+                    @click="goToPrevQuestion" 
                     class="flex items-center gap-2 py-2.5 px-4 rounded-lg bg-brand-cream text-brand-forest 
                            hover:bg-brand-cream/80 transition-all duration-300 text-base font-medium"
                   >
@@ -392,7 +392,7 @@
                   <div class="flex-1"></div>
                   <button 
                     v-if="currentQuestion < totalQuestions && answered" 
-                    @click="currentQuestion++" 
+                    @click="goToNextQuestion" 
                     class="flex items-center gap-2 py-2.5 px-4 rounded-lg bg-brand-forest text-white 
                            hover:bg-brand-forest/90 transition-all duration-300 text-base font-medium"
                   >
@@ -911,6 +911,15 @@ async function confirmEndQuiz() {
 const goToMainPage = () => {
   window.location.reload();
 }
+
+function goToNextQuestion() {
+  currentQuestion.value++;
+  answered.value = false;
+}
+function goToPrevQuestion() {
+  currentQuestion.value--;
+  answered.value = false;
+}
 </script>
 
 <style scoped>
@@ -1252,4 +1261,84 @@ const goToMainPage = () => {
   border-radius: 0.75rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+/* Responsive & bugfix for quiz on mobile s (320px) */
+@media (max-width: 375px) {
+  .bg-white\/95.backdrop-blur-sm.rounded-xl.shadow-lg.p-6.sm\:p-8 {
+    width: 100vw !important;
+    min-width: 0 !important;
+    max-width: 100vw !important;
+    padding: 0.5rem !important;
+    border-radius: 0.75rem !important;
+    font-size: 0.95rem !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+  }
+  .bg-brand-cream.rounded-lg.p-4.sm\:p-5.shadow-sm {
+    padding: 0.5rem !important;
+    font-size: 0.95rem !important;
+    word-break: break-word !important;
+  }
+  .quiz-option, .space-y-3 > * + * {
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.85rem !important;
+    gap: 0.5rem !important;
+    min-width: 0 !important;
+    word-break: break-word !important;
+    flex-wrap: wrap !important;
+  }
+  .quiz-option span {
+    font-size: 1rem !important;
+    word-break: break-word !important;
+  }
+  .quiz-content {
+    max-width: 100vw !important;
+    margin: 0 !important;
+    padding: 0.5rem !important;
+  }
+  .question-counter {
+    font-size: 0.75rem !important;
+    padding: 0.25rem !important;
+  }
+  .quiz-nav-buttons {
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+  }
+  .quiz-button {
+    min-width: 80px !important;
+    font-size: 0.85rem !important;
+    padding: 0.5rem 1rem !important;
+  }
+  .quiz-results {
+    padding: 1rem !important;
+    font-size: 1rem !important;
+  }
+  .quiz-score {
+    font-size: 1.25rem !important;
+  }
+  .w-20.h-20.rounded-full.mb-4.bg-gradient-to-br.from-brand-sage.to-brand-forest {
+    width: 3.5rem !important;
+    height: 3.5rem !important;
+  }
+  .w-10.h-10.bg-brand-sage\/20.rounded-full.flex.items-center.justify-center {
+    width: 2.25rem !important;
+    height: 2.25rem !important;
+  }
+  .w-8.h-8.text-white {
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+  }
+}
+
+/* Bugfix: make sure quiz container never overflow and always show next question */
+.bg-white\/95.backdrop-blur-sm.rounded-xl.shadow-lg.p-6.sm\:p-8,
+.quiz-option,
+.bg-brand-cream.rounded-lg.p-4.sm\:p-5.shadow-sm {
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+  min-width: 0 !important;
+}
+
+/* Bugfix: always show next question, reset answered after next/prev */
+/* Tambahkan ke script setup: setelah currentQuestion++ atau currentQuestion--, set answered.value = false; */
 </style>
