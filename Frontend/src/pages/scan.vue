@@ -95,7 +95,7 @@
                     </option>
                   </select>
                   <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                    <svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                     </svg>
                   </div>
@@ -305,7 +305,7 @@
     <Toast v-model="showToast" :message="toastMsg" :type="toastType" :icon="toastIcon" />
     
     <!-- Loading Indicator -->
-    <LoadingIndicator :visible="globalLoading" message="Memuat Scan Jagat..." />
+    <LoadingIndicator :visible="globalLoading" :message="onFirstLoad ? 'Memuat Scan Jagat...' : 'Sedang mengklasifikasikan gambar, mohon ditunggu...'" />
   </div>
 </template>
 
@@ -332,6 +332,8 @@ const cameraStream = ref(null)
 const globalLoading = ref(false)
 const filePreviewUrl = ref('')
 const isDragOver = ref(false)
+const loadingMessage = ref('')
+const onFirstLoad = ref(true)
 
 const cameraDevices = ref([])
 const selectedDeviceId = ref('')
@@ -341,9 +343,11 @@ const predictionResult = ref(null)
 
 // Tampilkan loading saat pertama kali masuk halaman scan
 onMounted(() => {
+  onFirstLoad.value = true
   globalLoading.value = true;
   setTimeout(() => {
     globalLoading.value = false;
+    onFirstLoad.value = false;
   }, 600);
 
   // Deteksi mobile
