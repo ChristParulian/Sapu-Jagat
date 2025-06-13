@@ -62,6 +62,7 @@ SapuJagat, solusi digital yang mengedukasi sekaligus membuat pemilahan sampah le
 - Matplotlib
 - Scikit-Learn
 - Roboflow
+- [Huggingface](https://huggingface.co/spaces/Schattenn/yolov8-object-detection)
 
 ## Cara Membuat Custom Model berbasis YOLOV8 dengan Dataset dari Roboflow
 1. Install library berikut:
