@@ -1,138 +1,142 @@
-import axios from 'axios'
+import axios from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const register = async (username, email, password) => {
   try {
-    const response = await axios.post(
-      `${API_URL}/users`,
-      { username, email, password }
-    )
+    const response = await axios.post(`${API_URL}/users`, {
+      username,
+      email,
+      password,
+    });
 
-    if (response.data.status === 'success') {
-      return response.data.data
+    if (response.data.status === "success") {
+      return response.data.data;
     } else {
-      throw response.data.message || 'Register gagal'
+      throw response.data.message || "Register gagal";
     }
   } catch (error) {
-    throw error.response?.data?.message || error.message || 'Register gagal'
+    throw error.response?.data?.message || error.message || "Register gagal";
   }
-}
+};
 
 export const login = async (email, password) => {
   try {
-    const response = await axios.post(
-      `${API_URL}/login`,
-      { email, password }
-    )
-    if (response.data.status === 'success') {
-      return response.data.data
+    const response = await axios.post(`${API_URL}/login`, { email, password });
+    if (response.data.status === "success") {
+      return response.data.data;
     } else {
-      throw response.data.message || 'Login gagal'
+      throw response.data.message || "Login gagal";
     }
   } catch (error) {
-    throw error.response?.data?.message || error.message || 'Login gagal'
+    throw error.response?.data?.message || error.message || "Login gagal";
   }
-}
+};
 
 export const checkIn = async (token) => {
   try {
     const response = await axios.post(
       `${API_URL}/checkin`,
       {},
-      { headers: { Authorization: `Bearer ${token}` } }
-    )
-    if (response.data.status === 'success') {
-      return response.data
+      { headers: { Authorization: `Bearer ${token}` } },
+    );
+    if (response.data.status === "success") {
+      return response.data;
     } else {
-      throw response.data.message || 'Check-in gagal'
+      throw response.data.message || "Check-in gagal";
     }
   } catch (error) {
-    throw error.response?.data?.message || error.message || 'Check-in gagal'
+    throw error.response?.data?.message || error.message || "Check-in gagal";
   }
-}
+};
 
 export const getCheckinHistoryByMonth = async (token, month) => {
   try {
     const response = await axios.get(
       `${API_URL}/checkin/history/month?month=${month}`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    )
-    if (response.data.status === 'success') {
-      return response.data.data
+      { headers: { Authorization: `Bearer ${token}` } },
+    );
+    if (response.data.status === "success") {
+      return response.data.data;
     } else {
-      throw response.data.message || 'Gagal mengambil riwayat check-in bulanan'
+      throw response.data.message || "Gagal mengambil riwayat check-in bulanan";
     }
   } catch (error) {
-    throw error.response?.data?.message || error.message || 'Gagal mengambil riwayat check-in bulanan'
+    throw (
+      error.response?.data?.message ||
+      error.message ||
+      "Gagal mengambil riwayat check-in bulanan"
+    );
   }
-}
+};
 
 export const editUser = async (payload, token) => {
   try {
-    const response = await axios.put(
-      `${API_URL}/users`,
-      payload,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    if (response.data.status === 'success') {
+    const response = await axios.put(`${API_URL}/users`, payload, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (response.data.status === "success") {
       return response.data.data;
     } else {
-      throw response.data.message || 'Edit profil gagal';
+      throw response.data.message || "Edit profil gagal";
     }
   } catch (error) {
-    throw error.response?.data?.message || error.message || 'Edit profil gagal';
+    throw error.response?.data?.message || error.message || "Edit profil gagal";
   }
 };
 
 export const getProfile = async (token) => {
   try {
-    const response = await axios.get(
-      `${API_URL}/users/profile`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    )
-    if (response.data.status === 'success') {
-      return response.data.data
+    const response = await axios.get(`${API_URL}/users/profile`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (response.data.status === "success") {
+      return response.data.data;
     } else {
-      throw response.data.message || 'Gagal mengambil profil user'
+      throw response.data.message || "Gagal mengambil profil user";
     }
   } catch (error) {
-    throw error.response?.data?.message || error.message || 'Gagal mengambil profil user'
+    throw (
+      error.response?.data?.message ||
+      error.message ||
+      "Gagal mengambil profil user"
+    );
   }
-}
+};
 
 export const redeem = async (payload, token) => {
   try {
-    const response = await axios.post(
-      `${API_URL}/redeem`,
-      payload,
-      { headers: { Authorization: `Bearer ${token}` } }
-    )
-    if (response.data.status === 'success') {
-      return response.data
+    const response = await axios.post(`${API_URL}/redeem`, payload, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (response.data.status === "success") {
+      return response.data;
     } else {
-      throw response.data.message || 'Redeem gagal'
+      throw response.data.message || "Redeem gagal";
     }
   } catch (error) {
-    throw error.response?.data?.message || error.message || 'Redeem gagal'
+    throw error.response?.data?.message || error.message || "Redeem gagal";
   }
-}
+};
 
 export const getRedeemHistory = async (token) => {
   try {
-    const response = await axios.get(
-      `${API_URL}/redeem`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    )
-    if (response.data.status === 'success') {
-      return response.data.data
+    const response = await axios.get(`${API_URL}/redeem`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (response.data.status === "success") {
+      return response.data.data;
     } else {
-      throw response.data.message || 'Gagal mengambil riwayat redeem'
+      throw response.data.message || "Gagal mengambil riwayat redeem";
     }
   } catch (error) {
-    throw error.response?.data?.message || error.message || 'Gagal mengambil riwayat redeem'
+    throw (
+      error.response?.data?.message ||
+      error.message ||
+      "Gagal mengambil riwayat redeem"
+    );
   }
-}
+};
 
-const api = axios.create({ baseURL: API_URL })
-export default api
+const api = axios.create({ baseURL: API_URL });
+export default api;
