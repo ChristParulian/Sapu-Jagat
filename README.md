@@ -101,29 +101,66 @@ SapuJagat, solusi digital yang mengedukasi sekaligus membuat pemilahan sampah le
    untuk parameter bisa disesuaikan dengan kebutuhan
    
 ## Cara Instalasi & Menjalankan Project
-1. Clone repository ini:
+
+### Backend
+1. Masuk ke folder backend:
    ```
-   git clone https://github.com/username/sapu-jagat.git
+   cd Backend
    ```
-2. Masuk ke direktori project:
-   ```
-   cd sapu-jagat
-   ```
-3. Install dependencies:
+2. Install dependencies:
    ```
    npm install
    ```
-4. Jalankan aplikasi:
+3. (Opsional) Install ESLint untuk linter:
+   ```
+   npm install eslint --save-dev
+   npx eslint --init
+   ```
+4. Jalankan backend:
    ```
    npm start
    ```
 
+### Frontend
+1. Masuk ke folder frontend:
+   ```
+   cd ../Frontend
+   ```
+2. Install dependencies:
+   ```
+   npm install
+   ```
+3. Jalankan frontend:
+   ```
+   npm run dev
+   ```
+
+---
+
 ## Struktur Folder/Arsitektur
 ```
 sapu-jagat/
-├── backend/           # Kode backend (API, ada package.json di sini)
-├── frontend/          # Kode frontend (Vue.js, ada package.json di sini)
-├── machine-learning/  # Kode dan model Machine Learning
+├── Backend/            # Kode backend (Node.js, Hapi, Supabase, API, linter, model ML, uploads)
+│   ├── api.md
+│   ├── package.json
+│   ├── eslint.config.mjs
+│   ├── src/
+│   │   ├── handlers/   # Semua handler endpoint
+│   │   ├── Model/      # Model ML (YOLOv8, tfjs)
+│   │   ├── routes.js
+│   │   ├── server.js
+│   │   └── supabaseClient.js
+│   └── uploads/        # File upload user (foto validasi, dsb)
+├── Frontend/           # Kode frontend (Vue.js, Vite, Tailwind, dsb)
+│   ├── package.json
+│   ├── src/
+│   │   ├── pages/      # Halaman utama (dashboard, quiz, dsb)
+│   │   ├── components/ # Komponen UI
+│   │   ├── services/   # API service
+│   │   └── ...
+│   └── public/         # Asset publik (gambar, logo, dsb)
+├── Machine Learning/   # Notebook, model, dan file ML
+│   └── tfjs_model/     # Model YOLOv8 hasil export tfjs
 ├── README.md
 └── ...
 ```
