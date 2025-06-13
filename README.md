@@ -63,6 +63,43 @@ SapuJagat, solusi digital yang mengedukasi sekaligus membuat pemilahan sampah le
 - Scikit-Learn
 - Roboflow
 
+## Cara Membuat Custom Model berbasis YOLOV8 dengan Dataset dari Roboflow
+1. Install library berikut:
+   ```
+   !pip install roboflow
+   !pip install ultralytics
+   ```
+2. Import library berikut:
+   ```
+   import ultralytics
+   from roboflow import Roboflow
+   from ultralytics import YOLO
+   from IPython.display import Image
+   ultralytics.checks()
+   ```
+3. Import dataset dari roboflow melalui api
+   ```
+    rf = Roboflow(api_key="PKpcGmbYZkw68ZTHLcoa")
+    project = rf.workspace("cc25cf145").project("sapujagat")
+    version = project.version(8)
+    dataset = version.download("yolov8")
+   ```
+   untuk memperoleh API dapat mengikuti cara berikut:
+   <code>Projects > Versions > Pilih Versions > Download Dataset > Show Download Code > Copy</code>
+4. Buka file <code>data.yaml</code> dari folder yang sudah di import dari roboflow
+   ```
+    test: ../test/images
+    train: ../train/images
+    val: ../valid/images
+   ```
+   ganti path train, valid, test berdasarkan lokasi folder penyimpanan masing-masing gambar
+5. Jalankan model dengan perintah berikut:
+    ```
+    model = YOLO('yolov8n.pt')
+    model.train(data=dataset.location + '/data.yaml', epochs=20, imgsz=640, lr0=0.01)
+   ```
+   untuk parameter bisa disesuaikan dengan kebutuhan
+   
 ## Cara Instalasi & Menjalankan Project
 1. Clone repository ini:
    ```
